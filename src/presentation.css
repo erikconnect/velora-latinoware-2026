@@ -1,4 +1,4 @@
-@import "@velora/css";
+@import "../vendor/velora-css/velora.css";
 
 @layer latinoware {
   :root {

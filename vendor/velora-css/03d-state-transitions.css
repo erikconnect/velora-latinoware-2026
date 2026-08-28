@@ -1,0 +1,167 @@
+@layer velora.motion {
+    /**
+     * Native element transitions.
+     *
+     * vl-state="smooth"      compatible visual-state interpolation
+     * vl-state="enter-exit"  display/content-visibility entry and exit
+     * vl-state="expand"      intrinsic block-size changes
+     * vl-state="top-layer"   dialog/popover/picker entry and exit
+     * vl-scroll="path"       scroll-linked motion along --vl-path
+     *
+     * Every advanced feature is an enhancement: unsupported declarations are
+     * ignored while content remains visible and operable.
+     */
+
+    :is([vl-state~="smooth"], [vl-state="smooth"]) {
+        transition:
+            transform var(--vl-state-duration) var(--vl-state-ease),
+            opacity var(--vl-state-duration) var(--vl-state-ease),
+            background-color var(--vl-state-duration) var(--vl-state-ease),
+            color var(--vl-state-duration) var(--vl-state-ease),
+            box-shadow var(--vl-state-duration) var(--vl-state-ease),
+            border-color var(--vl-state-duration) var(--vl-state-ease);
+    }
+
+    [vl-state~="enter-exit"] {
+        opacity: 1;
+        transform: translate3d(0, 0, 0) scale(1);
+        content-visibility: visible;
+        transition:
+            opacity var(--vl-state-duration) var(--vl-state-ease),
+            transform var(--vl-state-duration) var(--vl-state-ease),
+            content-visibility var(--vl-state-duration) allow-discrete,
+            display var(--vl-state-duration) allow-discrete;
+        transition-behavior: allow-discrete;
+    }
+
+    [vl-state~="enter-exit"][hidden] {
+        display: none;
+        opacity: 0;
+        transform: translate3d(0, var(--vl-state-distance), 0) scale(var(--vl-state-exit-scale));
+        content-visibility: hidden;
+    }
+
+    @starting-style {
+        [vl-state~="enter-exit"]:not([hidden]) {
+            opacity: 0;
+            transform: translate3d(0, var(--vl-state-distance), 0) scale(var(--vl-state-exit-scale));
+        }
+    }
+
+    [vl-state~="expand"] {
+        block-size: auto;
+        opacity: 1;
+        overflow: clip;
+        transition:
+            block-size var(--vl-state-duration) var(--vl-state-ease),
+            opacity var(--vl-duration-fast) var(--vl-state-ease),
+            content-visibility var(--vl-state-duration) allow-discrete,
+            display var(--vl-state-duration) allow-discrete;
+        transition-behavior: allow-discrete;
+    }
+
+    [vl-state~="expand"][hidden] {
+        display: none;
+        block-size: 0;
+        opacity: 0;
+        content-visibility: hidden;
+    }
+
+    @supports (block-size: calc-size(auto, size)) {
+        [vl-state~="expand"] {
+            block-size: calc-size(auto, size);
+        }
+    }
+
+    details[vl-state~="expand"]::details-content {
+        block-size: 0;
+        opacity: 0;
+        overflow: clip;
+        transition:
+            block-size var(--vl-state-duration) var(--vl-state-ease),
+            opacity var(--vl-duration-fast) var(--vl-state-ease),
+            content-visibility var(--vl-state-duration) allow-discrete;
+        transition-behavior: allow-discrete;
+    }
+
+    details[open][vl-state~="expand"]::details-content {
+        block-size: auto;
+        opacity: 1;
+    }
+
+    @supports (block-size: calc-size(auto, size)) {
+        details[open][vl-state~="expand"]::details-content {
+            block-size: calc-size(auto, size);
+        }
+    }
+
+    :is(dialog, [popover])[vl-state~="top-layer"] {
+        opacity: 0;
+        transform: translate3d(0, var(--vl-state-distance), 0) scale(var(--vl-state-exit-scale));
+        transition:
+            opacity var(--vl-state-duration) var(--vl-state-ease),
+            transform var(--vl-state-duration) var(--vl-state-ease),
+            overlay var(--vl-state-duration) allow-discrete,
+            display var(--vl-state-duration) allow-discrete;
+        transition-behavior: allow-discrete;
+    }
+
+    :is(dialog[open], [popover]:popover-open)[vl-state~="top-layer"] {
+        opacity: 1;
+        transform: translate3d(0, 0, 0) scale(1);
+    }
+
+    :is(dialog, [popover])[vl-state~="top-layer"]::backdrop {
+        opacity: 0;
+        transition:
+            opacity var(--vl-state-duration) var(--vl-state-ease),
+            overlay var(--vl-state-duration) allow-discrete,
+            display var(--vl-state-duration) allow-discrete;
+        transition-behavior: allow-discrete;
+    }
+
+    :is(dialog[open], [popover]:popover-open)[vl-state~="top-layer"]::backdrop {
+        opacity: 1;
+    }
+
+    @starting-style {
+        :is(dialog[open], [popover]:popover-open)[vl-state~="top-layer"] {
+            opacity: 0;
+            transform: translate3d(0, var(--vl-state-distance), 0) scale(var(--vl-state-exit-scale));
+        }
+
+        :is(dialog[open], [popover]:popover-open)[vl-state~="top-layer"]::backdrop {
+            opacity: 0;
+        }
+    }
+
+    @keyframes vl-path-travel {
+        from { offset-distance: 0%; }
+        to { offset-distance: var(--vl-path-distance); }
+    }
+
+    :is([vl-scroll~="path"], [vl-effect~="path-travel"]) {
+        offset-path: var(--vl-path);
+        offset-distance: 0%;
+        offset-rotate: var(--vl-path-rotate);
+        animation-name: vl-path-travel;
+        animation-duration: 1ms;
+        animation-timing-function: linear;
+        animation-fill-mode: both;
+        animation-timeline: view(block);
+        animation-range: var(--vl-range, entry 0% exit 100%);
+    }
+
+    @media (prefers-reduced-motion: reduce) {
+        [vl-state],
+        :is(dialog, [popover])[vl-state],
+        :is(dialog, [popover])[vl-state]::backdrop {
+            transition-duration: 0.01ms;
+        }
+
+        :is([vl-scroll~="path"], [vl-effect~="path-travel"]) {
+            animation: none;
+            offset-distance: var(--vl-path-distance);
+        }
+    }
+}

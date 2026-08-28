@@ -9,7 +9,7 @@
 ## Learned Workspace Facts
 
 - Apresentação HTML/Vite para Latinoware 2026; repositório separado do monorepo Velora em `../velora`.
-- Dependência `@velora/css` via `file:../velora/packages/css` (não `workspace:*`).
+- CSS do `@velora/css` vendorizado em `vendor/velora-css/` (cópia estática, sem dependência `file:` — quebrava o deploy na Vercel por apontar fora do repo). Sincronizar manualmente com `../velora/packages/css/src` quando houver mudanças upstream.
 - Gerenciador de pacotes: pnpm (`packageManager` no `package.json`).
 - Breakpoint do deck: desktop ≥761px (snap obrigatório, slide fixo em `100svh`); mobile ≤760px (sem snap, altura automática).
 - Motion: `vl-in-view` em cada slide; Hero usa gate amplo (anima no load); demais slides só em `cover 99–100%` (tela cheia).
