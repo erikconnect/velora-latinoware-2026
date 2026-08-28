@@ -1171,6 +1171,47 @@
     line-height: 1.5;
   }
 
+  /* Ballet — vl-children choreography showcase */
+  .talk-ballet {
+    display: grid;
+    gap: 1px;
+    margin-top: clamp(1.5rem, 3vh, 2.25rem);
+    border: 1px solid var(--talk-border);
+    background: var(--talk-border);
+  }
+
+  .talk-ballet__row {
+    display: grid;
+    grid-template-columns: minmax(7rem, 9rem) 1fr;
+    align-items: center;
+    gap: 1.25rem;
+    padding: 0.85rem 1.4rem;
+    background: var(--talk-surface);
+  }
+
+  .talk-ballet__mode {
+    color: var(--talk-accent);
+    font: 600 0.78rem/1 var(--talk-mono);
+    letter-spacing: 0.02em;
+  }
+
+  .talk-ballet__stage {
+    display: flex;
+    align-items: flex-end;
+    gap: clamp(0.4rem, 1vw, 0.85rem);
+    min-height: 3.6rem;
+    --vl-stagger-step: 90ms;
+  }
+
+  .talk-ballet__stage i {
+    display: block;
+    width: clamp(0.6rem, 1vw, 0.85rem);
+    height: clamp(1.6rem, 4vh, 3rem);
+    border-radius: 999px;
+    background: linear-gradient(180deg, var(--talk-accent), var(--talk-accent-2));
+    font-style: normal;
+  }
+
   /* Scene */
   .talk-beats {
     position: relative;
@@ -1873,7 +1914,7 @@
     }
   }
 
-  @media (max-height: 700px) and (min-width: 761px) {
+  @media (max-height: 820px) and (min-width: 761px) {
     :root {
       --talk-pad-y: 1.35rem;
       --talk-slide-chrome-block: 2.65rem;
@@ -1904,6 +1945,56 @@
       margin-top: 0.55rem;
     }
 
+    .talk-three:not(.talk-three--compact) {
+      margin-top: 1.4rem;
+    }
+
+    .talk-three:not(.talk-three--compact) article {
+      min-height: 10rem;
+      padding: 1rem 1.1rem;
+    }
+
+    .talk-three:not(.talk-three--compact) article > b {
+      margin-bottom: 1rem;
+    }
+
+    .talk-flow {
+      margin-top: 1.4rem;
+    }
+
+    .talk-boundaries {
+      margin-top: 1.4rem;
+    }
+
+    .talk-boundaries article {
+      min-height: 4.5rem;
+      padding: 0.7rem 0.9rem;
+    }
+
+    .talk-question,
+    .talk-statement {
+      margin-top: 1rem;
+      padding: 0.8rem 1rem;
+      font-size: clamp(0.88rem, 1.2vw, 1.15rem);
+      line-height: 1.4;
+    }
+
+    .talk-ballet {
+      margin-top: 1rem;
+    }
+
+    .talk-ballet__row {
+      padding: 0.55rem 1rem;
+    }
+
+    .talk-ballet__stage {
+      min-height: 2.6rem;
+    }
+
+    .talk-ballet__stage i {
+      height: clamp(1.2rem, 3.2vh, 2.2rem);
+    }
+
     .talk-project {
       min-height: 0;
       padding: 0.55rem 0.65rem;
@@ -1929,35 +2020,6 @@
 
   .talk-stage {
     width: 100%;
-  }
-
-  /*
-   * Modo estático: todo conteúdo visível (PDF / entrega).
-   * TODO: reativar gate vl-in-view quando animações forem ajustadas.
-   */
-  .talk [vl-in-view] {
-    animation: none !important;
-    container-type: normal !important;
-    --vl-in-view-state: 1 !important;
-  }
-
-  .talk [vl-in-view] :is([vl-enter], [vl-exit], [vl-loop], [vl-loop-effect]):not(:is(.talk-hero-motion, .talk-hero-motion *)),
-  .talk [vl-in-view] :is([vl-enter], [vl-exit], [vl-loop], [vl-loop-effect]):not(:is(.talk-hero-motion, .talk-hero-motion *)) * {
-    animation: none !important;
-    opacity: 1 !important;
-    visibility: visible !important;
-    transform: none !important;
-    filter: none !important;
-    clip-path: none !important;
-  }
-
-  .talk :is([vl-enter], [vl-exit], [vl-loop], [vl-loop-effect]):not(:is(.talk-hero-motion, .talk-hero-motion *)) {
-    animation: none !important;
-    opacity: 1 !important;
-    visibility: visible !important;
-    transform: none !important;
-    filter: none !important;
-    clip-path: none !important;
   }
 
   .talk-hero-motion :is([vl-effect], [vl-loop], [vl-loop-effect]) {

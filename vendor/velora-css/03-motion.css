@@ -1699,7 +1699,10 @@
     }
 
     [vl-in-view] {
-        container-type: style;
+        /* container-name (not container-type) is what opts an element into
+           style() container queries — container-type: style is not a valid
+           CSS value, so this used to silently no-op the whole gate. */
+        container-name: vl-in-view;
         animation: vl-in-view-gate 1ms both;
         animation-timeline: view(block);
         animation-range: entry 0% exit 100%;
@@ -1711,7 +1714,12 @@
      * flash the finished state while off-screen. In-gate: no override.
      */
     @supports (animation-timeline: view()) {
-        @container style(--vl-in-view-state: 0) {
+        /* Named container query: an unnamed style() query would otherwise
+           match the nearest container of ANY name/type (e.g. .vl-container,
+           [vl-scene]) sitting between [vl-in-view] and its descendants, whose
+           --vl-in-view-state is just the initial 0 (the property doesn't
+           inherit), permanently hiding the content. */
+        @container vl-in-view style(--vl-in-view-state: 0) {
             [vl-in-view] :is([vl-enter], [vl-exit], [vl-loop], [vl-loop-effect], [vl-hover], [vl-state]),
             [vl-in-view] [vl-effect]:not([vl-scroll]):not([vl-scrub]):not([vl-timeline="view"]):not([vl-timeline="scroll"]) {
                 animation-name: none;

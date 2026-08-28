@@ -50,9 +50,9 @@
       <a href="#slide-01" aria-label="Abertura"><span>00</span> Abertura</a>
       <a href="#slide-04" aria-label="O problema"><span>01</span> Problema</a>
       <a href="#slide-06" aria-label="O engine"><span>02</span> Engine</a>
-      <a href="#slide-11" aria-label="Arquitetura"><span>03</span> Arquitetura</a>
-      <a href="#slide-15" aria-label="Open source"><span>04</span> Open source</a>
-      <a href="#slide-18" aria-label="Encerramento"><span>05</span> Fork it</a>
+      <a href="#slide-12" aria-label="Arquitetura"><span>03</span> Arquitetura</a>
+      <a href="#slide-16" aria-label="Open source"><span>04</span> Open source</a>
+      <a href="#slide-19" aria-label="Encerramento"><span>05</span> Fork it</a>
     </nav>
 
     <main class="talk-deck" id="content">
@@ -169,7 +169,7 @@
           </div>
         </div>
 
-        <p class="talk-slide__number" aria-hidden="true">01 / 18</p>
+        <p class="talk-slide__number" aria-hidden="true">01 / 19</p>
       </section>
 
       <!-- 02 -->
@@ -211,7 +211,7 @@
           </div>
         </div>
 
-        <p class="talk-slide__number" aria-hidden="true">02 / 18</p>
+        <p class="talk-slide__number" aria-hidden="true">02 / 19</p>
       </section>
 
       <!-- 03 -->
@@ -274,7 +274,7 @@
           </p>
         </div>
 
-        <p class="talk-slide__number" aria-hidden="true">03 / 18</p>
+        <p class="talk-slide__number" aria-hidden="true">03 / 19</p>
       </section>
 
       <!-- 04 -->
@@ -314,7 +314,7 @@
           </p>
         </div>
 
-        <p class="talk-slide__number" aria-hidden="true">04 / 18</p>
+        <p class="talk-slide__number" aria-hidden="true">04 / 19</p>
       </section>
 
       <!-- 05 -->
@@ -354,7 +354,7 @@
           </p>
         </div>
 
-        <p class="talk-slide__number" aria-hidden="true">05 / 18</p>
+        <p class="talk-slide__number" aria-hidden="true">05 / 19</p>
       </section>
 
       <!-- 06 -->
@@ -407,7 +407,7 @@
           </div>
         </div>
 
-        <p class="talk-slide__number" aria-hidden="true">06 / 18</p>
+        <p class="talk-slide__number" aria-hidden="true">06 / 19</p>
       </section>
 
       <!-- 07 -->
@@ -438,13 +438,64 @@
           </div>
         </div>
 
-        <p class="talk-slide__number" aria-hidden="true">07 / 18</p>
+        <p class="talk-slide__number" aria-hidden="true">07 / 19</p>
       </section>
 
       <!-- 08 -->
-      <section vl-in-view class="talk-slide talk-slide--scene" id="slide-08" aria-labelledby="slide-08-title">
+      <section vl-in-view class="talk-slide talk-slide--ballet" id="slide-08" aria-labelledby="slide-08-title">
         <div class="talk-slide__chrome" aria-hidden="true">
-          <span>05 / SCENE ENGINE</span>
+          <span>05 / COREOGRAFIA</span>
+          <span>CHILDREN AS DANCERS</span>
+        </div>
+
+        <div class="talk-stage">
+          <p class="talk-kicker" vl-enter="fade-up">Um atributo no pai. Um balé nos filhos.</p>
+          <h2 id="slide-08-title" class="talk-display" vl-enter="clip-rise" vl-delay="100ms">
+            <code>vl-children</code> coreografa <em>quem entra e quando.</em>
+          </h2>
+          <p class="talk-lead" vl-enter="fade-up" vl-delay="180ms">
+            Sem index manual, sem JavaScript: o navegador aplica o atraso certo para cada filho, na ordem do DOM.
+          </p>
+
+          <div class="talk-ballet" vl-enter="fade-up" vl-delay="240ms">
+            <div class="talk-ballet__row">
+              <span class="talk-ballet__mode">stagger</span>
+              <div class="talk-ballet__stage" vl-children="stagger">
+                <i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i>
+              </div>
+            </div>
+            <div class="talk-ballet__row">
+              <span class="talk-ballet__mode">cascade</span>
+              <div class="talk-ballet__stage" vl-children="cascade">
+                <i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i>
+              </div>
+            </div>
+            <div class="talk-ballet__row">
+              <span class="talk-ballet__mode">wave</span>
+              <div class="talk-ballet__stage" vl-children="wave">
+                <i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i>
+              </div>
+            </div>
+            <div class="talk-ballet__row">
+              <span class="talk-ballet__mode">orchestrate</span>
+              <div class="talk-ballet__stage" vl-children="orchestrate">
+                <i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i>
+              </div>
+            </div>
+          </div>
+
+          <div class="talk-code-strip" vl-enter="fade-up" vl-delay="320ms">
+            <code>&lt;div <mark>vl-children="stagger"</mark>&gt;…&lt;/div&gt;</code>
+          </div>
+        </div>
+
+        <p class="talk-slide__number" aria-hidden="true">08 / 19</p>
+      </section>
+
+      <!-- 09 -->
+      <section vl-in-view class="talk-slide talk-slide--scene" id="slide-09" aria-labelledby="slide-09-title">
+        <div class="talk-slide__chrome" aria-hidden="true">
+          <span>06 / SCENE ENGINE</span>
           <span>SCROLL AS CLOCK</span>
         </div>
 
@@ -452,7 +503,7 @@
           <div class="talk-heading-row">
             <div>
               <p class="talk-kicker" vl-enter="fade-up">Storytelling sem timeline imperativa.</p>
-              <h2 id="slide-08-title" class="talk-display" vl-enter="clip-rise" vl-delay="100ms">
+              <h2 id="slide-09-title" class="talk-display" vl-enter="clip-rise" vl-delay="100ms">
                 O scroll vira relógio.<br /><em>Os acts viram beats.</em>
               </h2>
             </div>
@@ -475,20 +526,20 @@
           </div>
         </div>
 
-        <p class="talk-slide__number" aria-hidden="true">08 / 18</p>
+        <p class="talk-slide__number" aria-hidden="true">09 / 19</p>
       </section>
 
-      <!-- 09 -->
-      <section vl-in-view class="talk-slide talk-slide--conditional" id="slide-09" aria-labelledby="slide-09-title">
+      <!-- 10 -->
+      <section vl-in-view class="talk-slide talk-slide--conditional" id="slide-10" aria-labelledby="slide-10-title">
         <div class="talk-slide__chrome" aria-hidden="true">
-          <span>06 / CSS CONDICIONAL</span>
+          <span>07 / CSS CONDICIONAL</span>
           <span>PROGRESSIVE ENHANCEMENT</span>
         </div>
 
         <div class="talk-stage talk-stage--split">
           <div>
             <p class="talk-kicker" vl-enter="fade-up">Motion também pode responder ao contexto.</p>
-            <h2 id="slide-09-title" class="talk-display" vl-enter="clip-rise" vl-delay="100ms">
+            <h2 id="slide-10-title" class="talk-display" vl-enter="clip-rise" vl-delay="100ms">
               O modo muda.<br /><em>O contrato permanece.</em>
             </h2>
 
@@ -528,19 +579,19 @@
           </div>
         </div>
 
-        <p class="talk-slide__number" aria-hidden="true">09 / 18</p>
+        <p class="talk-slide__number" aria-hidden="true">10 / 19</p>
       </section>
 
-      <!-- 10 -->
-      <section vl-in-view class="talk-slide talk-slide--transitions" id="slide-10" aria-labelledby="slide-10-title">
+      <!-- 11 -->
+      <section vl-in-view class="talk-slide talk-slide--transitions" id="slide-11" aria-labelledby="slide-11-title">
         <div class="talk-slide__chrome" aria-hidden="true">
-          <span>07 / VIEW TRANSITIONS</span>
+          <span>08 / VIEW TRANSITIONS</span>
           <span>PAGE LANGUAGE</span>
         </div>
 
         <div class="talk-stage">
           <p class="talk-kicker" vl-enter="fade-up">Navegação também pode ter linguagem visual.</p>
-          <h2 id="slide-10-title" class="talk-display" vl-enter="clip-rise" vl-delay="100ms">
+          <h2 id="slide-11-title" class="talk-display" vl-enter="clip-rise" vl-delay="100ms">
             Um atributo. <em>Seis vozes.</em>
           </h2>
 
@@ -559,19 +610,19 @@
           </div>
         </div>
 
-        <p class="talk-slide__number" aria-hidden="true">10 / 18</p>
+        <p class="talk-slide__number" aria-hidden="true">11 / 19</p>
       </section>
 
-      <!-- 11 -->
-      <section vl-in-view class="talk-slide talk-slide--skins" id="slide-11" aria-labelledby="slide-11-title">
+      <!-- 12 -->
+      <section vl-in-view class="talk-slide talk-slide--skins" id="slide-12" aria-labelledby="slide-12-title">
         <div class="talk-slide__chrome" aria-hidden="true">
-          <span>08 / CORE ≠ SKIN</span>
+          <span>09 / CORE ≠ SKIN</span>
           <span>BEHAVIOR ≠ APPEARANCE</span>
         </div>
 
         <div class="talk-stage">
           <p class="talk-kicker" vl-enter="fade-up">Motion é infraestrutura. Aparência é opcional.</p>
-          <h2 id="slide-11-title" class="talk-display" vl-enter="clip-rise" vl-delay="100ms">
+          <h2 id="slide-12-title" class="talk-display" vl-enter="clip-rise" vl-delay="100ms">
             O engine não força <em>“o look Velora”.</em>
           </h2>
 
@@ -599,19 +650,19 @@
           </div>
         </div>
 
-        <p class="talk-slide__number" aria-hidden="true">11 / 18</p>
+        <p class="talk-slide__number" aria-hidden="true">12 / 19</p>
       </section>
 
-      <!-- 12 -->
-      <section vl-in-view class="talk-slide talk-slide--layers" id="slide-12" aria-labelledby="slide-12-title">
+      <!-- 13 -->
+      <section vl-in-view class="talk-slide talk-slide--layers" id="slide-13" aria-labelledby="slide-13-title">
         <div class="talk-slide__chrome" aria-hidden="true">
-          <span>09 / ARQUITETURA</span>
+          <span>10 / ARQUITETURA</span>
           <span>THE CASCADE IS THE CONTRACT</span>
         </div>
 
         <div class="talk-stage">
           <p class="talk-kicker" vl-enter="fade-up">Especificidade previsível é uma feature de DX.</p>
-          <h2 id="slide-12-title" class="talk-display" vl-enter="clip-rise" vl-delay="100ms">
+          <h2 id="slide-13-title" class="talk-display" vl-enter="clip-rise" vl-delay="100ms">
             O cascade vira parte do <em>contrato.</em>
           </h2>
 
@@ -630,19 +681,19 @@
           <p class="talk-scale" aria-hidden="true"><span>baixa prioridade</span><i></i><span>alta prioridade</span></p>
         </div>
 
-        <p class="talk-slide__number" aria-hidden="true">12 / 18</p>
+        <p class="talk-slide__number" aria-hidden="true">13 / 19</p>
       </section>
 
-      <!-- 13 -->
-      <section vl-in-view class="talk-slide talk-slide--accessibility" id="slide-13" aria-labelledby="slide-13-title">
+      <!-- 14 -->
+      <section vl-in-view class="talk-slide talk-slide--accessibility" id="slide-14" aria-labelledby="slide-14-title">
         <div class="talk-slide__chrome" aria-hidden="true">
-          <span>10 / ACESSIBILIDADE</span>
+          <span>11 / ACESSIBILIDADE</span>
           <span>THE EFFECT MAY DISAPPEAR</span>
         </div>
 
         <div class="talk-stage" vl-motion="subtle">
           <p class="talk-kicker" vl-enter="fade-up">“Zero JS” não vale nada se a experiência quebrar.</p>
-          <h2 id="slide-13-title" class="talk-display talk-display--xl" vl-enter="clip-rise" vl-delay="100ms">
+          <h2 id="slide-14-title" class="talk-display talk-display--xl" vl-enter="clip-rise" vl-delay="100ms">
             O efeito pode desaparecer.<br /><em>A interface não.</em>
           </h2>
 
@@ -665,19 +716,19 @@
           </div>
         </div>
 
-        <p class="talk-slide__number" aria-hidden="true">13 / 18</p>
+        <p class="talk-slide__number" aria-hidden="true">14 / 19</p>
       </section>
 
-      <!-- 14 -->
-      <section vl-in-view class="talk-slide talk-slide--not" id="slide-14" aria-labelledby="slide-14-title">
+      <!-- 15 -->
+      <section vl-in-view class="talk-slide talk-slide--not" id="slide-15" aria-labelledby="slide-15-title">
         <div class="talk-slide__chrome" aria-hidden="true">
-          <span>11 / O QUE O VELORA NÃO É</span>
+          <span>12 / O QUE O VELORA NÃO É</span>
           <span>BOUNDARIES MATTER</span>
         </div>
 
         <div class="talk-stage">
           <p class="talk-kicker" vl-enter="fade-up">Limites claros tornam o projeto mais útil.</p>
-          <h2 id="slide-14-title" class="talk-display" vl-enter="clip-rise" vl-delay="100ms">
+          <h2 id="slide-15-title" class="talk-display" vl-enter="clip-rise" vl-delay="100ms">
             Não é “mais um Tailwind”.<br />Não é <em>“GSAP sem JS”.</em>
           </h2>
 
@@ -692,19 +743,19 @@
           </p>
         </div>
 
-        <p class="talk-slide__number" aria-hidden="true">14 / 18</p>
+        <p class="talk-slide__number" aria-hidden="true">15 / 19</p>
       </section>
 
-      <!-- 15 -->
-      <section vl-in-view class="talk-slide talk-slide--oss" id="slide-15" aria-labelledby="slide-15-title">
+      <!-- 16 -->
+      <section vl-in-view class="talk-slide talk-slide--oss" id="slide-16" aria-labelledby="slide-16-title">
         <div class="talk-slide__chrome" aria-hidden="true">
-          <span>12 / OPEN SOURCE</span>
+          <span>13 / OPEN SOURCE</span>
           <span>CODE + CONTRACT + COMMUNITY</span>
         </div>
 
         <div class="talk-stage">
           <p class="talk-kicker" vl-enter="fade-up">Código aberto precisa de contrato, não só de código.</p>
-          <h2 id="slide-15-title" class="talk-display" vl-enter="clip-rise" vl-delay="100ms">
+          <h2 id="slide-16-title" class="talk-display" vl-enter="clip-rise" vl-delay="100ms">
             Um framework é também <em>governança técnica.</em>
           </h2>
 
@@ -726,20 +777,20 @@
           </p>
         </div>
 
-        <p class="talk-slide__number" aria-hidden="true">15 / 18</p>
+        <p class="talk-slide__number" aria-hidden="true">16 / 19</p>
       </section>
 
-      <!-- 16 -->
-      <section vl-in-view class="talk-slide talk-slide--demo" id="slide-16" aria-labelledby="slide-16-title">
+      <!-- 17 -->
+      <section vl-in-view class="talk-slide talk-slide--demo" id="slide-17" aria-labelledby="slide-17-title">
         <div class="talk-slide__chrome" aria-hidden="true">
-          <span>13 / DEMO AO VIVO</span>
+          <span>14 / DEMO AO VIVO</span>
           <span>THREE MINUTES</span>
         </div>
 
         <div class="talk-stage talk-stage--demo">
           <div>
             <p class="talk-kicker" vl-enter="fade-up">Três minutos para provar a tese.</p>
-            <h2 id="slide-16-title" class="talk-display" vl-enter="clip-rise" vl-delay="100ms">
+            <h2 id="slide-17-title" class="talk-display" vl-enter="clip-rise" vl-delay="100ms">
               Clone. Rode.<br /><em>Troque os atributos.</em>
             </h2>
 
@@ -760,19 +811,19 @@
           </aside>
         </div>
 
-        <p class="talk-slide__number" aria-hidden="true">16 / 18</p>
+        <p class="talk-slide__number" aria-hidden="true">17 / 19</p>
       </section>
 
-      <!-- 17 -->
-      <section vl-in-view class="talk-slide talk-slide--roadmap" id="slide-17" aria-labelledby="slide-17-title">
+      <!-- 18 -->
+      <section vl-in-view class="talk-slide talk-slide--roadmap" id="slide-18" aria-labelledby="slide-18-title">
         <div class="talk-slide__chrome" aria-hidden="true">
-          <span>14 / ROADMAP ABERTO</span>
+          <span>15 / ROADMAP ABERTO</span>
           <span>LAUNCH ≠ FINISH</span>
         </div>
 
         <div class="talk-stage">
           <p class="talk-kicker" vl-enter="fade-up">O lançamento não encerra o projeto.</p>
-          <h2 id="slide-17-title" class="talk-display" vl-enter="clip-rise" vl-delay="100ms">
+          <h2 id="slide-18-title" class="talk-display" vl-enter="clip-rise" vl-delay="100ms">
             Ele muda <em>quem pode influenciá-lo.</em>
           </h2>
 
@@ -789,11 +840,11 @@
           </p>
         </div>
 
-        <p class="talk-slide__number" aria-hidden="true">17 / 18</p>
+        <p class="talk-slide__number" aria-hidden="true">18 / 19</p>
       </section>
 
-      <!-- 18 -->
-      <section vl-in-view class="talk-slide talk-slide--final" id="slide-18" aria-labelledby="slide-18-title">
+      <!-- 19 -->
+      <section vl-in-view class="talk-slide talk-slide--final" id="slide-19" aria-labelledby="slide-19-title">
         <div class="talk-slide__chrome" aria-hidden="true">
           <span class="talk-logo vl-logo-lockup" aria-hidden="true">
             <svg class="vl-logo-mark" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 218.79 54.05" fill="currentColor" aria-hidden="true" focusable="false">
@@ -819,7 +870,7 @@
         <div class="talk-stage talk-stage--final" vl-motion="cinematic">
           <div>
             <p class="talk-kicker" vl-enter="fade-up">A partir daqui, o projeto também é da comunidade.</p>
-            <h2 id="slide-18-title" class="talk-display talk-display--final" vl-enter="clip-rise" vl-delay="100ms">
+            <h2 id="slide-19-title" class="talk-display talk-display--final" vl-enter="clip-rise" vl-delay="100ms">
               Fork it.<br />Break it.<br /><em>Improve it.</em>
             </h2>
             <p class="talk-lead talk-lead--wide" vl-enter="fade-up" vl-delay="220ms">
@@ -840,7 +891,7 @@
           <span>Erik Cardoso · Foz do Iguaçu · 2026</span>
         </footer>
 
-        <p class="talk-slide__number" aria-hidden="true">18 / 18</p>
+        <p class="talk-slide__number" aria-hidden="true">19 / 19</p>
       </section>
     </main>
     <script src="/js/talk-skin-controls.js"></script>
