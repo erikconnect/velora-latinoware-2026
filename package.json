@@ -1,0 +1,22 @@
+{
+  "name": "@velora/latinoware-2026",
+  "version": "1.0.0",
+  "private": true,
+  "packageManager": "pnpm@10.34.5",
+  "description": "Velora CSS launch talk for Latinoware 2026",
+  "license": "ISC",
+  "type": "module",
+  "scripts": {
+    "dev": "vite --host 0.0.0.0",
+    "build": "vite build",
+    "preview": "vite preview --host 0.0.0.0",
+    "export:pdf": "pnpm build && node scripts/export-pdf.mjs"
+  },
+  "dependencies": {
+    "@velora/css": "file:../velora/packages/css"
+  },
+  "devDependencies": {
+    "puppeteer-core": "^24.36.1",
+    "vite": "^8.2.2"
+  }
+}

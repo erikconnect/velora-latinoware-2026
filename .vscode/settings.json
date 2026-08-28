@@ -1,0 +1,6 @@
+{
+  "npm.packageManager": "pnpm",
+  "npm.autoDetect": "off",
+  "npm.exclude": "**/node_modules/**",
+  "task.autoDetect": "off"
+}

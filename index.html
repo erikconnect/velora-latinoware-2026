@@ -1,0 +1,848 @@
+<!doctype html>
+<html
+  lang="pt-BR"
+  data-editorial-theme="noir"
+  data-theme="dark"
+  data-theme-pack="velora-noir"
+  vl-page-transition="cinema"
+>
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta
+      name="description"
+      content="Velora CSS: Motion Nativo — apresentação de Erik Cardoso para o 23º Latinoware, 14–16 de outubro de 2026, em Foz do Iguaçu."
+    />
+    <meta name="theme-color" content="#0d0f0c" />
+    <title>Velora CSS: Motion Nativo — Latinoware 2026</title>
+    <link rel="icon" type="image/svg+xml" href="/media/velora-logo.svg" />
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&family=JetBrains+Mono:wght@400;600&family=Manrope:wght@400;500;600;700&family=Space+Grotesk:wght@400;500;600;700&display=swap"
+      rel="stylesheet"
+    />
+    <script src="/js/talk-skin-state.js"></script>
+    <link rel="stylesheet" href="/src/presentation.css" />
+  </head>
+
+  <body class="talk">
+    <a class="talk-skip" href="#slide-01">Ir para a apresentação</a>
+
+    <aside class="talk-skin-panel" aria-label="Trocar Skin do design system">
+      <span class="talk-skin-panel__label">Skin</span>
+      <select
+        id="talk-editorial-select"
+        class="talk-skin-panel__select"
+        title="Editorial design theme"
+        aria-label="Editorial design theme"
+      >
+        <option value="noir">Noir</option>
+        <option value="earth">Earth tech</option>
+        <option value="aethel">Aethel</option>
+        <option value="meridian">Meridian</option>
+      </select>
+    </aside>
+
+    <div class="talk-progress" aria-hidden="true"><span></span></div>
+
+    <nav class="talk-nav" aria-label="Capítulos da apresentação">
+      <a href="#slide-01" aria-label="Abertura"><span>00</span> Abertura</a>
+      <a href="#slide-04" aria-label="O problema"><span>01</span> Problema</a>
+      <a href="#slide-06" aria-label="O engine"><span>02</span> Engine</a>
+      <a href="#slide-11" aria-label="Arquitetura"><span>03</span> Arquitetura</a>
+      <a href="#slide-15" aria-label="Open source"><span>04</span> Open source</a>
+      <a href="#slide-18" aria-label="Encerramento"><span>05</span> Fork it</a>
+    </nav>
+
+    <main class="talk-deck" id="content">
+      <!-- 01 -->
+      <section vl-in-view class="talk-slide talk-slide--hero" id="slide-01" aria-labelledby="slide-01-title">
+        <div class="talk-slide__chrome" aria-hidden="true">
+          <span class="talk-logo vl-logo-lockup" aria-hidden="true">
+            <svg class="vl-logo-mark" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 218.79 54.05" fill="currentColor" aria-hidden="true" focusable="false">
+              <g class="vl-logo-mark__group">
+                <g class="vl-logo-mark__full">
+                  <path class="vl-logo-mark__shape" d="M78.18,39.66h7.54c-3.36,9.89-13.29,15.76-23.66,14.12-4.7-.74-8.95-3.02-12.29-6.47-2.82-2.92-5.01-6.47-5.58-10.57-.25-1.81-.14-3.75-.05-5.57.53-11.27,9.69-19.81,20.89-19.82,13.37,0,22.14,11.34,21.1,24.44h-33.56c.79,3.6,2.8,6.77,5.96,8.63,6.68,3.95,15.35,1.89,19.66-4.77h0ZM77.49,29.64c-1.13-6.02-6.28-10.33-12.36-10.32s-11.11,4.11-12.43,10.3l24.79.02Z"/>
+                  <path class="vl-logo-mark__shape" d="M144.01,32.16l.02,1.14c3.54-5.56,7.11-10.98,11.23-16.19l4.11-4.65c.44-.5,1.49-.62,2.18-.57l-1.57,1.48c-5.67,6.49-10.65,13.35-15.22,20.65-.67,1.08-1.34,1.97-1.46,3.29l7.15-10.98c3.09-4.75,6.67-9.04,10.36-13.27.83-.95,1.98-1.43,3.07-1.2l-4.15,4.3c-4.81,5.76-9.21,11.62-13.22,17.97l-6.29,9.96c-5.47,8.67-15.74,12.2-25.27,8.51-10.29-3.98-15.62-15.25-12.67-25.66s13.36-17.11,24.3-15.29c5.3.88,9.94,3.64,13.16,7.93,2.22,2.95,3.62,6.09,4.07,9.75l3.88-6.7c2.11-3.64,4.35-8.26,8.49-9.89l-2.2,2.59c-3.65,4.3-6.58,9.03-9.73,13.73-.37.56-.61.93-.21,1.65l4.56-7.17c2.25-3.53,4.67-6.8,7.41-9.94.84-.96,1.96-1.5,3.21-1.71l-1.47,1.57c-3.85,4.11-7.01,8.64-10.13,13.33l-3.61,5.35v.02ZM133.48,40.04c4.43-7.02,1.85-16.65-5.55-19.71-4.02-1.66-7.96-1.22-11.4.75-3.99,2.28-6.43,6.56-6.67,10.94-.24,4.38,1.8,9.01,5.54,11.64,6.01,4.23,14.12,2.67,18.09-3.61h0Z"/>
+                  <path class="vl-logo-mark__shape" d="M214.5,53.11c-.15.29-1.01.3-1.21.08l-8.46-22.1,3.45,10.68,4.16,11.54h-1.16l-7.64-19.62c1.86,6.76,4.48,12.93,6.77,19.64h-5.07l-2.12-5.45c-6,6.74-15.93,7.8-23.48,3.93-11.41-5.84-15.15-20.38-7.98-30.92,5.88-8.66,17.14-11.96,26.71-7.58,4.5,2.06,7.93,5.66,9.63,10.35l10.69,29.59-1.19.07-6.05-16.44-3.92-9.75c2.67,8.94,5.9,17.33,9.05,26.12l-1.19.07-5.26-14.2-4.25-10.57c2.46,8.38,5.55,16.22,8.54,24.58l-.02-.02ZM202.71,32.63c0-7.27-5.9-13.17-13.17-13.17s-13.17,5.9-13.17,13.17,5.9,13.17,13.17,13.17,13.17-5.9,13.17-13.17Z"/>
+                  <path class="vl-logo-mark__shape" d="M45.32.08l-3.5,8.6-12.04,29c-.42,1.02-.69,1.86.23,2.66L46.85.1c.4-.05.87-.04,1.29,0l-3.55,8.57-14.05,33.48c.16.58.36,1.11.66,1.53L49.61.28c.39-.25,1-.3,1.38-.16l-12.4,29.28-10.19,23.96-6.52-.03L0,.04l14.04-.04,11.94,30.39L38.24.17c.42-.11.82-.14,1.33-.09l-12.45,30.76c-.42,1.03-.41,1.88.27,2.95L41.17.1l1.29.03-4.5,11.04-10.01,24.37.74,1.55,8.97-21.53L44.03.07l1.28.03v-.02Z"/>
+                  <rect class="vl-logo-mark__shape" x="90.08" y=".37" width="8.5" height="52.97"/>
+                  <path class="vl-logo-mark__shape" d="M155.03,53.31l-8.56.05-.03-18.27,9.43-13.38,4.91-6.16c1.68-1.8,3.32-4.21,5.52-3.63l-2.21,2.03-5.12,6.4c-2.35,1.35-3.59,3.65-3.95,6.42v26.54h0Z"/>
+                  <path class="vl-logo-mark__shape" d="M166.61,19.96l-1.88-.13c1.89-2.53,3.7-4.76,5.89-6.87.9-.87,1.88-1.44,3.16-1.01-2.8,2.26-4.93,4.89-7.17,8.02h0Z"/>
+                  <path class="vl-logo-mark__shape" d="M161.91,19.71l-2.19.33c1.81-2.52,3.77-4.94,6.06-7.21.84-.84,1.85-1.18,3.04-.94-2.67,2.26-4.75,4.77-6.92,7.82h.01Z"/>
+                  <path class="vl-logo-mark__shape" d="M164.14,19.8l-1.88.06c1.96-2.64,3.82-5.03,6.2-7.19.81-.74,1.86-1,2.75-.73l-2.64,2.46-4.42,5.4h0Z"/>
+                  <path class="vl-logo-mark__shape" d="M169.05,19.81l-1.86.05c1.94-2.66,3.82-5.03,6.21-7.18.84-.76,1.85-1.13,3.01-.76-1.82,1.33-3.43,2.78-4.81,4.57l-2.55,3.31h0Z"/>
+                </g>
+              </g>
+            </svg>
+          </span>
+          <span>LATINOWARE · 2026</span>
+        </div>
+
+        <div class="talk-stage talk-stage--hero" vl-motion="cinematic">
+          <div class="talk-hero-copy">
+            <p class="talk-kicker" vl-enter="fade-up">23º Congresso Latino-Americano de Software Livre e Tecnologias Abertas</p>
+            <h1 id="slide-01-title" class="talk-display talk-display--hero" vl-enter="clip-rise" vl-delay="120ms">
+              Velora CSS:<br />
+              <em>Motion Nativo</em>
+            </h1>
+            <p class="talk-lead" vl-enter="fade-up" vl-delay="240ms">
+              Interfaces cinematográficas. HTML declarativo.
+              <strong>Zero runtime JavaScript para animação.</strong>
+            </p>
+            <div class="talk-meta" vl-enter="fade-up" vl-delay="300ms">
+              <span>Erik Cardoso</span>
+              <span>Foz do Iguaçu</span>
+              <span>14–16 OUT · 2026</span>
+            </div>
+          </div>
+
+          <div class="talk-hero-motion" aria-label="Prévia animada do Motion Lab Velora">
+            <div class="talk-hero-motion__stage">
+              <div class="talk-hero-motion__wash" vl-effect="mesh-pan" aria-hidden="true"></div>
+
+              <div class="talk-hero-motion__orbit" aria-hidden="true">
+                <span class="talk-hero-motion__ring"></span>
+                <span class="talk-hero-motion__ring"></span>
+                <div class="talk-hero-motion__core">
+                  <img
+                    class="talk-hero-motion__cinema talk-hero-motion__cinema--one"
+                    src="/media/cinema/cinema-auditorium.jpg"
+                    width="800"
+                    height="600"
+                    alt=""
+                    decoding="async"
+                  />
+                  <img
+                    class="talk-hero-motion__cinema talk-hero-motion__cinema--two"
+                    src="/media/cinema/vintage-projector.jpg"
+                    width="800"
+                    height="533"
+                    alt=""
+                    decoding="async"
+                  />
+                  <img
+                    class="talk-hero-motion__cinema talk-hero-motion__cinema--three"
+                    src="/media/cinema/film-set-lights.jpg"
+                    width="800"
+                    height="533"
+                    alt=""
+                    decoding="async"
+                  />
+                </div>
+                <span class="talk-hero-motion__satellite"></span>
+              </div>
+
+              <article
+                class="talk-hero-motion__panel talk-hero-motion__panel--primary"
+                vl-loop="-1"
+                vl-loop-effect="float"
+              >
+                <p class="talk-hero-motion__kicker">Scene Engine</p>
+                <strong>Channel / Layer / Reveal</strong>
+                <span>Enter, loop, scroll e state — composição previsível.</span>
+              </article>
+
+              <article
+                class="talk-hero-motion__panel talk-hero-motion__panel--secondary"
+                vl-loop="-1"
+                vl-loop-effect="glow-breathe"
+                vl-effect="border-beam"
+              >
+                <p class="talk-hero-motion__kicker">Runtime State</p>
+                <strong>entry 0% → cover 65%</strong>
+                <span>Range, speed e replay por card — só CSS.</span>
+              </article>
+
+              <div class="talk-hero-motion__status" vl-children="wave">
+                <span>120fps pipeline</span>
+                <span>timeline armed</span>
+                <span>view + scroll ready</span>
+              </div>
+            </div>
+
+            <p class="talk-hero-motion__caption">
+              <strong>Motion Lab</strong>
+              <span>123 presets · zero runtime JS</span>
+            </p>
+          </div>
+        </div>
+
+        <p class="talk-slide__number" aria-hidden="true">01 / 18</p>
+      </section>
+
+      <!-- 02 -->
+      <section vl-in-view class="talk-slide talk-slide--bio" id="slide-02" aria-labelledby="slide-02-title">
+        <div class="talk-slide__chrome" aria-hidden="true">
+          <span>ERIK CARDOSO / SOBRE</span>
+          <span>LATINOWARE · 2026</span>
+        </div>
+
+        <div class="talk-stage talk-stage--bio">
+          <figure class="talk-bio-photo" vl-enter="depth-enter">
+            <img src="/media/erik-cardoso.jpg" alt="Erik Cardoso em retrato externo" />
+          </figure>
+
+          <div class="talk-bio-copy">
+            <p class="talk-kicker" vl-enter="fade-up">De infraestrutura a interfaces declarativas.</p>
+            <h2 id="slide-02-title" class="talk-display" vl-enter="clip-rise" vl-delay="120ms">
+              Trinta anos de tecnologia ajudam a explicar <em>por que o Velora existe.</em>
+            </h2>
+            <p class="talk-body talk-body--wide" vl-enter="fade-up" vl-delay="200ms">
+              Desenvolvedor, consultor web e gestor de projetos em TI. A trajetória começou em
+              <strong>1996, na infraestrutura</strong>, passou por ambientes corporativos como
+              <strong>Rhodia / Solvay</strong> e chegou a WordPress, PHP/JavaScript, front-end,
+              performance, servidores e arquitetura de plataformas. Hoje atua como consultor web
+              da <strong>Media Defence</strong> e é criador do Velora CSS.
+            </p>
+
+            <ol class="talk-timeline" aria-label="Linha do tempo profissional" vl-enter="fade-up" vl-delay="280ms">
+              <li><b>1996</b><span>Infraestrutura<br />de TI</span></li>
+              <li><b>2010–15</b><span>Rhodia /<br />Solvay</span></li>
+              <li><b>WEB</b><span>WordPress ·<br />front-end</span></li>
+              <li><b>HOJE</b><span>Media Defence<br />+ consultoria</span></li>
+              <li><b>2026</b><span>Velora CSS</span></li>
+            </ol>
+
+            <div class="talk-tags" vl-enter="fade-up" vl-delay="360ms">
+              <span>WORDPRESS</span><span>PHP + JS</span><span>CSS</span><span>PERFORMANCE</span><span>INFRA</span><span>PROJETOS</span>
+            </div>
+          </div>
+        </div>
+
+        <p class="talk-slide__number" aria-hidden="true">02 / 18</p>
+      </section>
+
+      <!-- 03 -->
+      <section vl-in-view class="talk-slide talk-slide--projects" id="slide-03" aria-labelledby="slide-03-title">
+        <div class="talk-slide__chrome" aria-hidden="true">
+          <span>PROJETOS / REPERTÓRIO</span>
+          <span>VELORA · ORIGEM</span>
+        </div>
+
+        <div class="talk-stage">
+          <div class="talk-heading-row">
+            <div>
+              <p class="talk-kicker" vl-enter="fade-up">Velora não nasceu de uma demo.</p>
+              <h2 id="slide-03-title" class="talk-display" vl-enter="clip-rise" vl-delay="100ms">
+                Nasceu de anos entregando <em>sistemas reais.</em>
+              </h2>
+            </div>
+            <p class="talk-lead talk-lead--compact" vl-enter="fade-up" vl-delay="180ms">
+              Conteúdo, performance, acessibilidade, negócio, manutenção — e uma pergunta recorrente:
+              <strong>quanto custa cada dependência nova?</strong>
+            </p>
+          </div>
+
+          <div class="talk-project-grid" vl-enter="fade-up" vl-delay="220ms">
+            <article class="talk-project" vl-hover="border-trace" tabindex="0">
+              <p class="talk-project__index">01</p>
+              <h3>Media Defence</h3>
+              <p class="talk-project__type">Plataforma editorial internacional</p>
+              <p>Refactor WordPress, Resource Hub, arquitetura editorial, importação de PDFs e evolução de componentes.</p>
+              <span>Conteúdo · arquitetura · manutenção</span>
+            </article>
+
+            <article class="talk-project" vl-hover="border-trace" tabindex="0">
+              <p class="talk-project__index">02</p>
+              <h3>Amplum Biogás</h3>
+              <p class="talk-project__type">Motion aplicado em produção</p>
+              <p>Elementor/Crocoblock com GSAP, ScrollTrigger e Lenis — uma referência prática para repensar o custo do runtime.</p>
+              <span>Motion · WordPress · performance</span>
+            </article>
+
+            <article class="talk-project" vl-hover="border-trace" tabindex="0">
+              <p class="talk-project__index">03</p>
+              <h3>Everbrew</h3>
+              <p class="talk-project__type">E-commerce com regras de negócio</p>
+              <p>WooCommerce, clube, pontos, pagamentos, ERP, automações, analytics e infraestrutura.</p>
+              <span>WooCommerce · automação · infra</span>
+            </article>
+
+            <article class="talk-project" vl-hover="border-trace" tabindex="0">
+              <p class="talk-project__index">04</p>
+              <h3>SKIF Brasil</h3>
+              <p class="talk-project__type">Modernização de legado</p>
+              <p>Migração de sistema PHP e estrutura web para uma base mais sustentável e simples de manter.</p>
+              <span>PHP · legado · evolução</span>
+            </article>
+          </div>
+
+          <p class="talk-quote" vl-enter="fade-up" vl-delay="320ms">
+            “Cada dependência cobra juros. O browser moderno começou a pagar parte dessa conta.”
+          </p>
+        </div>
+
+        <p class="talk-slide__number" aria-hidden="true">03 / 18</p>
+      </section>
+
+      <!-- 04 -->
+      <section vl-in-view class="talk-slide talk-slide--problem" id="slide-04" aria-labelledby="slide-04-title">
+        <div class="talk-slide__chrome" aria-hidden="true">
+          <span>01 / O PROBLEMA</span>
+          <span>WHY NOW?</span>
+        </div>
+
+        <div class="talk-stage" vl-motion="cinematic">
+          <p class="talk-kicker" vl-enter="fade-up">A web mudou.</p>
+          <h2 id="slide-04-title" class="talk-display talk-display--xl" vl-enter="clip-rise" vl-delay="100ms">
+            A nossa stack de motion <em>nem sempre.</em>
+          </h2>
+          <p class="talk-lead talk-lead--wide" vl-enter="fade-up" vl-delay="180ms">
+            Por anos, transições e storytelling de interface significaram bibliotecas, observers,
+            listeners e mais JavaScript no caminho crítico.
+          </p>
+
+          <div class="talk-three" vl-enter="fade-up" vl-delay="240ms">
+            <article>
+              <b>01</b><h3>Mais runtime</h3>
+              <p>Mais dependências, hidratação e pontos de falha para comportamentos que hoje o browser já executa.</p>
+            </article>
+            <article>
+              <b>02</b><h3>Mais acoplamento</h3>
+              <p>A animação fica presa ao framework ou à arquitetura do app, em vez de ser uma capacidade do documento.</p>
+            </article>
+            <article>
+              <b>03</b><h3>Menos portabilidade</h3>
+              <p>Trocar React, Tailwind, WordPress ou HTML puro não deveria exigir reescrever a linguagem de motion.</p>
+            </article>
+          </div>
+
+          <p class="talk-question" vl-enter="reveal-cinematic" vl-delay="340ms">
+            E se motion fosse parte da <strong>semântica do HTML</strong> e da <strong>capacidade nativa do CSS?</strong>
+          </p>
+        </div>
+
+        <p class="talk-slide__number" aria-hidden="true">04 / 18</p>
+      </section>
+
+      <!-- 05 -->
+      <section vl-in-view class="talk-slide talk-slide--thesis" id="slide-05" aria-labelledby="slide-05-title">
+        <div class="talk-slide__chrome" aria-hidden="true">
+          <span>02 / A TESE</span>
+          <span>HTML → CSS → BROWSER</span>
+        </div>
+
+        <div class="talk-stage">
+          <p class="talk-kicker" vl-enter="fade-up">A hipótese do Velora</p>
+          <h2 id="slide-05-title" class="talk-display talk-display--xl" vl-enter="clip-rise" vl-delay="100ms">
+            HTML declara intenção.<br /><em>CSS executa o movimento.</em>
+          </h2>
+
+          <div class="talk-flow" vl-enter="fade-up" vl-delay="220ms">
+            <div class="talk-flow__node talk-flow__node--code">
+              <span>INTENÇÃO</span>
+              <pre><code>&lt;section
+  vl-scene
+  vl-timeline="view"&gt;</code></pre>
+            </div>
+            <span class="talk-flow__arrow" aria-hidden="true">→</span>
+            <div class="talk-flow__node">
+              <span>ENGINE</span>
+              <ul><li>@layer</li><li>@keyframes</li><li>scroll-timeline</li><li>view-transition</li></ul>
+            </div>
+            <span class="talk-flow__arrow" aria-hidden="true">→</span>
+            <div class="talk-flow__node">
+              <span>COMPORTAMENTO</span>
+              <ul><li>entrada</li><li>scroll</li><li>hover</li><li>state</li><li>exit</li></ul>
+            </div>
+          </div>
+
+          <p class="talk-statement" vl-enter="fade-up" vl-delay="320ms">
+            Velora é uma <strong>API declarativa de motion</strong> — não um runtime de animação.
+          </p>
+        </div>
+
+        <p class="talk-slide__number" aria-hidden="true">05 / 18</p>
+      </section>
+
+      <!-- 06 -->
+      <section vl-in-view class="talk-slide talk-slide--code" id="slide-06" aria-labelledby="slide-06-title">
+        <div class="talk-slide__chrome" aria-hidden="true">
+          <span>03 / HELLO, VELORA</span>
+          <span>ATTRIBUTE GRAMMAR</span>
+        </div>
+
+        <div class="talk-stage talk-stage--split">
+          <div>
+            <p class="talk-kicker" vl-enter="fade-up">Uma cena inteira cabe em poucos atributos.</p>
+            <h2 id="slide-06-title" class="talk-display" vl-enter="clip-rise" vl-delay="100ms">
+              O contrato acompanha o <em>HTML.</em>
+            </h2>
+            <p class="talk-body" vl-enter="fade-up" vl-delay="180ms">
+              Sem binding por framework. Sem API imperativa para descrever uma sequência simples.
+              O CSS resolve timing, ranges e composição.
+            </p>
+
+            <dl class="talk-defs" vl-enter="fade-up" vl-delay="260ms">
+              <div><dt>vl-scene</dt><dd>Define o relógio e o contexto da cena.</dd></div>
+              <div><dt>vl-stage</dt><dd>Mantém o palco estável enquanto a narrativa progride.</dd></div>
+              <div><dt>vl-act / vl-span</dt><dd>Organiza beats e sobreposição sem timeline JS.</dd></div>
+            </dl>
+          </div>
+
+          <div class="talk-code-window" vl-enter="depth-enter" vl-delay="160ms" vl-hover="gradient-sweep">
+            <div class="talk-code-window__bar"><i></i><i></i><i></i><span>scene.html</span></div>
+            <pre><code>&lt;section
+  <mark>vl-scene</mark>
+  <mark>vl-timeline="view"</mark>
+  <mark>vl-pin="3"</mark>
+  <mark>vl-scrub</mark>&gt;
+
+  &lt;div <mark>vl-stage</mark>&gt;
+    &lt;h1
+      <mark>vl-enter="clip-rise"</mark>
+      <mark>vl-act="1"</mark>&gt;
+      Zero-JS motion
+    &lt;/h1&gt;
+
+    &lt;img
+      <mark>vl-scroll="media-zoom"</mark>
+      <mark>vl-act="2"</mark>
+      <mark>vl-span="2"</mark>
+      alt=""&gt;
+  &lt;/div&gt;
+&lt;/section&gt;</code></pre>
+          </div>
+        </div>
+
+        <p class="talk-slide__number" aria-hidden="true">06 / 18</p>
+      </section>
+
+      <!-- 07 -->
+      <section vl-in-view class="talk-slide talk-slide--channels" id="slide-07" aria-labelledby="slide-07-title">
+        <div class="talk-slide__chrome" aria-hidden="true">
+          <span>04 / MOTION CHANNELS</span>
+          <span>DETERMINISTIC COMPOSITION</span>
+        </div>
+
+        <div class="talk-stage">
+          <p class="talk-kicker" vl-enter="fade-up">Composição previsível.</p>
+          <h2 id="slide-07-title" class="talk-display" vl-enter="clip-rise" vl-delay="100ms">
+            Sete canais. <em>Uma ordem determinística.</em>
+          </h2>
+
+          <ol class="talk-channels" vl-enter="fade-up" vl-delay="200ms">
+            <li><b>01</b><strong>base</strong><span>estado inicial</span></li>
+            <li><b>02</b><strong>enter</strong><span>entrada</span></li>
+            <li><b>03</b><strong>scroll</strong><span>progresso</span></li>
+            <li><b>04</b><strong>loop</strong><span>ambiente</span></li>
+            <li><b>05</b><strong>hover</strong><span>interação</span></li>
+            <li><b>06</b><strong>state</strong><span>mudança</span></li>
+            <li><b>07</b><strong>exit</strong><span>saída</span></li>
+          </ol>
+
+          <div class="talk-code-strip" vl-enter="fade-up" vl-delay="300ms">
+            <code>&lt;article <mark>vl-enter</mark>="fade-up" <mark>vl-scroll</mark>="parallax" <mark>vl-hover</mark>="underline-expand" <mark>vl-state</mark>="smooth" <mark>vl-exit</mark>="fade-out"&gt;</code>
+          </div>
+        </div>
+
+        <p class="talk-slide__number" aria-hidden="true">07 / 18</p>
+      </section>
+
+      <!-- 08 -->
+      <section vl-in-view class="talk-slide talk-slide--scene" id="slide-08" aria-labelledby="slide-08-title">
+        <div class="talk-slide__chrome" aria-hidden="true">
+          <span>05 / SCENE ENGINE</span>
+          <span>SCROLL AS CLOCK</span>
+        </div>
+
+        <div class="talk-stage">
+          <div class="talk-heading-row">
+            <div>
+              <p class="talk-kicker" vl-enter="fade-up">Storytelling sem timeline imperativa.</p>
+              <h2 id="slide-08-title" class="talk-display" vl-enter="clip-rise" vl-delay="100ms">
+                O scroll vira relógio.<br /><em>Os acts viram beats.</em>
+              </h2>
+            </div>
+            <p class="talk-lead talk-lead--compact" vl-enter="fade-up" vl-delay="180ms">
+              O stage permanece estável. Cada elemento declara quando entra, quanto dura e como se comporta.
+            </p>
+          </div>
+
+          <div class="talk-beats" vl-enter="fade-up" vl-delay="240ms">
+            <article><b>1</b><span>ACT 1</span><strong>headline + copy</strong></article>
+            <article><b>2</b><span>ACT 2</span><strong>media reveal</strong></article>
+            <article><b>3</b><span>ACT 3</span><strong>overlap / span</strong></article>
+            <article><b>4</b><span>EXIT</span><strong>handoff</strong></article>
+          </div>
+
+          <div class="talk-three talk-three--compact" vl-enter="fade-up" vl-delay="320ms">
+            <article><code>vl-pin="3"</code><p>A cena ocupa três alturas de viewport.</p></article>
+            <article><code>vl-scrub</code><p>O progresso visual acompanha o scroll.</p></article>
+            <article><code>vl-span="2"</code><p>Um ato pode atravessar mais de um beat.</p></article>
+          </div>
+        </div>
+
+        <p class="talk-slide__number" aria-hidden="true">08 / 18</p>
+      </section>
+
+      <!-- 09 -->
+      <section vl-in-view class="talk-slide talk-slide--conditional" id="slide-09" aria-labelledby="slide-09-title">
+        <div class="talk-slide__chrome" aria-hidden="true">
+          <span>06 / CSS CONDICIONAL</span>
+          <span>PROGRESSIVE ENHANCEMENT</span>
+        </div>
+
+        <div class="talk-stage talk-stage--split">
+          <div>
+            <p class="talk-kicker" vl-enter="fade-up">Motion também pode responder ao contexto.</p>
+            <h2 id="slide-09-title" class="talk-display" vl-enter="clip-rise" vl-delay="100ms">
+              O modo muda.<br /><em>O contrato permanece.</em>
+            </h2>
+
+            <div class="talk-mode-list" vl-enter="fade-up" vl-delay="220ms">
+              <div><b>standard</b><span>Equilíbrio entre tempo, distância e easing.</span></div>
+              <div><b>subtle</b><span>Rápido, curto, discreto.</span></div>
+              <div><b>cinematic</b><span>Mais profundidade, duração e presença.</span></div>
+              <div><b>still</b><span>Movimento reduzido por decisão autoral.</span></div>
+            </div>
+
+            <p class="talk-callout" vl-enter="fade-up" vl-delay="320ms">
+              <strong>CSS if()</strong> é enhancement. O baseline precisa continuar correto sem ele.
+            </p>
+          </div>
+
+          <div class="talk-code-window talk-code-window--compact" vl-enter="depth-enter" vl-delay="160ms">
+            <div class="talk-code-window__bar"><i></i><i></i><i></i><span>motion-conditions.css</span></div>
+            <pre><code>/* baseline */
+[vl-motion="subtle"] {
+  --vl-distance: .55;
+  --vl-duration: .8;
+}
+
+/* progressive enhancement */
+@supports
+  (width: if(media(width > 1px):
+    1px; else: 2px)) {
+
+  [vl-motion] {
+    --vl-blur: if(
+      media(prefers-reduced-motion: reduce):
+      0;
+      else: 12px
+    );
+  }
+}</code></pre>
+          </div>
+        </div>
+
+        <p class="talk-slide__number" aria-hidden="true">09 / 18</p>
+      </section>
+
+      <!-- 10 -->
+      <section vl-in-view class="talk-slide talk-slide--transitions" id="slide-10" aria-labelledby="slide-10-title">
+        <div class="talk-slide__chrome" aria-hidden="true">
+          <span>07 / VIEW TRANSITIONS</span>
+          <span>PAGE LANGUAGE</span>
+        </div>
+
+        <div class="talk-stage">
+          <p class="talk-kicker" vl-enter="fade-up">Navegação também pode ter linguagem visual.</p>
+          <h2 id="slide-10-title" class="talk-display" vl-enter="clip-rise" vl-delay="100ms">
+            Um atributo. <em>Seis vozes.</em>
+          </h2>
+
+          <div class="talk-transition-grid" vl-enter="fade-up" vl-delay="200ms">
+            <article><b>velora</b><span>crossfade + scale</span></article>
+            <article><b>wipe</b><span>reveal direcional</span></article>
+            <article><b>glide</b><span>slide + fade</span></article>
+            <article><b>iris</b><span>abertura circular</span></article>
+            <article class="is-active"><b>cinema</b><span>letterbox dramático</span></article>
+            <article><b>snap</b><span>corte + micro-motion</span></article>
+          </div>
+
+          <div class="talk-code-strip talk-code-strip--large" vl-enter="fade-up" vl-delay="300ms">
+            <code>&lt;html <mark>vl-page-transition="cinema"</mark>&gt;</code>
+            <p>Sem suporte? A navegação continua funcional. Motion é enhancement, não dependência estrutural.</p>
+          </div>
+        </div>
+
+        <p class="talk-slide__number" aria-hidden="true">10 / 18</p>
+      </section>
+
+      <!-- 11 -->
+      <section vl-in-view class="talk-slide talk-slide--skins" id="slide-11" aria-labelledby="slide-11-title">
+        <div class="talk-slide__chrome" aria-hidden="true">
+          <span>08 / CORE ≠ SKIN</span>
+          <span>BEHAVIOR ≠ APPEARANCE</span>
+        </div>
+
+        <div class="talk-stage">
+          <p class="talk-kicker" vl-enter="fade-up">Motion é infraestrutura. Aparência é opcional.</p>
+          <h2 id="slide-11-title" class="talk-display" vl-enter="clip-rise" vl-delay="100ms">
+            O engine não força <em>“o look Velora”.</em>
+          </h2>
+
+          <div class="talk-core-skin" vl-enter="fade-up" vl-delay="220ms">
+            <article class="talk-core-skin__core">
+              <span>MOTION CORE</span>
+              <h3>@velora/css/motion-core</h3>
+              <ul><li>vl-* grammar</li><li>scene engine</li><li>channels</li><li>scroll / state / exit</li><li>host-agnostic</li></ul>
+              <div><b>Tailwind</b><b>Vanilla</b><b>WordPress</b><b>qualquer UI</b></div>
+            </article>
+
+            <div class="talk-core-skin__plus" aria-hidden="true">+</div>
+
+            <article class="talk-core-skin__skins">
+              <span>SKINS</span>
+              <h3>Design-system models</h3>
+              <ul><li>tipografia</li><li>grid e densidade</li><li>geometria</li><li>materiais e mídia</li><li>motion voice</li></ul>
+              <div class="talk-skin-swatches" role="group" aria-label="Skins disponíveis — clique para trocar">
+                <button type="button" class="skin-noir" data-talk-skin="noir" title="Noir" aria-label="Skin Noir"></button>
+                <button type="button" class="skin-earth" data-talk-skin="earth" title="Earth tech" aria-label="Skin Earth tech"></button>
+                <button type="button" class="skin-aethel" data-talk-skin="aethel" title="Aethel" aria-label="Skin Aethel"></button>
+                <button type="button" class="skin-meridian" data-talk-skin="meridian" title="Meridian" aria-label="Skin Meridian"></button>
+              </div>
+            </article>
+          </div>
+        </div>
+
+        <p class="talk-slide__number" aria-hidden="true">11 / 18</p>
+      </section>
+
+      <!-- 12 -->
+      <section vl-in-view class="talk-slide talk-slide--layers" id="slide-12" aria-labelledby="slide-12-title">
+        <div class="talk-slide__chrome" aria-hidden="true">
+          <span>09 / ARQUITETURA</span>
+          <span>THE CASCADE IS THE CONTRACT</span>
+        </div>
+
+        <div class="talk-stage">
+          <p class="talk-kicker" vl-enter="fade-up">Especificidade previsível é uma feature de DX.</p>
+          <h2 id="slide-12-title" class="talk-display" vl-enter="clip-rise" vl-delay="100ms">
+            O cascade vira parte do <em>contrato.</em>
+          </h2>
+
+          <div class="talk-layer-stack" vl-enter="fade-up" vl-delay="220ms" aria-label="Ordem das layers do Velora">
+            <div><b>reset</b><span>normalização</span></div>
+            <div><b>tokens</b><span>decisões</span></div>
+            <div><b>layout</b><span>estrutura</span></div>
+            <div class="is-focus"><b>motion</b><span>comportamento</span></div>
+            <div><b>components</b><span>primitivos</span></div>
+            <div><b>transitions</b><span>navegação</span></div>
+            <div><b>utilities</b><span>helpers</span></div>
+            <div><b>overrides</b><span>escape hatch</span></div>
+          </div>
+
+          <pre class="talk-layer-code" vl-enter="fade-up" vl-delay="300ms"><code>@layer reset → tokens → layout → motion → components → transitions → utilities → overrides</code></pre>
+          <p class="talk-scale" aria-hidden="true"><span>baixa prioridade</span><i></i><span>alta prioridade</span></p>
+        </div>
+
+        <p class="talk-slide__number" aria-hidden="true">12 / 18</p>
+      </section>
+
+      <!-- 13 -->
+      <section vl-in-view class="talk-slide talk-slide--accessibility" id="slide-13" aria-labelledby="slide-13-title">
+        <div class="talk-slide__chrome" aria-hidden="true">
+          <span>10 / ACESSIBILIDADE</span>
+          <span>THE EFFECT MAY DISAPPEAR</span>
+        </div>
+
+        <div class="talk-stage" vl-motion="subtle">
+          <p class="talk-kicker" vl-enter="fade-up">“Zero JS” não vale nada se a experiência quebrar.</p>
+          <h2 id="slide-13-title" class="talk-display talk-display--xl" vl-enter="clip-rise" vl-delay="100ms">
+            O efeito pode desaparecer.<br /><em>A interface não.</em>
+          </h2>
+
+          <div class="talk-three talk-three--a11y" vl-enter="fade-up" vl-delay="240ms">
+            <article>
+              <span class="talk-icon" aria-hidden="true">↘</span>
+              <h3>Reduced motion</h3>
+              <p><code>prefers-reduced-motion</code> colapsa movimento de forma centralizada — não efeito por efeito.</p>
+            </article>
+            <article>
+              <span class="talk-icon" aria-hidden="true">{ }</span>
+              <h3>Progressive enhancement</h3>
+              <p>Recursos emergentes são guardados por <code>@supports</code>. O baseline continua utilizável.</p>
+            </article>
+            <article>
+              <span class="talk-icon" aria-hidden="true">&lt;/&gt;</span>
+              <h3>Semântica primeiro</h3>
+              <p>A API vive sobre HTML real. Motion é camada de comportamento, não substituto para estrutura acessível.</p>
+            </article>
+          </div>
+        </div>
+
+        <p class="talk-slide__number" aria-hidden="true">13 / 18</p>
+      </section>
+
+      <!-- 14 -->
+      <section vl-in-view class="talk-slide talk-slide--not" id="slide-14" aria-labelledby="slide-14-title">
+        <div class="talk-slide__chrome" aria-hidden="true">
+          <span>11 / O QUE O VELORA NÃO É</span>
+          <span>BOUNDARIES MATTER</span>
+        </div>
+
+        <div class="talk-stage">
+          <p class="talk-kicker" vl-enter="fade-up">Limites claros tornam o projeto mais útil.</p>
+          <h2 id="slide-14-title" class="talk-display" vl-enter="clip-rise" vl-delay="100ms">
+            Não é “mais um Tailwind”.<br />Não é <em>“GSAP sem JS”.</em>
+          </h2>
+
+          <div class="talk-boundaries" vl-enter="fade-up" vl-delay="220ms">
+            <article><b>01</b><h3>Não é um framework obrigatório de UI</h3><p>Importe só <code>motion-core</code> e mantenha seu próprio sistema visual.</p></article>
+            <article><b>02</b><h3>Não é uma timeline universal</h3><p>Casos altamente programáticos continuam pertencendo a ferramentas programáticas.</p></article>
+            <article><b>03</b><h3>Não elimina JavaScript do produto</h3><p>A proposta é zero runtime JS para a lógica de animação — não “sites sem JavaScript” como dogma.</p></article>
+          </div>
+
+          <p class="talk-statement" vl-enter="fade-up" vl-delay="320ms">
+            O objetivo é <strong>diminuir a superfície de JavaScript</strong> onde o browser já tem primitivas melhores.
+          </p>
+        </div>
+
+        <p class="talk-slide__number" aria-hidden="true">14 / 18</p>
+      </section>
+
+      <!-- 15 -->
+      <section vl-in-view class="talk-slide talk-slide--oss" id="slide-15" aria-labelledby="slide-15-title">
+        <div class="talk-slide__chrome" aria-hidden="true">
+          <span>12 / OPEN SOURCE</span>
+          <span>CODE + CONTRACT + COMMUNITY</span>
+        </div>
+
+        <div class="talk-stage">
+          <p class="talk-kicker" vl-enter="fade-up">Código aberto precisa de contrato, não só de código.</p>
+          <h2 id="slide-15-title" class="talk-display" vl-enter="clip-rise" vl-delay="100ms">
+            Um framework é também <em>governança técnica.</em>
+          </h2>
+
+          <div class="talk-oss-grid" vl-enter="fade-up" vl-delay="220ms">
+            <article><strong>@velora/css</strong><span>framework canônico</span></article>
+            <article><strong>showcase</strong><span>provas + catálogo vivo</span></article>
+            <article><strong>docs</strong><span>guias + contratos</span></article>
+            <article><strong>compiler</strong><span>validação / migração</span></article>
+            <article><strong>CI</strong><span>build + audits</span></article>
+            <article><strong>CONTRIBUTING</strong><span>entrada da comunidade</span></article>
+          </div>
+
+          <div class="talk-oss-footer" vl-enter="fade-up" vl-delay="320ms">
+            <span>Licença ISC</span><span>pnpm + Turborepo</span><span>contrato de atributos</span><span>CI</span>
+          </div>
+          <p class="talk-lead talk-lead--wide" vl-enter="fade-up" vl-delay="380ms">
+            O repositório já é público. A palestra é o convite para a primeira onda real de
+            <strong>usuários e contribuidores.</strong>
+          </p>
+        </div>
+
+        <p class="talk-slide__number" aria-hidden="true">15 / 18</p>
+      </section>
+
+      <!-- 16 -->
+      <section vl-in-view class="talk-slide talk-slide--demo" id="slide-16" aria-labelledby="slide-16-title">
+        <div class="talk-slide__chrome" aria-hidden="true">
+          <span>13 / DEMO AO VIVO</span>
+          <span>THREE MINUTES</span>
+        </div>
+
+        <div class="talk-stage talk-stage--demo">
+          <div>
+            <p class="talk-kicker" vl-enter="fade-up">Três minutos para provar a tese.</p>
+            <h2 id="slide-16-title" class="talk-display" vl-enter="clip-rise" vl-delay="100ms">
+              Clone. Rode.<br /><em>Troque os atributos.</em>
+            </h2>
+
+            <ol class="talk-demo-steps" vl-enter="fade-up" vl-delay="220ms">
+              <li><b>1</b><span>Clonar</span><code>git clone github.com/erikconnect/Velora</code></li>
+              <li><b>2</b><span>Instalar</span><code>pnpm install</code></li>
+              <li><b>3</b><span>Rodar</span><code>pnpm dev</code></li>
+              <li><b>4</b><span>Editar</span><code>vl-enter · vl-scroll · vl-page-transition</code></li>
+              <li><b>5</b><span>Provar</span><code>motion continua sem runtime JS</code></li>
+            </ol>
+          </div>
+
+          <aside class="talk-repo-card" vl-enter="depth-enter" vl-delay="160ms">
+            <img src="/media/velora-github-qr.svg" alt="QR Code para o repositório do Velora no GitHub" />
+            <p>ABRA O REPO</p>
+            <strong>github.com/<br />erikconnect/Velora</strong>
+            <code>pnpm install &amp;&amp; pnpm dev</code>
+          </aside>
+        </div>
+
+        <p class="talk-slide__number" aria-hidden="true">16 / 18</p>
+      </section>
+
+      <!-- 17 -->
+      <section vl-in-view class="talk-slide talk-slide--roadmap" id="slide-17" aria-labelledby="slide-17-title">
+        <div class="talk-slide__chrome" aria-hidden="true">
+          <span>14 / ROADMAP ABERTO</span>
+          <span>LAUNCH ≠ FINISH</span>
+        </div>
+
+        <div class="talk-stage">
+          <p class="talk-kicker" vl-enter="fade-up">O lançamento não encerra o projeto.</p>
+          <h2 id="slide-17-title" class="talk-display" vl-enter="clip-rise" vl-delay="100ms">
+            Ele muda <em>quem pode influenciá-lo.</em>
+          </h2>
+
+          <div class="talk-roadmap" vl-enter="fade-up" vl-delay="220ms">
+            <article><b>AGORA</b><strong>Estabilizar grammar + docs</strong><span>contrato, catálogo, exemplos e DX</span></article>
+            <article><b>PRÓXIMO</b><strong>Distribuição do pacote</strong><span>instalação simples e releases públicos</span></article>
+            <article><b>COMUNIDADE</b><strong>Casos reais + novos presets</strong><span>issues orientadas por necessidade</span></article>
+            <article><b>INTEROP</b><strong>Hosts, CMSs e stacks diversos</strong><span>WordPress, Tailwind, Vanilla e além</span></article>
+            <article><b>PLATFORM</b><strong>Adotar APIs quando virarem baseline</strong><span>browser first, fallback always</span></article>
+          </div>
+
+          <p class="talk-quote talk-quote--large" vl-enter="reveal-cinematic" vl-delay="340ms">
+            “Se o browser já sabe fazer, a biblioteca deve ensinar a declarar — não reimplementar o browser.”
+          </p>
+        </div>
+
+        <p class="talk-slide__number" aria-hidden="true">17 / 18</p>
+      </section>
+
+      <!-- 18 -->
+      <section vl-in-view class="talk-slide talk-slide--final" id="slide-18" aria-labelledby="slide-18-title">
+        <div class="talk-slide__chrome" aria-hidden="true">
+          <span class="talk-logo vl-logo-lockup" aria-hidden="true">
+            <svg class="vl-logo-mark" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 218.79 54.05" fill="currentColor" aria-hidden="true" focusable="false">
+              <g class="vl-logo-mark__group">
+                <g class="vl-logo-mark__full">
+                  <path class="vl-logo-mark__shape" d="M78.18,39.66h7.54c-3.36,9.89-13.29,15.76-23.66,14.12-4.7-.74-8.95-3.02-12.29-6.47-2.82-2.92-5.01-6.47-5.58-10.57-.25-1.81-.14-3.75-.05-5.57.53-11.27,9.69-19.81,20.89-19.82,13.37,0,22.14,11.34,21.1,24.44h-33.56c.79,3.6,2.8,6.77,5.96,8.63,6.68,3.95,15.35,1.89,19.66-4.77h0ZM77.49,29.64c-1.13-6.02-6.28-10.33-12.36-10.32s-11.11,4.11-12.43,10.3l24.79.02Z"/>
+                  <path class="vl-logo-mark__shape" d="M144.01,32.16l.02,1.14c3.54-5.56,7.11-10.98,11.23-16.19l4.11-4.65c.44-.5,1.49-.62,2.18-.57l-1.57,1.48c-5.67,6.49-10.65,13.35-15.22,20.65-.67,1.08-1.34,1.97-1.46,3.29l7.15-10.98c3.09-4.75,6.67-9.04,10.36-13.27.83-.95,1.98-1.43,3.07-1.2l-4.15,4.3c-4.81,5.76-9.21,11.62-13.22,17.97l-6.29,9.96c-5.47,8.67-15.74,12.2-25.27,8.51-10.29-3.98-15.62-15.25-12.67-25.66s13.36-17.11,24.3-15.29c5.3.88,9.94,3.64,13.16,7.93,2.22,2.95,3.62,6.09,4.07,9.75l3.88-6.7c2.11-3.64,4.35-8.26,8.49-9.89l-2.2,2.59c-3.65,4.3-6.58,9.03-9.73,13.73-.37.56-.61.93-.21,1.65l4.56-7.17c2.25-3.53,4.67-6.8,7.41-9.94.84-.96,1.96-1.5,3.21-1.71l-1.47,1.57c-3.85,4.11-7.01,8.64-10.13,13.33l-3.61,5.35v.02ZM133.48,40.04c4.43-7.02,1.85-16.65-5.55-19.71-4.02-1.66-7.96-1.22-11.4.75-3.99,2.28-6.43,6.56-6.67,10.94-.24,4.38,1.8,9.01,5.54,11.64,6.01,4.23,14.12,2.67,18.09-3.61h0Z"/>
+                  <path class="vl-logo-mark__shape" d="M214.5,53.11c-.15.29-1.01.3-1.21.08l-8.46-22.1,3.45,10.68,4.16,11.54h-1.16l-7.64-19.62c1.86,6.76,4.48,12.93,6.77,19.64h-5.07l-2.12-5.45c-6,6.74-15.93,7.8-23.48,3.93-11.41-5.84-15.15-20.38-7.98-30.92,5.88-8.66,17.14-11.96,26.71-7.58,4.5,2.06,7.93,5.66,9.63,10.35l10.69,29.59-1.19.07-6.05-16.44-3.92-9.75c2.67,8.94,5.9,17.33,9.05,26.12l-1.19.07-5.26-14.2-4.25-10.57c2.46,8.38,5.55,16.22,8.54,24.58l-.02-.02ZM202.71,32.63c0-7.27-5.9-13.17-13.17-13.17s-13.17,5.9-13.17,13.17,5.9,13.17,13.17,13.17,13.17-5.9,13.17-13.17Z"/>
+                  <path class="vl-logo-mark__shape" d="M45.32.08l-3.5,8.6-12.04,29c-.42,1.02-.69,1.86.23,2.66L46.85.1c.4-.05.87-.04,1.29,0l-3.55,8.57-14.05,33.48c.16.58.36,1.11.66,1.53L49.61.28c.39-.25,1-.3,1.38-.16l-12.4,29.28-10.19,23.96-6.52-.03L0,.04l14.04-.04,11.94,30.39L38.24.17c.42-.11.82-.14,1.33-.09l-12.45,30.76c-.42,1.03-.41,1.88.27,2.95L41.17.1l1.29.03-4.5,11.04-10.01,24.37.74,1.55,8.97-21.53L44.03.07l1.28.03v-.02Z"/>
+                  <rect class="vl-logo-mark__shape" x="90.08" y=".37" width="8.5" height="52.97"/>
+                  <path class="vl-logo-mark__shape" d="M155.03,53.31l-8.56.05-.03-18.27,9.43-13.38,4.91-6.16c1.68-1.8,3.32-4.21,5.52-3.63l-2.21,2.03-5.12,6.4c-2.35,1.35-3.59,3.65-3.95,6.42v26.54h0Z"/>
+                  <path class="vl-logo-mark__shape" d="M166.61,19.96l-1.88-.13c1.89-2.53,3.7-4.76,5.89-6.87.9-.87,1.88-1.44,3.16-1.01-2.8,2.26-4.93,4.89-7.17,8.02h0Z"/>
+                  <path class="vl-logo-mark__shape" d="M161.91,19.71l-2.19.33c1.81-2.52,3.77-4.94,6.06-7.21.84-.84,1.85-1.18,3.04-.94-2.67,2.26-4.75,4.77-6.92,7.82h.01Z"/>
+                  <path class="vl-logo-mark__shape" d="M164.14,19.8l-1.88.06c1.96-2.64,3.82-5.03,6.2-7.19.81-.74,1.86-1,2.75-.73l-2.64,2.46-4.42,5.4h0Z"/>
+                  <path class="vl-logo-mark__shape" d="M169.05,19.81l-1.86.05c1.94-2.66,3.82-5.03,6.21-7.18.84-.76,1.85-1.13,3.01-.76-1.82,1.33-3.43,2.78-4.81,4.57l-2.55,3.31h0Z"/>
+                </g>
+              </g>
+            </svg>
+          </span>
+          <span>OPEN SOURCE · LATINOWARE 2026</span>
+        </div>
+
+        <div class="talk-stage talk-stage--final" vl-motion="cinematic">
+          <div>
+            <p class="talk-kicker" vl-enter="fade-up">A partir daqui, o projeto também é da comunidade.</p>
+            <h2 id="slide-18-title" class="talk-display talk-display--final" vl-enter="clip-rise" vl-delay="100ms">
+              Fork it.<br />Break it.<br /><em>Improve it.</em>
+            </h2>
+            <p class="talk-lead talk-lead--wide" vl-enter="fade-up" vl-delay="220ms">
+              Velora CSS é um experimento aberto sobre até onde podemos levar interfaces modernas
+              usando o <strong>navegador como engine de motion.</strong>
+            </p>
+          </div>
+
+          <aside class="talk-final-repo" vl-enter="depth-enter" vl-delay="180ms">
+            <img src="/media/velora-github-qr.svg" alt="QR Code do repositório Velora" />
+            <strong>github.com/erikconnect/Velora</strong>
+            <span>Motion-native CSS. Zero JavaScript. Cinematic interfaces.</span>
+          </aside>
+        </div>
+
+        <footer class="talk-final-footer">
+          <span>Obrigado.</span>
+          <span>Erik Cardoso · Foz do Iguaçu · 2026</span>
+        </footer>
+
+        <p class="talk-slide__number" aria-hidden="true">18 / 18</p>
+      </section>
+    </main>
+    <script src="/js/talk-skin-controls.js"></script>
+  </body>
+</html>
