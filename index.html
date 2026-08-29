@@ -81,7 +81,7 @@
         </div>
 
         <div class="talk-stage talk-stage--hero" vl-motion="cinematic">
-          <div class="talk-hero-copy">
+          <div class="talk-hero">
             <p class="talk-kicker" vl-enter="fade-up">23º Congresso Latino-Americano de Software Livre e Tecnologias Abertas</p>
             <h1 id="slide-01-title" class="talk-display talk-display--hero" vl-enter="clip-rise" vl-delay="120ms">
               Velora CSS:<br />
@@ -184,7 +184,7 @@
             <img src="/media/erik-cardoso.jpg" alt="Erik Cardoso em retrato externo" />
           </figure>
 
-          <div class="talk-bio-copy">
+          <div class="talk-bio">
             <p class="talk-kicker" vl-enter="fade-up">De infraestrutura a interfaces declarativas.</p>
             <h2 id="slide-02-title" class="talk-display" vl-enter="clip-rise" vl-delay="120ms">
               Trinta anos de tecnologia ajudam a explicar <em>por que o Velora existe.</em>
@@ -385,25 +385,25 @@
           <div class="talk-code-window" vl-enter="depth-enter" vl-delay="160ms" vl-hover="gradient-sweep">
             <div class="talk-code-window__bar"><i></i><i></i><i></i><span>scene.html</span></div>
             <pre><code>&lt;section
-  <mark>vl-scene</mark>
-  <mark>vl-timeline="view"</mark>
-  <mark>vl-pin="3"</mark>
-  <mark>vl-scrub</mark>&gt;
+      <mark>vl-scene</mark>
+      <mark>vl-timeline="view"</mark>
+      <mark>vl-pin="3"</mark>
+      <mark>vl-scrub</mark>&gt;
 
-  &lt;div <mark>vl-stage</mark>&gt;
-    &lt;h1
-      <mark>vl-enter="clip-rise"</mark>
-      <mark>vl-act="1"</mark>&gt;
-      Zero-JS motion
-    &lt;/h1&gt;
+      &lt;div <mark>vl-stage</mark>&gt;
+        &lt;h1
+          <mark>vl-enter="clip-rise"</mark>
+          <mark>vl-act="1"</mark>&gt;
+          Zero-JS motion
+        &lt;/h1&gt;
 
-    &lt;img
-      <mark>vl-scroll="media-zoom"</mark>
-      <mark>vl-act="2"</mark>
-      <mark>vl-span="2"</mark>
-      alt=""&gt;
-  &lt;/div&gt;
-&lt;/section&gt;</code></pre>
+        &lt;img
+          <mark>vl-scroll="media-zoom"</mark>
+          <mark>vl-act="2"</mark>
+          <mark>vl-span="2"</mark>
+          alt=""&gt;
+      &lt;/div&gt;
+    &lt;/section&gt;</code></pre>
           </div>
         </div>
 
@@ -423,7 +423,7 @@
             Sete canais. <em>Uma ordem determinística.</em>
           </h2>
 
-          <ol class="talk-channels" vl-enter="fade-up" vl-delay="200ms">
+          <ol class="talk-channels" vl-children="stagger" vl-stagger="120ms">
             <li><b>01</b><strong>base</strong><span>estado inicial</span></li>
             <li><b>02</b><strong>enter</strong><span>entrada</span></li>
             <li><b>03</b><strong>scroll</strong><span>progresso</span></li>
@@ -457,7 +457,7 @@
             Sem index manual, sem JavaScript: o navegador aplica o atraso certo para cada filho, na ordem do DOM.
           </p>
 
-          <div class="talk-ballet" vl-enter="fade-up" vl-delay="240ms">
+          <div class="talk-ballet">
             <div class="talk-ballet__row">
               <span class="talk-ballet__mode">stagger</span>
               <div class="talk-ballet__stage" vl-children="stagger">

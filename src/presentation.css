@@ -26,6 +26,10 @@
     --talk-portrait-focus: center top;
     --talk-slide-chrome-block: clamp(3.25rem, 7vh, 4.5rem);
     --talk-slide-inner-h: calc(100svh - (var(--talk-pad-y) * 2) - var(--talk-slide-chrome-block));
+    /* Coreografia ensaiada — vl-delay do HTML é o “roteiro”; estes tokens escalam o ritmo */
+    --talk-choreo-kicker: 100ms;
+    --talk-choreo-stagger: 120ms;
+    --talk-ballet-stagger: 130ms;
   }
 
   html {
@@ -49,6 +53,33 @@
   body.talk * {
     box-sizing: border-box;
   }
+
+  /*
+   * Pacing ensaiado: respiro no kicker + escala ~1,8× nos vl-delay declarados no HTML.
+   * Hero mantém abertura um pouco mais ágil.
+   */
+  .talk-slide:not(.talk-slide--hero) .talk-kicker[vl-enter] {
+    --vl-motion-delay: var(--talk-choreo-kicker);
+  }
+
+  .talk-slide:not(.talk-slide--hero) [vl-delay="100ms"] { --vl-motion-delay: 220ms; }
+  .talk-slide:not(.talk-slide--hero) [vl-delay="120ms"] { --vl-motion-delay: 260ms; }
+  .talk-slide:not(.talk-slide--hero) [vl-delay="160ms"] { --vl-motion-delay: 320ms; }
+  .talk-slide:not(.talk-slide--hero) [vl-delay="180ms"] { --vl-motion-delay: 380ms; }
+  .talk-slide:not(.talk-slide--hero) [vl-delay="200ms"] { --vl-motion-delay: 420ms; }
+  .talk-slide:not(.talk-slide--hero) [vl-delay="220ms"] { --vl-motion-delay: 480ms; }
+  .talk-slide:not(.talk-slide--hero) [vl-delay="240ms"] { --vl-motion-delay: 540ms; }
+  .talk-slide:not(.talk-slide--hero) [vl-delay="260ms"] { --vl-motion-delay: 600ms; }
+  .talk-slide:not(.talk-slide--hero) [vl-delay="280ms"] { --vl-motion-delay: 640ms; }
+  .talk-slide:not(.talk-slide--hero) [vl-delay="300ms"] { --vl-motion-delay: 700ms; }
+  .talk-slide:not(.talk-slide--hero) [vl-delay="320ms"] { --vl-motion-delay: 760ms; }
+  .talk-slide:not(.talk-slide--hero) [vl-delay="340ms"] { --vl-motion-delay: 800ms; }
+  .talk-slide:not(.talk-slide--hero) [vl-delay="360ms"] { --vl-motion-delay: 860ms; }
+  .talk-slide:not(.talk-slide--hero) [vl-delay="380ms"] { --vl-motion-delay: 920ms; }
+
+  .talk-slide--hero [vl-delay="120ms"] { --vl-motion-delay: 200ms; }
+  .talk-slide--hero [vl-delay="240ms"] { --vl-motion-delay: 400ms; }
+  .talk-slide--hero [vl-delay="300ms"] { --vl-motion-delay: 500ms; }
 
   .talk a {
     color: inherit;
@@ -352,6 +383,20 @@
 
     .talk-slide--final {
       padding-bottom: calc(3.25rem + 0.35rem);
+    }
+
+    /*
+     * Desktop (snap): vl-children não entra no gate do vendor — sem isso,
+     * stagger/cascade/orchestrate terminam antes do slide ficar visível.
+     * Wave (loop) parecia funcionar, mas sem delay coreografado.
+     */
+    @supports (animation-timeline: view()) {
+      @container vl-in-view style(--vl-in-view-state: 0) {
+        .talk [vl-in-view] [vl-children] > :not([vl-effect]):not([vl-enter]):not([vl-exit]):not(:is(.talk-hero-motion, .talk-hero-motion *)) {
+          animation-name: none;
+          opacity: 0;
+        }
+      }
     }
   }
 
@@ -1104,6 +1149,7 @@
 
   /* Channels */
   .talk-channels {
+    --vl-stagger-step: var(--talk-choreo-stagger);
     display: grid;
     grid-template-columns: repeat(7, 1fr);
     gap: 1px;
@@ -1119,6 +1165,20 @@
     padding: 1.15rem 0.9rem;
     background: var(--talk-surface);
   }
+
+  /*
+   * Override explícito: garante o stagger mesmo em engines onde
+   * sibling-index() ainda não resolve de forma confiável em animation-delay
+   * (a regra do vendor via sibling-index() tem a mesma especificidade e
+   * entra depois, então vence — mas às vezes zera o delay).
+   */
+  .talk-channels li:nth-child(1) { animation-delay: calc(0 * var(--vl-stagger-step)) !important; }
+  .talk-channels li:nth-child(2) { animation-delay: calc(1 * var(--vl-stagger-step)) !important; }
+  .talk-channels li:nth-child(3) { animation-delay: calc(2 * var(--vl-stagger-step)) !important; }
+  .talk-channels li:nth-child(4) { animation-delay: calc(3 * var(--vl-stagger-step)) !important; }
+  .talk-channels li:nth-child(5) { animation-delay: calc(4 * var(--vl-stagger-step)) !important; }
+  .talk-channels li:nth-child(6) { animation-delay: calc(5 * var(--vl-stagger-step)) !important; }
+  .talk-channels li:nth-child(7) { animation-delay: calc(6 * var(--vl-stagger-step)) !important; }
 
   .talk-channels b {
     display: block;
@@ -1200,7 +1260,7 @@
     align-items: flex-end;
     gap: clamp(0.4rem, 1vw, 0.85rem);
     min-height: 3.6rem;
-    --vl-stagger-step: 90ms;
+    --vl-stagger-step: var(--talk-ballet-stagger);
   }
 
   .talk-ballet__stage i {
@@ -1211,6 +1271,19 @@
     background: linear-gradient(180deg, var(--talk-accent), var(--talk-accent-2));
     font-style: normal;
   }
+
+  /*
+   * sibling-index() no vendor pode zerar animation-delay; nth-child garante
+   * o stagger visível em stagger / cascade / wave / orchestrate.
+   */
+  .talk-ballet__stage > i:nth-child(1) { animation-delay: calc(0 * var(--vl-stagger-step)) !important; }
+  .talk-ballet__stage > i:nth-child(2) { animation-delay: calc(1 * var(--vl-stagger-step)) !important; }
+  .talk-ballet__stage > i:nth-child(3) { animation-delay: calc(2 * var(--vl-stagger-step)) !important; }
+  .talk-ballet__stage > i:nth-child(4) { animation-delay: calc(3 * var(--vl-stagger-step)) !important; }
+  .talk-ballet__stage > i:nth-child(5) { animation-delay: calc(4 * var(--vl-stagger-step)) !important; }
+  .talk-ballet__stage > i:nth-child(6) { animation-delay: calc(5 * var(--vl-stagger-step)) !important; }
+  .talk-ballet__stage > i:nth-child(7) { animation-delay: calc(6 * var(--vl-stagger-step)) !important; }
+  .talk-ballet__stage > i:nth-child(8) { animation-delay: calc(7 * var(--vl-stagger-step)) !important; }
 
   /* Scene */
   .talk-beats {
@@ -1813,6 +1886,25 @@
     html {
       scroll-snap-type: none;
       scroll-behavior: auto;
+    }
+
+    /*
+     * Mobile é rolagem livre e contínua (sem snap por slide), então cada
+     * elemento revela conforme entra na tela — em vez do gate único por
+     * slide usado no desktop (snap de 100svh + choreografia coletiva).
+     */
+    @supports (animation-timeline: view()) {
+      [vl-in-view] {
+        animation: none;
+        container-name: none;
+      }
+
+      [vl-in-view] :is([vl-enter], [vl-exit]):not([vl-timeline]),
+      [vl-in-view] [vl-children] > *:not([vl-effect]):not([vl-enter]):not([vl-exit]) {
+        animation-timeline: view();
+        animation-range: entry 5% cover 40%;
+        animation-fill-mode: both;
+      }
     }
 
     .talk-slide {
