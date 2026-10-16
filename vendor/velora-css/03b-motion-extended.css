@@ -25,13 +25,13 @@
      *   vl-effect="press"            Physical press feedback
      *   vl-effect="bounce"           Elastic bounce loop
      *   vl-effect="shimmer-text"     Text gradient shimmer
-     *   vl-effect="gradient-text-color" Animated gradient color interpolation on text
-     *   vl-effect="circle-text-scroll" Scroll-reactive circular text scene
-     *   vl-effect="code-greeting-stack" Code-style greeting cycler with hover word swap
-     *   vl-effect="cube-triad-stage"  Skin recipe in scene-recipes.css (theme)
+    *   vl-effect="gradient-text-color" Animated gradient color interpolation on text
+    *   vl-effect="circle-text-scroll" Scroll-reactive circular text scene
+    *   vl-effect="code-greeting-stack" Code-style greeting cycler with hover word swap
+    *   vl-effect="cube-triad-stage"  Cascading 3D cube choreography scene
      *   vl-effect="gradient-slide"   Background gradient position shift
-     *   vl-effect="duotone"          Duotone image blend treatment
-     *   vl-effect="text-ring-orbit"  3D rotating text ring scene
+    *   vl-effect="duotone"          Duotone image blend treatment
+    *   vl-effect="text-ring-orbit"  3D rotating text ring scene
      *   vl-effect="mesh-pan"         Background mesh drift
      *   vl-effect="hover-prism"      Prism-like hover tilt + glow
      *   vl-effect="hover-depth-press"Lift on hover, press on active
@@ -46,7 +46,7 @@
      *   vl-speed="slower|fastest"    Extra speed buckets
      *   vl-range="exit|center|full"  Extra scroll ranges
      *   vl-range="exit-short"        Smooth exit range
-     *   .vl-3d-stage / .vl-3d-item   Reusable CSS-only 3D stage contract
+     *   .vl-3d-stage                 Perspective scene container
      *   .vl-cube / .vl-cube__face-* CSS 3D cube system
      *   .vl-flip-card / inner/front/back  CSS 3D flip card
      *   .vl-text-wave > span         Per-character wave text
@@ -54,7 +54,19 @@
      *   .vl-gradient-text            Animated gradient text clip
      */
 
-    /* Extended easings/durations live in 01-motion-tokens.css */
+    /* =========================================================================
+       EASING EXTENSIONS  (additional easing tokens)
+       ========================================================================= */
+    :root {
+        --vl-ease-bounce:      cubic-bezier(0.34, 1.72, 0.64, 1);
+        --vl-ease-elastic:     cubic-bezier(0.68, -0.55, 0.265, 1.55);
+        --vl-ease-smooth:      cubic-bezier(0.25, 0.46, 0.45, 0.94);
+        --vl-ease-expo-out:    cubic-bezier(0.19, 1, 0.22, 1);
+        --vl-ease-back-in:     cubic-bezier(0.36, 0, 0.66, -0.56);
+        --vl-ease-back-out:    cubic-bezier(0.34, 1.56, 0.64, 1);
+        --vl-duration-slowest: 1200ms;
+        --vl-duration-fastest: 80ms;
+    }
 
     /* =========================================================================
        KEYFRAMES  entrance — advanced
@@ -72,7 +84,7 @@
     @keyframes vl-glide-in {
         from {
             opacity: 0;
-            transform: translate3d(0, 3rem, 0);
+            transform: translate3d(0, var(--vl-distance-y, 3rem), 0);
         }
         to {
             opacity: 1;
@@ -146,21 +158,29 @@
 
     /* Spring 3D: perspective entry with spring overshoot */
     @keyframes vl-spring-3d {
-        0%   { opacity: 0; transform: perspective(900px) rotateX(22deg) translate3d(0, 2rem, -60px) scale(0.92); }
-        60%  { opacity: 1; transform: perspective(900px) rotateX(-2deg) translate3d(0, -0.2rem, 4px) scale(1.01); }
-        80%  { transform: perspective(900px) rotateX(1deg) translate3d(0, 0.1rem, 0) scale(0.99); }
-        100% { transform: perspective(900px) rotateX(0deg) translate3d(0, 0, 0) scale(1); }
+        0%   {
+            opacity: 0;
+            transform: perspective(var(--vl-perspective, 900px))
+                rotateX(var(--vl-rotate-x, 22deg))
+                translate3d(0, var(--vl-distance-y, 2rem), var(--vl-depth-z-from, -60px))
+                scale(var(--vl-scale-from, 0.92));
+        }
+        60%  { opacity: 1; transform: perspective(var(--vl-perspective, 900px)) rotateX(-2deg) translate3d(0, -0.2rem, 4px) scale(1.01); }
+        80%  { transform: perspective(var(--vl-perspective, 900px)) rotateX(1deg) translate3d(0, 0.1rem, 0) scale(0.99); }
+        100% { transform: perspective(var(--vl-perspective, 900px)) rotateX(0deg) translate3d(0, 0, 0) scale(1); }
     }
 
     /* Rise 3D: dramatic overhead perspective entry */
     @keyframes vl-rise-3d {
         from {
             opacity: 0;
-            transform: perspective(1600px) rotateX(35deg) translate3d(0, 4rem, -120px);
+            transform: perspective(var(--vl-perspective, 1600px))
+                rotateX(var(--vl-rotate-x, 35deg))
+                translate3d(0, var(--vl-distance-y, 4rem), var(--vl-depth-z-from, -120px));
         }
         to {
             opacity: 1;
-            transform: perspective(1600px) rotateX(0deg) translate3d(0, 0, 0);
+            transform: perspective(var(--vl-perspective, 1600px)) rotateX(0deg) translate3d(0, 0, 0);
         }
     }
 
@@ -250,6 +270,42 @@
         75%, 100% {
             transform: translateY(-3.54em);
         }
+    }
+
+    @keyframes vl-cube-scene-rotate {
+        from { transform: rotateX(-15deg) rotateY(0deg); }
+        to { transform: rotateX(-15deg) rotateY(360deg); }
+    }
+
+    @keyframes vl-cube-stage-shadow {
+        0%, 95%, 100% { transform: translate(-0.5em, -0.5em); }
+        20%, 25% { transform: translate(-5.5em, -0.5em); }
+        45%, 50% { transform: translate(-5.5em, -5.5em); }
+        70%, 75% { transform: translate(-0.5em, -5.5em); }
+    }
+
+    @keyframes vl-cube-bottom-cascade {
+        0% { transform: none; }
+        20%, 25% { transform: rotateZ(-90deg); }
+        45%, 50% { transform: rotateZ(-90deg) rotateY(90deg); }
+        70%, 75% { transform: rotateZ(-90deg) rotateY(90deg) rotateX(-90deg); }
+        95%, 100% { transform: rotateZ(-90deg) rotateY(90deg) rotateX(-90deg) rotateZ(-90deg); }
+    }
+
+    @keyframes vl-cube-mid-cascade {
+        0%, 2% { transform: none; }
+        23%, 27% { transform: rotateY(180deg); }
+        48%, 52% { transform: rotateY(180deg) rotateZ(-180deg); }
+        73%, 77% { transform: rotateY(180deg) rotateZ(-180deg) rotateX(180deg); }
+        98%, 100% { transform: rotateY(180deg) rotateZ(-180deg) rotateX(180deg) rotateY(180deg); }
+    }
+
+    @keyframes vl-cube-top-cascade {
+        0%, 5% { transform: none; }
+        25%, 30% { transform: rotateY(-180deg); }
+        50%, 55% { transform: rotateY(-180deg) rotateZ(-180deg); }
+        75%, 80% { transform: rotateY(-180deg) rotateZ(-180deg) rotateX(-180deg); }
+        100% { transform: rotateY(-180deg) rotateZ(-180deg) rotateX(-180deg) rotateY(-180deg); }
     }
 
     /* Gradient slide: slow position drift for hero backgrounds */
@@ -353,12 +409,16 @@
     /* Depth push on scroll: zooms out from front */
     @keyframes vl-depth-push {
         from {
-            transform: perspective(1000px) translateZ(80px) scale(1.08);
-            opacity: 0.3;
+            transform: perspective(var(--vl-depth-perspective, 1000px))
+                translateZ(var(--vl-depth-z-from, 80px))
+                scale(var(--vl-depth-scale-from, 1.08));
+            opacity: var(--vl-opacity-from, 0.3);
         }
         to {
-            transform: perspective(1000px) translateZ(0px) scale(1);
-            opacity: 1;
+            transform: perspective(var(--vl-depth-perspective, 1000px))
+                translateZ(var(--vl-depth-z-to, 0px))
+                scale(var(--vl-depth-scale-to, 1));
+            opacity: var(--vl-opacity-to, 1);
         }
     }
 
@@ -426,10 +486,10 @@
        KEYFRAMES  scroll-driven — advanced layout patterns
        ========================================================================= */
 
-    /* Parallax: counter-direction translate vs. scroll */
+    /* Parallax: compatibility alias of vl-parallax-shift (P4d unified defaults ±12%). */
     @keyframes vl-parallax {
-        from { transform: translateY(var(--vl-parallax-from, -10%)); }
-        to   { transform: translateY(var(--vl-parallax-to,   10%)); }
+        from { transform: translate3d(0, var(--vl-parallax-from, -12%), 0); }
+        to   { transform: translate3d(0, var(--vl-parallax-to, 12%), 0); }
     }
 
     /* Counter-scroll: element moves in the opposite horizontal direction to page scroll */
@@ -552,9 +612,21 @@
         animation: vl-spring-3d var(--vl-motion-duration, var(--vl-duration-slower)) var(--vl-ease-bounce) both;
     }
 
+    :is([vl-enter~="spring-3d"], [vl-effect~="spring-3d"]) {
+        --vl-enter-name: vl-spring-3d;
+        --vl-enter-duration: var(--vl-duration-slower);
+        --vl-enter-ease: var(--vl-ease-bounce);
+    }
+
     [vl-effect="rise-3d"] {
         --vl-motion-duration: var(--vl-duration-slower);
         animation: vl-rise-3d var(--vl-motion-duration) var(--vl-ease-expo-out) both;
+    }
+
+    :is([vl-enter~="rise-3d"], [vl-effect~="rise-3d"]) {
+        --vl-enter-name: vl-rise-3d;
+        --vl-enter-duration: var(--vl-duration-slower);
+        --vl-enter-ease: var(--vl-ease-expo-out);
     }
 
     [vl-effect="drop-in"] {
@@ -641,8 +713,8 @@
         font-family: var(--vl-font-family-display);
         font-size: var(--vl-circle-font-size);
         animation: vl-circle-text-scroll-sync linear both;
-        animation-timeline: var(--vl-scroll-timeline, scroll(root block));
-        animation-range: var(--vl-scroll-range, cover 0% cover 100%);
+        animation-timeline: scroll(root block);
+        animation-range: cover 0% cover 100%;
     }
 
     [vl-effect="circle-text-scroll"] > ul {
@@ -710,16 +782,6 @@
     [vl-effect="circle-text-scroll"] > ul > li > span:nth-child(8) { --vl-char-index: 7; }
     [vl-effect="circle-text-scroll"] > ul > li > span:nth-child(9) { --vl-char-index: 8; }
     [vl-effect="circle-text-scroll"] > ul > li > span:nth-child(10) { --vl-char-index: 9; }
-
-    @supports (z-index: sibling-index()) {
-        [vl-effect="circle-text-scroll"] > ul > li {
-            --vl-circle-item-angle: calc(sibling-index() * (360deg / max(sibling-count(), 1)));
-        }
-
-        [vl-effect="circle-text-scroll"] > ul > li > span {
-            --vl-char-index: calc(sibling-index() - 1);
-        }
-    }
 
     [vl-effect="circle-text-scroll"] > em {
         position: absolute;
@@ -843,7 +905,140 @@
     [vl-effect="code-greeting-stack"] .vl-code-token-accent { color: color-mix(in oklch, var(--vl-color-accent, var(--vl-color-secondary)) 78%, white); }
     [vl-effect="code-greeting-stack"] .vl-code-token-warm { color: color-mix(in oklch, var(--vl-color-primary) 74%, var(--vl-color-accent, var(--vl-color-secondary))); }
 
-    /* cube-triad-stage look + choreography live in scene-recipes.css (theme skin). */
+    [vl-effect="cube-triad-stage"] {
+        --vl-cube-duration: 6s;
+        --vl-cube-unit: clamp(0.65rem, 1.15vmin, 1rem);
+        position: relative;
+        display: grid;
+        place-items: center;
+        min-height: clamp(17rem, 34vw, 22rem);
+        perspective: 75em;
+        overflow: hidden;
+        isolation: isolate;
+    }
+
+    [vl-effect="cube-triad-stage"] *:not(:empty) {
+        transform-style: preserve-3d;
+    }
+
+    [vl-effect="cube-triad-stage"] .scene {
+        position: relative;
+        width: 1px;
+        height: 1px;
+        animation: vl-cube-scene-rotate calc(var(--vl-cube-duration) * 13) linear infinite;
+    }
+
+    [vl-effect="cube-triad-stage"] .floor {
+        position: absolute;
+        inset: -50em;
+        background-image:
+            radial-gradient(circle at center, transparent 0%, color-mix(in oklch, black 92%, var(--vl-bg-main)) 52%),
+            repeating-linear-gradient(45deg, color-mix(in oklch, white 12%, transparent), color-mix(in oklch, black 16%, transparent), color-mix(in oklch, white 12%, transparent) 2em),
+            repeating-linear-gradient(-45deg, color-mix(in oklch, white 10%, transparent), color-mix(in oklch, black 14%, transparent), color-mix(in oklch, white 10%, transparent) 2em);
+        background-color: color-mix(in oklch, var(--vl-bg-main) 58%, var(--vl-bg-surface-elevated));
+        transform: rotateX(90deg) translateZ(calc((var(--vl-cube-unit) * -6.4) - 1px));
+    }
+
+    [vl-effect="cube-triad-stage"] .floor::before {
+        content: "";
+        position: absolute;
+        left: 50%;
+        top: 50%;
+        width: calc(var(--vl-cube-unit) * 14.8);
+        height: calc(var(--vl-cube-unit) * 14.8);
+        box-shadow: 0 0 2em color-mix(in oklch, black 45%, transparent);
+        transform: translate(-50%, -50%);
+    }
+
+    [vl-effect="cube-triad-stage"] .stage {
+        position: absolute;
+        left: 50%;
+        top: 50%;
+        width: calc(var(--vl-cube-unit) * 12);
+        height: calc(var(--vl-cube-unit) * 12);
+        transform: translate3d(-50%, -50%, calc(var(--vl-cube-unit) * 1.4));
+        background: inherit;
+        box-shadow: 0 0 1em color-mix(in oklch, black 44%, transparent) inset;
+    }
+
+    [vl-effect="cube-triad-stage"] .stage > div {
+        position: absolute;
+        left: calc(var(--vl-cube-unit) * -1.5);
+        top: 50%;
+        width: calc(var(--vl-cube-unit) * 15);
+        height: calc(var(--vl-cube-unit) * 2.1);
+        background: inherit;
+        box-shadow: inherit;
+        clip-path: polygon(1.5em 0, 13.5em 0, 100% 100%, 0 100%);
+        transform-origin: top;
+        transform: rotateZ(var(--vl-stage-rz, 0deg)) translateY(calc(var(--vl-cube-unit) * 6)) rotateX(-45deg);
+    }
+
+    [vl-effect="cube-triad-stage"] .stage > div:nth-child(1) { --vl-stage-rz: 0deg; }
+    [vl-effect="cube-triad-stage"] .stage > div:nth-child(2) { --vl-stage-rz: 90deg; }
+    [vl-effect="cube-triad-stage"] .stage > div:nth-child(3) { --vl-stage-rz: 180deg; }
+    [vl-effect="cube-triad-stage"] .stage > div:nth-child(4) { --vl-stage-rz: 270deg; }
+
+    [vl-effect="cube-triad-stage"] .stage::after {
+        content: "";
+        position: absolute;
+        left: 50%;
+        top: 50%;
+        width: calc(var(--vl-cube-unit) * 6);
+        height: calc(var(--vl-cube-unit) * 6);
+        background: color-mix(in oklch, black 24%, transparent);
+        filter: blur(0.5em);
+        animation: vl-cube-stage-shadow var(--vl-cube-duration) ease-in-out infinite;
+    }
+
+    [vl-effect="cube-triad-stage"] .bottomCube,
+    [vl-effect="cube-triad-stage"] .midCube,
+    [vl-effect="cube-triad-stage"] .topCube {
+        position: absolute;
+        width: calc(var(--vl-cube-unit) * 5);
+        height: calc(var(--vl-cube-unit) * 5);
+        background-color: color-mix(in oklch, var(--vl-cube-tone, var(--vl-color-primary)) 68%, transparent);
+        background-image:
+            repeating-linear-gradient(45deg, color-mix(in oklch, white 14%, transparent), color-mix(in oklch, black 14%, transparent), color-mix(in oklch, white 14%, transparent) 1em),
+            repeating-linear-gradient(-45deg, color-mix(in oklch, white 14%, transparent), color-mix(in oklch, black 14%, transparent), color-mix(in oklch, white 14%, transparent) 1em);
+        box-shadow: 0 0 1em color-mix(in oklch, black 55%, var(--vl-cube-tone, var(--vl-color-primary))) inset;
+    }
+
+    [vl-effect="cube-triad-stage"] .bottomCube {
+        --vl-cube-tone: var(--vl-color-primary);
+        left: 0;
+        top: 0;
+        transform-origin: bottom left;
+        animation: vl-cube-bottom-cascade var(--vl-cube-duration) ease-in-out infinite;
+    }
+
+    [vl-effect="cube-triad-stage"] .midCube {
+        --vl-cube-tone: var(--vl-color-secondary);
+        inset: 0;
+        transform-origin: bottom right;
+        animation: vl-cube-mid-cascade var(--vl-cube-duration) ease-in-out infinite;
+    }
+
+    [vl-effect="cube-triad-stage"] .topCube {
+        --vl-cube-tone: var(--vl-color-accent, var(--vl-color-secondary));
+        inset: 0;
+        transform-origin: top left;
+        animation: vl-cube-top-cascade var(--vl-cube-duration) ease-in-out infinite;
+    }
+
+    [vl-effect="cube-triad-stage"] i {
+        position: absolute;
+        inset: 0;
+        margin: 0;
+        background: inherit;
+        box-shadow: inherit;
+    }
+
+    [vl-effect="cube-triad-stage"] i:nth-child(1) { transform: rotateX(90deg); transform-origin: top; }
+    [vl-effect="cube-triad-stage"] i:nth-child(2) { transform: rotateX(-90deg); transform-origin: bottom; }
+    [vl-effect="cube-triad-stage"] i:nth-child(3) { transform: rotateY(-90deg); transform-origin: left; }
+    [vl-effect="cube-triad-stage"] i:nth-child(4) { transform: rotateY(90deg); transform-origin: right; }
+    [vl-effect="cube-triad-stage"] i:nth-child(5) { transform: translateZ(calc(var(--vl-cube-unit) * 5)); }
 
     [vl-effect="text-ring-orbit"] {
         --vl-text-ring-size: clamp(1.8rem, 5.6vw, 3.7rem);
@@ -1229,53 +1424,53 @@
 
     /* =========================================================================
        PRIMITIVE EFFECTS — scroll-driven
-       Prefer --vl-scroll-timeline so scene view-clock (--vl-scene) can compose.
        ========================================================================= */
     [vl-effect="rotate-scroll"] {
         animation: vl-rotate-scroll linear both;
-        animation-timeline: var(--vl-scroll-timeline, view(block));
-        animation-range: var(--vl-scroll-range, cover);
+        animation-timeline: view(block);
+        animation-range: cover;
     }
 
     [vl-effect="wipe-reveal"] {
         animation: vl-wipe-scroll linear both;
-        animation-timeline: var(--vl-scroll-timeline, view(block));
-        animation-range: var(--vl-scroll-range, entry 0% cover 50%);
+        animation-timeline: view(block);
+        animation-range: entry 0% cover 50%;
     }
 
     :is([vl-scroll~="depth-push"], [vl-effect="depth-push"]) {
         --vl-scroll-name: vl-depth-push;
         animation: vl-depth-push linear both;
-        animation-timeline: var(--vl-scroll-timeline, view(block));
-        animation-range: var(--vl-scroll-range, var(--vl-range, entry 0% entry 100%));
+        animation-timeline: view(block);
+        animation-range: var(--vl-range, var(--vl-range-start, entry 0%) var(--vl-range-end, entry 100%));
     }
 
-    /* Parallax — element moves at a different rate to scroll */
+    /* Parallax — unified onto vl-parallax-shift (typed + legacy). */
     [vl-effect="parallax"] {
-        animation: vl-parallax linear both;
-        animation-timeline: var(--vl-scroll-timeline, view(block));
-        animation-range: var(--vl-scroll-range, cover 0% cover 100%);
+        --vl-scroll-name: vl-parallax-shift;
+        animation: vl-parallax-shift both linear;
+        animation-timeline: view(block);
+        animation-range: var(--vl-range, var(--vl-range-start, cover 0%) var(--vl-range-end, cover 100%));
     }
 
     /* Counter-scroll — element moves in the opposite direction to page scroll */
     [vl-effect="counter-scroll"] {
         animation: vl-counter-scroll linear both;
-        animation-timeline: var(--vl-scroll-timeline, scroll(root block));
-        animation-range: var(--vl-scroll-range, 0% 100%);
+        animation-timeline: scroll(root block);
+        animation-range: 0% 100%;
     }
 
     /* Image reveal — clip-path expands from centre as element enters the viewport */
     [vl-effect="img-reveal"] {
         animation: vl-img-reveal linear both;
-        animation-timeline: var(--vl-scroll-timeline, view(block));
-        animation-range: var(--vl-scroll-range, entry 0% entry 75%);
+        animation-timeline: view(block);
+        animation-range: entry 0% entry 75%;
     }
 
     /* Header shrink — sticky/fixed bar condenses when the page scrolls */
     [vl-effect="header-shrink"] {
         animation: vl-header-shrink linear both;
-        animation-timeline: var(--vl-scroll-timeline, scroll(root block));
-        animation-range: var(--vl-scroll-range, 0px 120px);
+        animation-timeline: scroll(root block);
+        animation-range: 0px 120px;
     }
 
     /* =========================================================================
@@ -1351,42 +1546,14 @@
 
     /* =========================================================================
        3D STAGE SYSTEM
-       Reusable CSS-only stage contract (host-agnostic structure):
-         - perspective / preserve-3d on the container
-         - positional transforms via CSS vars on direct children
-         - put motion (enter/scroll/loop) on inner content, not on the position shell
-       Demo look recipes (cube-triad) live in scene-recipes.css.
+       Inspired by pure CSS 3D (amit_sheen style) — zero JavaScript
        ========================================================================= */
 
+    /* Perspective container */
     .vl-3d-stage {
-        --vl-3d-perspective: 1000px;
-        --vl-3d-origin: 50% 50%;
-        perspective: var(--vl-3d-perspective);
-        perspective-origin: var(--vl-3d-origin);
+        perspective: var(--vl-3d-perspective, 1000px);
+        perspective-origin: var(--vl-3d-origin, 50% 50%);
         transform-style: preserve-3d;
-        isolation: isolate;
-    }
-
-    /* Preserve 3D for direct children; positional shell is opt-in via .vl-3d-item */
-    .vl-3d-stage > * {
-        transform-style: preserve-3d;
-    }
-
-    .vl-3d-item {
-        --vl-3d-x: 0;
-        --vl-3d-y: 0;
-        --vl-3d-z: 0;
-        --vl-3d-rx: 0deg;
-        --vl-3d-ry: 0deg;
-        --vl-3d-rz: 0deg;
-        --vl-3d-scale: 1;
-        transform-style: preserve-3d;
-        transform:
-            translate3d(var(--vl-3d-x), var(--vl-3d-y), var(--vl-3d-z))
-            rotateX(var(--vl-3d-rx))
-            rotateY(var(--vl-3d-ry))
-            rotateZ(var(--vl-3d-rz))
-            scale(var(--vl-3d-scale));
     }
 
     /* 3D scene: preserves child transforms in 3D space */
@@ -1618,30 +1785,6 @@
     [vl-children="spiral-stagger"] > *:nth-child(7)  { animation-delay: calc(6  * var(--vl-stagger-step, 90ms)); }
     [vl-children="spiral-stagger"] > *:nth-child(8)  { animation-delay: calc(7  * var(--vl-stagger-step, 90ms)); }
 
-    @supports (animation-delay: calc(sibling-index() * 1ms)) {
-        :is(
-            [vl-children="wave"],
-            [vl-children="blur-cascade"],
-            [vl-children="zoom-stagger"],
-            [vl-children="cinema-stagger"],
-            [vl-children="spiral-stagger"]
-        ) > * {
-            animation-delay: calc((sibling-index() - 1) * var(--vl-stagger-step, 80ms));
-        }
-
-        [vl-children="grid-wave"] > * {
-            animation-delay: calc((sibling-index() - 1) * 80ms);
-        }
-
-        .vl-text-wave > span {
-            animation-delay: calc((sibling-index() - 1) * 80ms);
-        }
-
-        .vl-text-split > span {
-            animation-delay: calc((sibling-index() - 1) * 90ms);
-        }
-    }
-
     /* Extra stagger values */
     [vl-stagger="20ms"]  { --vl-stagger-step: 20ms; }
     [vl-stagger="30ms"]  { --vl-stagger-step: 30ms; }
@@ -1867,6 +2010,7 @@
     [vl-effect="drop-in"],
     [vl-effect="skew-slide"],
     [vl-effect="hinge-down"],
+    [vl-effect="cube-triad-stage"],
     [vl-effect="rotate-scroll"],
     [vl-effect="wipe-reveal"],
     [vl-effect="depth-push"],
@@ -1908,6 +2052,7 @@
         }
 
         [vl-effect="parallax"],
+        [vl-scroll~="parallax"],
         [vl-effect="counter-scroll"],
         [vl-effect="header-shrink"],
         .vl-stack-card,
@@ -1932,6 +2077,11 @@
         [vl-effect="circle-text-scroll"],
         [vl-effect="circle-text-scroll"] > ul,
         [vl-effect="code-greeting-stack"] .vl-code-greetings-track,
+        [vl-effect="cube-triad-stage"] .scene,
+        [vl-effect="cube-triad-stage"] .stage::after,
+        [vl-effect="cube-triad-stage"] .bottomCube,
+        [vl-effect="cube-triad-stage"] .midCube,
+        [vl-effect="cube-triad-stage"] .topCube,
         [vl-effect="gradient-slide"],
         [vl-effect="gradient-text-color"],
         [vl-effect="mesh-pan"],
@@ -1969,16 +2119,15 @@
 
         [vl-effect="rotate-scroll"],
         [vl-effect="wipe-reveal"],
-        [vl-effect="depth-push"] {
+        [vl-effect="depth-push"],
+        [vl-scroll~="depth-push"] {
             animation: none;
         }
 
         [vl-children="wave"] > *,
         [vl-children="blur-cascade"] > *,
         [vl-children="zoom-stagger"] > *,
-        [vl-children="cinema-stagger"] > *,
-        [vl-children="grid-wave"] > *,
-        [vl-children="spiral-stagger"] > * {
+        [vl-children="cinema-stagger"] > * {
             animation: vl-fade-in var(--vl-duration-fast) linear both;
         }
 

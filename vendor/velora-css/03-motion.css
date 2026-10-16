@@ -5,20 +5,13 @@
      * Public API:
      *   vl-effect    Named motion preset (primitive, interaction, state, scene)
      *   vl-timeline  Progress model: view | scroll | auto | state | hover
-     *                On [vl-scene]: clock mode for stage children (view | auto).
-     *                On other elements: binds that element's animation timeline.
-     *   vl-range     Escape hatch: overrides act-derived animation-range only
-     *                (named --vl-scene clock is kept inside a view-clock scene)
-     *   vl-duration  Direct duration override (e.g. "1200ms")
-     *   vl-delay     Entry/exit delay override (e.g. "120ms")
-     *   vl-pin       On [vl-scene][vl-timeline="view"]: track height (N × 100svh).
-     *                Elsewhere: sticky positioning (legacy element pin)
-     *   vl-scrub     Boolean  continuous scroll-linked motion (scene: view-clock only)
+     *   vl-range     Animation range for scroll-driven motion
+        *   vl-duration  Direct duration override (e.g. "1200ms")
+        *   vl-delay     Entry/exit delay override (e.g. "120ms")
+     *   vl-pin       Boolean  sticky scene behavior
+     *   vl-scrub     Boolean  continuous scroll-linked motion
      *   vl-once      Boolean  one-shot reveal
-     *   vl-in-view   Viewport gate for temporal descendant motion (enter/exit/loop/…)
-     *                Do not nest inside [vl-scene][vl-timeline="view"] [vl-stage]
-     *   vl-stage     Sticky stage; channel attrs belong on direct children
-     *   vl-act/span  Beat index / span on stage children (scene engine)
+    *   vl-in-view   Viewport gate for descendant motion
      *   vl-children  Child choreography: stagger | cascade | sequence
      *   vl-stagger   Stagger interval override (e.g. "120ms")
      *   vl-depth     Parallax depth multiplier: 1 | 2 | 3 | 4
@@ -26,12 +19,13 @@
      *   vl-loop      Loop count: -1 (infinite), 0+ (iteration count)
      *   vl-loop-effect Loop keyframe preset (e.g. "float", "wobble", "spin")
      *   vl-direction Playback direction: normal | reverse | alternate | alternate-reverse
-     *   vl-scene     Scene track (named --vl-scene clock + optional pin)
+     *   vl-scene     Scene container marker
      *   vl-targets   Descendant selector hint (limited CSS-only support)
      *
      * CSS custom properties used by the attribute system:
      *   --vl-motion-duration   Duration for current effect
-     *   --vl-motion-distance   Translation distance
+     *   --vl-motion-distance   Translation distance (legacy bridge)
+     *   --vl-distance-x/y      P4 canonical distance parameters (optional overrides)
      *   --vl-motion-ease       Easing function
      *   --vl-stagger-step      Delay between staggered children
      *   --vl-range             Animation range value
@@ -46,13 +40,13 @@
     @keyframes vl-blur-lift {
         from {
             opacity: 0;
-            filter: blur(12px);
-            transform: translate3d(0, 1.5rem, 0);
+            filter: blur(calc(var(--vl-blur-from, 12px) + var(--vl-motion-blur, 0px)));
+            transform: translate3d(0, var(--vl-distance-y, 1.5rem), 0) scale(var(--vl-scale-from, 1));
         }
         to {
             opacity: 1;
             filter: blur(0);
-            transform: translate3d(0, 0, 0);
+            transform: translate3d(0, 0, 0) scale(1);
         }
     }
 
@@ -110,7 +104,7 @@
         }
         to {
             opacity: 0;
-            transform: translate3d(0, calc(-1 * var(--vl-motion-distance, 1.25rem)), 0);
+            transform: translate3d(0, calc(-1 * var(--vl-distance-y, var(--vl-motion-distance, 1.25rem))), 0);
         }
     }
 
@@ -121,7 +115,7 @@
         }
         to {
             opacity: 0;
-            transform: translate3d(0, var(--vl-motion-distance, 1.25rem), 0);
+            transform: translate3d(0, var(--vl-distance-y, var(--vl-motion-distance, 1.25rem)), 0);
         }
     }
 
@@ -178,7 +172,7 @@
     @keyframes vl-fade-up {
         from {
             opacity: 0;
-            transform: translate3d(0, var(--vl-motion-distance, 1.25rem), 0);
+            transform: translate3d(0, var(--vl-distance-y, var(--vl-motion-distance, 1.25rem)), 0);
         }
         to {
             opacity: 1;
@@ -189,7 +183,7 @@
     @keyframes vl-fade-down {
         from {
             opacity: 0;
-            transform: translate3d(0, calc(-1 * var(--vl-motion-distance, 1.25rem)), 0);
+            transform: translate3d(0, calc(-1 * var(--vl-distance-y, var(--vl-motion-distance, 1.25rem))), 0);
         }
         to {
             opacity: 1;
@@ -200,7 +194,7 @@
     @keyframes vl-slide-left {
         from {
             opacity: 0;
-            transform: translate3d(var(--vl-motion-distance, 1.5rem), 0, 0);
+            transform: translate3d(var(--vl-distance-x, var(--vl-motion-distance, 1.5rem)), 0, 0);
         }
         to {
             opacity: 1;
@@ -211,7 +205,7 @@
     @keyframes vl-slide-right {
         from {
             opacity: 0;
-            transform: translate3d(calc(-1 * var(--vl-motion-distance, 1.5rem)), 0, 0);
+            transform: translate3d(calc(-1 * var(--vl-distance-x, var(--vl-motion-distance, 1.5rem))), 0, 0);
         }
         to {
             opacity: 1;
@@ -271,19 +265,21 @@
     @keyframes vl-3d-entry {
         from {
             opacity: 0;
-            transform: perspective(1200px) rotateX(12deg) translate3d(0, 2rem, 0);
+            transform: perspective(var(--vl-perspective, 1200px))
+                rotateX(var(--vl-rotate-x, 12deg))
+                translate3d(0, var(--vl-distance-y, 2rem), var(--vl-depth-z-from, 0px));
         }
         to {
             opacity: 1;
-            transform: perspective(1200px) rotateX(0deg) translate3d(0, 0, 0);
+            transform: perspective(var(--vl-perspective, 1200px)) rotateX(0deg) translate3d(0, 0, 0);
         }
     }
 
     @keyframes vl-flow-in {
         from {
             opacity: 0;
-            filter: blur(calc(6px + var(--vl-motion-blur, 0px)));
-            transform: translate3d(0, var(--vl-motion-distance, 1.5rem), 0) scale(0.97);
+            filter: blur(calc(var(--vl-blur-from, 6px) + var(--vl-motion-blur, 0px)));
+            transform: translate3d(0, var(--vl-distance-y, var(--vl-motion-distance, 1.5rem)), 0) scale(var(--vl-scale-from, 0.97));
         }
         to {
             opacity: 1;
@@ -590,10 +586,15 @@
         --vl-enter-duration: var(--vl-duration-slower);
         --vl-enter-ease: var(--vl-ease-out-soft);
     }
-    :is([vl-enter~="reveal-3d"], [vl-effect~="reveal-3d"], [vl-enter~="3d-entry"], [vl-effect~="3d-entry"]) { --vl-enter-name: vl-3d-entry; }
+    :is([vl-enter~="reveal-3d"], [vl-effect~="reveal-3d"], [vl-enter~="3d-entry"], [vl-effect~="3d-entry"]) {
+        --vl-enter-name: vl-3d-entry;
+    }
     :is([vl-enter~="flow-in"], [vl-effect~="flow-in"]) {
         --vl-enter-name: vl-flow-in;
         --vl-enter-duration: var(--vl-duration-slower);
+    }
+    :is([vl-enter~="blur-lift"], [vl-effect~="blur-lift"]) {
+        --vl-enter-name: vl-blur-lift;
     }
     :is([vl-enter~="clip-rise"], [vl-effect~="clip-rise"]) {
         --vl-enter-name: vl-clip-rise;
@@ -626,7 +627,7 @@
     :is([vl-scroll~="parallax"], [vl-effect~="parallax"]) {
         --vl-scroll-name: vl-parallax-shift;
         --vl-scroll-timeline: view(block);
-        --vl-scroll-range: cover;
+        --vl-scroll-range: var(--vl-range, var(--vl-range-start, cover 0%) var(--vl-range-end, cover 100%));
     }
 
     :is([vl-scroll~="cinema-zoom"], [vl-effect~="cinema-zoom"]) {
@@ -638,7 +639,7 @@
     :is([vl-scroll~="depth-drift"], [vl-effect~="depth-drift"]) {
         --vl-scroll-name: vl-depth-drift;
         --vl-scroll-timeline: view(block);
-        --vl-scroll-range: var(--vl-range, entry 0% cover 85%);
+        --vl-scroll-range: var(--vl-range, var(--vl-range-start, entry 0%) var(--vl-range-end, cover 85%));
     }
 
     :is([vl-scroll~="scroll-marquee"], [vl-effect~="scroll-marquee"], [vl-scroll~="scroll-horizontal"], [vl-effect~="scroll-horizontal"]) {
@@ -1498,7 +1499,7 @@
     [vl-effect="parallax"] {
         animation: vl-parallax-shift both linear;
         animation-timeline: view(block);
-        animation-range: cover;
+        animation-range: var(--vl-range, var(--vl-range-start, cover 0%) var(--vl-range-end, cover 100%));
     }
 
     [vl-effect="typewriter"] {
@@ -1571,21 +1572,20 @@
     [vl-effect="depth-drift"] {
         animation: vl-depth-drift both linear;
         animation-timeline: view(block);
-        animation-range: var(--vl-range, entry 0% cover 85%);
+        animation-range: var(--vl-range, var(--vl-range-start, entry 0%) var(--vl-range-end, cover 85%));
         transform-origin: center center;
     }
 
     /* =========================================================================
        TIMELINE BINDINGS  [vl-timeline="<value>"]
-       Element-level only — [vl-scene] uses the named --vl-scene clock in 03c.
        ========================================================================= */
-    [vl-timeline="view"]:not([vl-scene]) {
+    [vl-timeline="view"] {
         animation-timeline: view();
         animation-range: entry 5% cover 42%;
         animation-timing-function: linear;
     }
 
-    [vl-timeline="view"]:not([vl-scene])[vl-effect="clip-rise"] {
+    [vl-timeline="view"][vl-effect="clip-rise"] {
         animation-name: vl-clip-rise;
         animation-duration: var(--vl-motion-duration, var(--vl-duration-slower));
         animation-fill-mode: both;
@@ -1593,7 +1593,7 @@
         animation-range: var(--vl-range, entry 5% cover 42%);
     }
 
-    [vl-timeline="view"]:not([vl-scene])[vl-effect="text-line-reveal"] {
+    [vl-timeline="view"][vl-effect="text-line-reveal"] {
         animation-name: vl-line-wipe;
         animation-duration: var(--vl-motion-duration, var(--vl-duration-slow));
         animation-fill-mode: both;
@@ -1642,7 +1642,7 @@
     }
 
     [vl-range="custom"] {
-        animation-range: var(--vl-range, entry 5% cover 42%);
+        animation-range: var(--vl-range, var(--vl-range-start, entry 5%) var(--vl-range-end, cover 42%));
     }
 
     [vl-range="scene-soft"] {
@@ -1656,14 +1656,13 @@
     /* =========================================================================
        BOOLEAN ATTRIBUTES
        ========================================================================= */
-    /* Legacy element sticky — scene tracks use numeric pin height in 03c */
-    [vl-pin]:not([vl-scene]) {
+    [vl-pin] {
         position: sticky;
         top: 0;
         z-index: var(--vl-z-sticky);
     }
 
-    [vl-scrub]:not([vl-scene]) {
+    [vl-scrub] {
         animation-fill-mode: both;
         animation-timing-function: linear;
     }
@@ -1673,16 +1672,15 @@
         animation-iteration-count: 1;
     }
 
-    [vl-once][vl-timeline="view"]:not([vl-scene]) {
+    [vl-once][vl-timeline="view"] {
         animation-range: entry 10% cover 36%;
     }
 
     /* =====================================================================
        IN-VIEW GATE  [vl-in-view]
-       Viewport presence triggers temporal descendant motion (enter/exit/loop/…).
-       Leaving the gate range clears descendant animations so re-entry replays
-       (stagger/delay included). Does not touch vl-scroll or scene view-clock
-       stage children. Without @container style(), children keep running.
+       The wrapper owns viewport detection; descendants own their presets.
+       This keeps view() as a trigger for temporal motion instead of making
+       every preset itself progress continuously with scroll.
        ===================================================================== */
     @property --vl-in-view-state {
         syntax: "<integer>";
@@ -1690,7 +1688,6 @@
         initial-value: 0;
     }
 
-    /* Discrete 0 outside the edges; 1 while the subject is in the gate window. */
     @keyframes vl-in-view-gate {
         0% { --vl-in-view-state: 0; }
         2% { --vl-in-view-state: 1; }
@@ -1699,45 +1696,42 @@
     }
 
     [vl-in-view] {
-        /* container-name (not container-type) is what opts an element into
-           style() container queries — container-type: style is not a valid
-           CSS value, so this used to silently no-op the whole gate. */
         container-name: vl-in-view;
+        container-type: style;
         animation: vl-in-view-gate 1ms both;
         animation-timeline: view(block);
-        animation-range: entry 0% exit 100%;
+        animation-range: entry exit;
     }
 
-    /*
-     * Out of gate: clear the running name (so re-entry restarts from frame 0,
-     * including stagger delays) and hold a hidden rest so content does not
-     * flash the finished state while off-screen. In-gate: no override.
-     */
+    [vl-in-view] :is([vl-effect], [vl-enter], [vl-scroll], [vl-loop], [vl-loop-effect], [vl-hover], [vl-state], [vl-exit]) {
+        /* Safe baseline: absent style queries must not freeze visible content. */
+        animation-play-state: running;
+    }
+
+    /* A matching style query proves the gate is available. Reset temporal
+       motion outside the gate, while scroll-linked channels keep their clock.
+       CSS.supports(container-type: style) cannot detect style-query support. */
     @supports (animation-timeline: view()) {
-        /* Named container query: an unnamed style() query would otherwise
-           match the nearest container of ANY name/type (e.g. .vl-container,
-           [vl-scene]) sitting between [vl-in-view] and its descendants, whose
-           --vl-in-view-state is just the initial 0 (the property doesn't
-           inherit), permanently hiding the content. */
-        @container vl-in-view style(--vl-in-view-state: 0) {
-            [vl-in-view] :is([vl-enter], [vl-exit], [vl-loop], [vl-loop-effect], [vl-hover], [vl-state]),
-            [vl-in-view] [vl-effect]:not([vl-scroll]):not([vl-scrub]):not([vl-timeline="view"]):not([vl-timeline="scroll"]) {
-                animation-name: none;
-                opacity: 0;
+        @media (prefers-reduced-motion: no-preference) {
+            @container vl-in-view style(--vl-in-view-state: 0) {
+                [vl-in-view] :is([vl-effect], [vl-enter], [vl-loop], [vl-loop-effect], [vl-hover], [vl-state], [vl-exit]):not([vl-scroll]):not([vl-timeline="view"]):not([vl-timeline="scroll"]):not([vl-motion="still"], [vl-motion="still"] *) {
+                    opacity: 0;
+                    animation-name: none;
+                }
             }
         }
+    }
 
-        /* Scene view-clock replaces the gate — keep stage channels running */
-        [vl-scene][vl-timeline="view"] [vl-stage] > :is([vl-enter], [vl-scroll], [vl-effect], [vl-exit], [vl-loop], [vl-loop-effect], [vl-hover], [vl-state]),
-        [vl-scene][vl-timeline="view"] [vl-stage] :is([vl-enter], [vl-scroll], [vl-effect], [vl-exit], [vl-loop], [vl-loop-effect], [vl-hover], [vl-state]) {
+    @container vl-in-view style(--vl-in-view-state: 1) {
+        [vl-in-view] :is([vl-effect], [vl-enter], [vl-scroll], [vl-loop], [vl-loop-effect], [vl-hover], [vl-state], [vl-exit]) {
             animation-play-state: running;
         }
     }
 
     @media (prefers-reduced-motion: reduce) {
-        [vl-in-view] {
-            animation: none;
-            --vl-in-view-state: 1;
+        [vl-in-view] { animation: none; }
+        [vl-in-view] :is([vl-effect], [vl-enter], [vl-scroll], [vl-loop], [vl-loop-effect], [vl-hover], [vl-state], [vl-exit]) {
+            animation-play-state: running;
         }
     }
 
@@ -1745,7 +1739,7 @@
         animation-fill-mode: both;
     }
 
-    [vl-enter="focus"][vl-timeline="view"]:not([vl-scene]) {
+    [vl-enter="focus"][vl-timeline="view"] {
         animation-range: entry 12% cover 34%;
     }
 
@@ -1811,21 +1805,6 @@
     [vl-children="orchestrate"] > *:nth-child(7)  { animation-delay: calc(6  * var(--vl-stagger-step)); }
     [vl-children="orchestrate"] > *:nth-child(8)  { animation-delay: calc(7  * var(--vl-stagger-step)); }
 
-    /* Progressive enhancement: unlimited sibling delays without expanding nth-child lists */
-    @supports (animation-delay: calc(sibling-index() * 1ms)) {
-        :is(
-            [vl-children="stagger"],
-            [vl-children="cascade"],
-            [vl-children="orchestrate"]
-        ) > * {
-            animation-delay: calc((sibling-index() - 1) * var(--vl-stagger-step));
-        }
-
-        [vl-children="sequence"] > * {
-            animation-delay: calc((sibling-index() - 1) * var(--vl-seq-duration, var(--vl-motion-duration, var(--vl-duration-slow))));
-        }
-    }
-
     [vl-stagger="60ms"]  { --vl-stagger-step: 60ms; }
     [vl-stagger="80ms"]  { --vl-stagger-step: 80ms; }
     [vl-stagger="100ms"] { --vl-stagger-step: 100ms; }
@@ -1841,11 +1820,27 @@
 
     /* =========================================================================
        DEPTH  [vl-depth="1-4"]
+       P4f semantics: enter/exit travel distance only.
+       Writes --vl-motion-distance (legacy) and --vl-distance-y (canonical).
+       Does NOT control scroll parallax intensity (--vl-motion-depth) or
+       --vl-parallax-from/to / --vl-depth-from/to endpoints.
        ========================================================================= */
-    [vl-depth="1"] { --vl-motion-distance: 0.75rem; }
-    [vl-depth="2"] { --vl-motion-distance: 1.5rem; }
-    [vl-depth="3"] { --vl-motion-distance: 2.5rem; }
-    [vl-depth="4"] { --vl-motion-distance: 4rem; }
+    [vl-depth="1"] {
+        --vl-motion-distance: 0.75rem;
+        --vl-distance-y: 0.75rem;
+    }
+    [vl-depth="2"] {
+        --vl-motion-distance: 1.5rem;
+        --vl-distance-y: 1.5rem;
+    }
+    [vl-depth="3"] {
+        --vl-motion-distance: 2.5rem;
+        --vl-distance-y: 2.5rem;
+    }
+    [vl-depth="4"] {
+        --vl-motion-distance: 4rem;
+        --vl-distance-y: 4rem;
+    }
 
     /* =========================================================================
        SPEED  [vl-speed="slow|normal|fast"]
@@ -1911,9 +1906,13 @@
 
     /* =========================================================================
        SCENE SYSTEM  [vl-scene="<name>"]
-       Structural track + clock live in 02-layout / 03c-scene-engine.
-       Named look recipes live in scene-recipes.css (theme).
        ========================================================================= */
+    [vl-scene] {
+        position: relative;
+        container-type: inline-size;
+        container-name: vl-scene;
+        contain: layout style;
+    }
 
     [vl-effect="scene-hero-reveal"] {
         --vl-motion-duration: var(--vl-duration-slower);
@@ -2156,11 +2155,13 @@
     @keyframes vl-depth-enter {
         from {
             opacity: 0;
-            transform: perspective(1000px) rotateX(18deg) translate3d(0, 2.5rem, -60px);
+            transform: perspective(var(--vl-perspective, 1000px))
+                rotateX(var(--vl-rotate-x, 18deg))
+                translate3d(0, var(--vl-distance-y, 2.5rem), var(--vl-depth-z-from, -60px));
         }
         to {
             opacity: 1;
-            transform: perspective(1000px) rotateX(0deg) translate3d(0, 0, 0);
+            transform: perspective(var(--vl-perspective, 1000px)) rotateX(0deg) translate3d(0, 0, 0);
         }
     }
 
@@ -2325,20 +2326,17 @@
        ACCESSIBILITY  reduced motion
        ========================================================================= */
     @media (prefers-reduced-motion: reduce) {
-        :is(
-            [vl-effect],
-            [vl-enter],
-            [vl-scroll],
-            [vl-exit],
-            [vl-loop],
-            [vl-loop-effect],
-            [vl-hover],
-            [vl-scene]
-        ),
+        [vl-effect],
+        [vl-enter],
+        [vl-exit],
+        [vl-loop-effect],
+        [vl-scroll~="parallax"],
+        [vl-scroll~="depth-drift"],
+        [vl-scroll~="depth-push"],
+        [vl-scene],
         [vl-children="stagger"] > *,
         [vl-children="cascade"] > *,
-        [vl-children="sequence"] > *,
-        [vl-children="orchestrate"] > * {
+        [vl-children="sequence"] > * {
             animation: none !important;
             opacity: 1 !important;
             transform: none !important;

@@ -388,8 +388,9 @@
     }
 
     /* -------------------------------------------------------------------------
-       Acordeão — detalhes nativos + animação de altura (interpolate-size no reset)
+       Acordeão — chrome visual; open/close is vl-state="expand" in motion-core
        ------------------------------------------------------------------------- */
+    /* Open/close motion is owned by vl-state="expand" in motion-core. */
     .vl-accordion {
         border-radius: var(--vl-radius-lg);
         border: 1px solid color-mix(in oklch, var(--vl-text-primary) 10%, transparent);
@@ -439,21 +440,6 @@
 
     .vl-accordion[open] summary::after {
         transform: rotate(-135deg);
-    }
-
-    .vl-accordion::details-content {
-        height: 0;
-        opacity: 0;
-        overflow: hidden;
-        transition:
-            height var(--vl-duration-slow) var(--vl-ease-cinematic),
-            opacity var(--vl-duration-normal) var(--vl-ease-cinematic);
-        transition-behavior: allow-discrete;
-    }
-
-    .vl-accordion[open]::details-content {
-        height: auto;
-        opacity: 1;
     }
 
     .vl-accordion__content {

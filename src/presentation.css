@@ -2723,3 +2723,12 @@
     }
   }
 }
+
+/* Sync 2026-10-15: the core gate range changed to `entry exit`, which keeps the
+   hero hidden on load. Restore the range this deck was authored against.
+   Remove when the core restores the previous default (upstream issue to file). */
+@supports (animation-timeline: view()) {
+  .talk [vl-in-view] {
+    animation-range: entry 0% exit 100%;
+  }
+}
