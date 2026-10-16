@@ -148,11 +148,6 @@
 
         .vl-select--custom::picker-icon {
             color: var(--vl-text-muted);
-            transition: rotate var(--vl-transition-fast);
-        }
-
-        .vl-select--custom:open::picker-icon {
-            rotate: 180deg;
         }
 
         .vl-select--custom::picker(select) {
@@ -162,26 +157,6 @@
             border-radius: var(--vl-radius-md);
             background: var(--vl-bg-surface-elevated);
             box-shadow: var(--vl-shadow-lg);
-            opacity: 0;
-            transform: translateY(calc(-1 * var(--vl-state-distance))) scale(var(--vl-state-exit-scale));
-            transition:
-                opacity var(--vl-state-duration) var(--vl-state-ease),
-                transform var(--vl-state-duration) var(--vl-state-ease),
-                overlay var(--vl-state-duration) allow-discrete,
-                display var(--vl-state-duration) allow-discrete;
-            transition-behavior: allow-discrete;
-        }
-
-        .vl-select--custom:open::picker(select) {
-            opacity: 1;
-            transform: translateY(0) scale(1);
-        }
-
-        @starting-style {
-            .vl-select--custom:open::picker(select) {
-                opacity: 0;
-                transform: translateY(calc(-1 * var(--vl-state-distance))) scale(var(--vl-state-exit-scale));
-            }
         }
 
         .vl-select--custom option {

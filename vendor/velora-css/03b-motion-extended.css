@@ -25,13 +25,13 @@
      *   vl-effect="press"            Physical press feedback
      *   vl-effect="bounce"           Elastic bounce loop
      *   vl-effect="shimmer-text"     Text gradient shimmer
-     *   vl-effect="gradient-text-color" Animated gradient color interpolation on text
-     *   vl-effect="circle-text-scroll" Scroll-reactive circular text scene
-     *   vl-effect="code-greeting-stack" Code-style greeting cycler with hover word swap
-     *   vl-effect="cube-triad-stage"  Skin recipe in scene-recipes.css (theme)
+    *   vl-effect="gradient-text-color" Animated gradient color interpolation on text
+    *   vl-effect="circle-text-scroll" Scroll-reactive circular text scene
+    *   vl-effect="code-greeting-stack" Code-style greeting cycler with hover word swap
+    *   (cube-triad-stage lives in scene-recipes.css: Showcase/Skin demo recipe)
      *   vl-effect="gradient-slide"   Background gradient position shift
-     *   vl-effect="duotone"          Duotone image blend treatment
-     *   vl-effect="text-ring-orbit"  3D rotating text ring scene
+    *   vl-effect="duotone"          Duotone image blend treatment
+    *   vl-effect="text-ring-orbit"  3D rotating text ring scene
      *   vl-effect="mesh-pan"         Background mesh drift
      *   vl-effect="hover-prism"      Prism-like hover tilt + glow
      *   vl-effect="hover-depth-press"Lift on hover, press on active
@@ -46,7 +46,7 @@
      *   vl-speed="slower|fastest"    Extra speed buckets
      *   vl-range="exit|center|full"  Extra scroll ranges
      *   vl-range="exit-short"        Smooth exit range
-     *   .vl-3d-stage / .vl-3d-item   Reusable CSS-only 3D stage contract
+     *   .vl-3d-stage                 Perspective scene container
      *   .vl-cube / .vl-cube__face-* CSS 3D cube system
      *   .vl-flip-card / inner/front/back  CSS 3D flip card
      *   .vl-text-wave > span         Per-character wave text
@@ -54,7 +54,19 @@
      *   .vl-gradient-text            Animated gradient text clip
      */
 
-    /* Extended easings/durations live in 01-motion-tokens.css */
+    /* =========================================================================
+       EASING EXTENSIONS  (additional easing tokens)
+       ========================================================================= */
+    :root {
+        --vl-ease-bounce:      cubic-bezier(0.34, 1.72, 0.64, 1);
+        --vl-ease-elastic:     cubic-bezier(0.68, -0.55, 0.265, 1.55);
+        --vl-ease-smooth:      cubic-bezier(0.25, 0.46, 0.45, 0.94);
+        --vl-ease-expo-out:    cubic-bezier(0.19, 1, 0.22, 1);
+        --vl-ease-back-in:     cubic-bezier(0.36, 0, 0.66, -0.56);
+        --vl-ease-back-out:    cubic-bezier(0.34, 1.56, 0.64, 1);
+        --vl-duration-slowest: 1200ms;
+        --vl-duration-fastest: 80ms;
+    }
 
     /* =========================================================================
        KEYFRAMES  entrance — advanced
@@ -72,7 +84,7 @@
     @keyframes vl-glide-in {
         from {
             opacity: 0;
-            transform: translate3d(0, 3rem, 0);
+            transform: translate3d(0, var(--vl-distance-y, 3rem), 0);
         }
         to {
             opacity: 1;
@@ -146,21 +158,29 @@
 
     /* Spring 3D: perspective entry with spring overshoot */
     @keyframes vl-spring-3d {
-        0%   { opacity: 0; transform: perspective(900px) rotateX(22deg) translate3d(0, 2rem, -60px) scale(0.92); }
-        60%  { opacity: 1; transform: perspective(900px) rotateX(-2deg) translate3d(0, -0.2rem, 4px) scale(1.01); }
-        80%  { transform: perspective(900px) rotateX(1deg) translate3d(0, 0.1rem, 0) scale(0.99); }
-        100% { transform: perspective(900px) rotateX(0deg) translate3d(0, 0, 0) scale(1); }
+        0%   {
+            opacity: 0;
+            transform: perspective(var(--vl-perspective, 900px))
+                rotateX(var(--vl-rotate-x, 22deg))
+                translate3d(0, var(--vl-distance-y, 2rem), var(--vl-depth-z-from, -60px))
+                scale(var(--vl-scale-from, 0.92));
+        }
+        60%  { opacity: 1; transform: perspective(var(--vl-perspective, 900px)) rotateX(-2deg) translate3d(0, -0.2rem, 4px) scale(1.01); }
+        80%  { transform: perspective(var(--vl-perspective, 900px)) rotateX(1deg) translate3d(0, 0.1rem, 0) scale(0.99); }
+        100% { transform: perspective(var(--vl-perspective, 900px)) rotateX(0deg) translate3d(0, 0, 0) scale(1); }
     }
 
     /* Rise 3D: dramatic overhead perspective entry */
     @keyframes vl-rise-3d {
         from {
             opacity: 0;
-            transform: perspective(1600px) rotateX(35deg) translate3d(0, 4rem, -120px);
+            transform: perspective(var(--vl-perspective, 1600px))
+                rotateX(var(--vl-rotate-x, 35deg))
+                translate3d(0, var(--vl-distance-y, 4rem), var(--vl-depth-z-from, -120px));
         }
         to {
             opacity: 1;
-            transform: perspective(1600px) rotateX(0deg) translate3d(0, 0, 0);
+            transform: perspective(var(--vl-perspective, 1600px)) rotateX(0deg) translate3d(0, 0, 0);
         }
     }
 
@@ -353,12 +373,16 @@
     /* Depth push on scroll: zooms out from front */
     @keyframes vl-depth-push {
         from {
-            transform: perspective(1000px) translateZ(80px) scale(1.08);
-            opacity: 0.3;
+            transform: perspective(var(--vl-depth-perspective, 1000px))
+                translateZ(var(--vl-depth-z-from, 80px))
+                scale(var(--vl-depth-scale-from, 1.08));
+            opacity: var(--vl-opacity-from, 0.3);
         }
         to {
-            transform: perspective(1000px) translateZ(0px) scale(1);
-            opacity: 1;
+            transform: perspective(var(--vl-depth-perspective, 1000px))
+                translateZ(var(--vl-depth-z-to, 0px))
+                scale(var(--vl-depth-scale-to, 1));
+            opacity: var(--vl-opacity-to, 1);
         }
     }
 
@@ -426,10 +450,10 @@
        KEYFRAMES  scroll-driven — advanced layout patterns
        ========================================================================= */
 
-    /* Parallax: counter-direction translate vs. scroll */
+    /* Parallax: compatibility alias of vl-parallax-shift (P4d unified defaults ±12%). */
     @keyframes vl-parallax {
-        from { transform: translateY(var(--vl-parallax-from, -10%)); }
-        to   { transform: translateY(var(--vl-parallax-to,   10%)); }
+        from { transform: translate3d(0, var(--vl-parallax-from, -12%), 0); }
+        to   { transform: translate3d(0, var(--vl-parallax-to, 12%), 0); }
     }
 
     /* Counter-scroll: element moves in the opposite horizontal direction to page scroll */
@@ -552,9 +576,21 @@
         animation: vl-spring-3d var(--vl-motion-duration, var(--vl-duration-slower)) var(--vl-ease-bounce) both;
     }
 
+    :is([vl-enter~="spring-3d"], [vl-effect~="spring-3d"]) {
+        --vl-enter-name: vl-spring-3d;
+        --vl-enter-duration: var(--vl-duration-slower);
+        --vl-enter-ease: var(--vl-ease-bounce);
+    }
+
     [vl-effect="rise-3d"] {
         --vl-motion-duration: var(--vl-duration-slower);
         animation: vl-rise-3d var(--vl-motion-duration) var(--vl-ease-expo-out) both;
+    }
+
+    :is([vl-enter~="rise-3d"], [vl-effect~="rise-3d"]) {
+        --vl-enter-name: vl-rise-3d;
+        --vl-enter-duration: var(--vl-duration-slower);
+        --vl-enter-ease: var(--vl-ease-expo-out);
     }
 
     [vl-effect="drop-in"] {
@@ -599,7 +635,7 @@
         animation: vl-bounce 1.4s infinite;
     }
 
-    [vl-effect="aurora"] {
+    :is([vl-effect="aurora"], [vl-loop~="aurora"], [vl-loop-effect~="aurora"]) {
         background: linear-gradient(
             135deg,
             color-mix(in oklch, var(--vl-color-primary) 60%, var(--vl-bg-surface)),
@@ -608,6 +644,9 @@
             color-mix(in oklch, var(--vl-color-primary) 40%, var(--vl-bg-inset))
         );
         background-size: 300% 300%;
+    }
+
+    [vl-effect="aurora"] {
         animation: vl-aurora 12s var(--vl-ease-in-out-smooth) infinite;
     }
 
@@ -616,12 +655,80 @@
         animation: vl-gradient-slide 8s var(--vl-ease-in-out-smooth) infinite;
     }
 
-    [vl-effect="mesh-pan"] {
+    :is([vl-effect="mesh-pan"], [vl-loop~="mesh-pan"], [vl-loop-effect~="mesh-pan"]) {
         background-image:
             radial-gradient(circle at 15% 20%, color-mix(in oklch, var(--vl-color-primary) 20%, transparent), transparent 45%),
             radial-gradient(circle at 85% 80%, color-mix(in oklch, var(--vl-color-secondary) 22%, transparent), transparent 45%);
         background-size: 180% 180%, 200% 200%;
+    }
+
+    [vl-effect="mesh-pan"] {
         animation: vl-mesh-pan 14s var(--vl-ease-in-out-smooth) infinite;
+    }
+
+    /* ---- vl-loop / vl-loop-effect channel rules for the ambient effects above ----
+       The legacy vl-effect rules set the `animation` shorthand. The channel only sets the
+       --vl-loop-* parameters, so the loop composes with vl-enter and vl-exit (03-motion.css).
+       Paint (aurora, mesh-pan, shimmer-text, halo-breathe) is shared with the legacy rule. */
+    :is([vl-loop~="pulse-ring"], [vl-loop-effect~="pulse-ring"]) {
+        --vl-loop-name: vl-pulse-ring;
+        --vl-loop-duration: 2.4s;
+        --vl-loop-ease: var(--vl-ease-out-soft);
+    }
+
+    :is([vl-loop~="spin-slow"], [vl-loop-effect~="spin-slow"]) {
+        --vl-loop-name: vl-spin-slow;
+        --vl-loop-duration: 12s;
+        --vl-loop-ease: linear;
+        transform-origin: center;
+    }
+
+    :is([vl-loop~="pendulum"], [vl-loop-effect~="pendulum"]) {
+        --vl-loop-name: vl-pendulum;
+        --vl-loop-duration: 2.2s;
+        transform-origin: top center;
+    }
+
+    :is([vl-loop~="breathe"], [vl-loop-effect~="breathe"]) {
+        --vl-loop-name: vl-breathe;
+        --vl-loop-duration: 4s;
+    }
+
+    :is([vl-loop~="drift"], [vl-loop-effect~="drift"]) {
+        --vl-loop-name: vl-drift;
+        --vl-loop-duration: 8s;
+    }
+
+    :is([vl-loop~="bounce"], [vl-loop-effect~="bounce"]) {
+        --vl-loop-name: vl-bounce;
+        --vl-loop-duration: 1.4s;
+        --vl-loop-ease: ease;
+    }
+
+    :is([vl-loop~="ripple"], [vl-loop-effect~="ripple"]) {
+        --vl-loop-name: vl-ripple-pulse;
+        --vl-loop-duration: 1.8s;
+        --vl-loop-ease: var(--vl-ease-out-soft);
+    }
+
+    :is([vl-loop~="levitate-x"], [vl-loop-effect~="levitate-x"]) {
+        --vl-loop-name: vl-levitate-x;
+        --vl-loop-duration: 4.8s;
+    }
+
+    :is([vl-loop~="aurora"], [vl-loop-effect~="aurora"]) {
+        --vl-loop-name: vl-aurora;
+        --vl-loop-duration: 12s;
+    }
+
+    :is([vl-loop~="mesh-pan"], [vl-loop-effect~="mesh-pan"]) {
+        --vl-loop-name: vl-mesh-pan;
+        --vl-loop-duration: 14s;
+    }
+
+    :is([vl-loop~="shimmer-text"], [vl-loop-effect~="shimmer-text"]) {
+        --vl-loop-name: vl-shimmer-text;
+        --vl-loop-duration: 3s;
     }
 
     [vl-effect="circle-text-scroll"] {
@@ -641,8 +748,8 @@
         font-family: var(--vl-font-family-display);
         font-size: var(--vl-circle-font-size);
         animation: vl-circle-text-scroll-sync linear both;
-        animation-timeline: var(--vl-scroll-timeline, scroll(root block));
-        animation-range: var(--vl-scroll-range, cover 0% cover 100%);
+        animation-timeline: scroll(root block);
+        animation-range: cover 0% cover 100%;
     }
 
     [vl-effect="circle-text-scroll"] > ul {
@@ -710,16 +817,6 @@
     [vl-effect="circle-text-scroll"] > ul > li > span:nth-child(8) { --vl-char-index: 7; }
     [vl-effect="circle-text-scroll"] > ul > li > span:nth-child(9) { --vl-char-index: 8; }
     [vl-effect="circle-text-scroll"] > ul > li > span:nth-child(10) { --vl-char-index: 9; }
-
-    @supports (z-index: sibling-index()) {
-        [vl-effect="circle-text-scroll"] > ul > li {
-            --vl-circle-item-angle: calc(sibling-index() * (360deg / max(sibling-count(), 1)));
-        }
-
-        [vl-effect="circle-text-scroll"] > ul > li > span {
-            --vl-char-index: calc(sibling-index() - 1);
-        }
-    }
 
     [vl-effect="circle-text-scroll"] > em {
         position: absolute;
@@ -842,8 +939,6 @@
     [vl-effect="code-greeting-stack"] .vl-code-token-secondary { color: color-mix(in oklch, var(--vl-color-secondary) 78%, white); }
     [vl-effect="code-greeting-stack"] .vl-code-token-accent { color: color-mix(in oklch, var(--vl-color-accent, var(--vl-color-secondary)) 78%, white); }
     [vl-effect="code-greeting-stack"] .vl-code-token-warm { color: color-mix(in oklch, var(--vl-color-primary) 74%, var(--vl-color-accent, var(--vl-color-secondary))); }
-
-    /* cube-triad-stage look + choreography live in scene-recipes.css (theme skin). */
 
     [vl-effect="text-ring-orbit"] {
         --vl-text-ring-size: clamp(1.8rem, 5.6vw, 3.7rem);
@@ -1132,12 +1227,12 @@
         animation: vl-levitate-x 4.8s var(--vl-ease-in-out-smooth) infinite;
     }
 
-    [vl-effect="halo-breathe"] {
+    :is([vl-effect="halo-breathe"], [vl-loop~="halo-breathe"], [vl-loop-effect~="halo-breathe"]) {
         position: relative;
         isolation: isolate;
     }
 
-    [vl-effect="halo-breathe"]::after {
+    :is([vl-effect="halo-breathe"], [vl-loop~="halo-breathe"], [vl-loop-effect~="halo-breathe"])::after {
         content: "";
         position: absolute;
         inset: -14%;
@@ -1158,7 +1253,7 @@
     }
 
     /* Shimmer text: gradient sweep on text */
-    [vl-effect="shimmer-text"] {
+    :is([vl-effect="shimmer-text"], [vl-loop~="shimmer-text"], [vl-loop-effect~="shimmer-text"]) {
         background: linear-gradient(
             90deg,
             var(--vl-text-primary) 0%,
@@ -1170,6 +1265,9 @@
         -webkit-background-clip: text;
         background-clip: text;
         -webkit-text-fill-color: transparent;
+    }
+
+    [vl-effect="shimmer-text"] {
         animation: vl-shimmer-text 3s var(--vl-ease-in-out-smooth) infinite;
     }
 
@@ -1229,53 +1327,53 @@
 
     /* =========================================================================
        PRIMITIVE EFFECTS — scroll-driven
-       Prefer --vl-scroll-timeline so scene view-clock (--vl-scene) can compose.
        ========================================================================= */
     [vl-effect="rotate-scroll"] {
         animation: vl-rotate-scroll linear both;
-        animation-timeline: var(--vl-scroll-timeline, view(block));
-        animation-range: var(--vl-scroll-range, cover);
+        animation-timeline: view(block);
+        animation-range: cover;
     }
 
     [vl-effect="wipe-reveal"] {
         animation: vl-wipe-scroll linear both;
-        animation-timeline: var(--vl-scroll-timeline, view(block));
-        animation-range: var(--vl-scroll-range, entry 0% cover 50%);
+        animation-timeline: view(block);
+        animation-range: entry 0% cover 50%;
     }
 
     :is([vl-scroll~="depth-push"], [vl-effect="depth-push"]) {
         --vl-scroll-name: vl-depth-push;
         animation: vl-depth-push linear both;
-        animation-timeline: var(--vl-scroll-timeline, view(block));
-        animation-range: var(--vl-scroll-range, var(--vl-range, entry 0% entry 100%));
+        animation-timeline: view(block);
+        animation-range: var(--vl-range, var(--vl-range-start, entry 0%) var(--vl-range-end, entry 100%));
     }
 
-    /* Parallax — element moves at a different rate to scroll */
+    /* Parallax — unified onto vl-parallax-shift (typed + legacy). */
     [vl-effect="parallax"] {
-        animation: vl-parallax linear both;
-        animation-timeline: var(--vl-scroll-timeline, view(block));
-        animation-range: var(--vl-scroll-range, cover 0% cover 100%);
+        --vl-scroll-name: vl-parallax-shift;
+        animation: vl-parallax-shift both linear;
+        animation-timeline: view(block);
+        animation-range: var(--vl-range, var(--vl-range-start, cover 0%) var(--vl-range-end, cover 100%));
     }
 
     /* Counter-scroll — element moves in the opposite direction to page scroll */
     [vl-effect="counter-scroll"] {
         animation: vl-counter-scroll linear both;
-        animation-timeline: var(--vl-scroll-timeline, scroll(root block));
-        animation-range: var(--vl-scroll-range, 0% 100%);
+        animation-timeline: scroll(root block);
+        animation-range: 0% 100%;
     }
 
     /* Image reveal — clip-path expands from centre as element enters the viewport */
     [vl-effect="img-reveal"] {
         animation: vl-img-reveal linear both;
-        animation-timeline: var(--vl-scroll-timeline, view(block));
-        animation-range: var(--vl-scroll-range, entry 0% entry 75%);
+        animation-timeline: view(block);
+        animation-range: entry 0% entry 75%;
     }
 
     /* Header shrink — sticky/fixed bar condenses when the page scrolls */
     [vl-effect="header-shrink"] {
         animation: vl-header-shrink linear both;
-        animation-timeline: var(--vl-scroll-timeline, scroll(root block));
-        animation-range: var(--vl-scroll-range, 0px 120px);
+        animation-timeline: scroll(root block);
+        animation-range: 0px 120px;
     }
 
     /* =========================================================================
@@ -1351,42 +1449,14 @@
 
     /* =========================================================================
        3D STAGE SYSTEM
-       Reusable CSS-only stage contract (host-agnostic structure):
-         - perspective / preserve-3d on the container
-         - positional transforms via CSS vars on direct children
-         - put motion (enter/scroll/loop) on inner content, not on the position shell
-       Demo look recipes (cube-triad) live in scene-recipes.css.
+       Inspired by pure CSS 3D (amit_sheen style) — zero JavaScript
        ========================================================================= */
 
+    /* Perspective container */
     .vl-3d-stage {
-        --vl-3d-perspective: 1000px;
-        --vl-3d-origin: 50% 50%;
-        perspective: var(--vl-3d-perspective);
-        perspective-origin: var(--vl-3d-origin);
+        perspective: var(--vl-3d-perspective, 1000px);
+        perspective-origin: var(--vl-3d-origin, 50% 50%);
         transform-style: preserve-3d;
-        isolation: isolate;
-    }
-
-    /* Preserve 3D for direct children; positional shell is opt-in via .vl-3d-item */
-    .vl-3d-stage > * {
-        transform-style: preserve-3d;
-    }
-
-    .vl-3d-item {
-        --vl-3d-x: 0;
-        --vl-3d-y: 0;
-        --vl-3d-z: 0;
-        --vl-3d-rx: 0deg;
-        --vl-3d-ry: 0deg;
-        --vl-3d-rz: 0deg;
-        --vl-3d-scale: 1;
-        transform-style: preserve-3d;
-        transform:
-            translate3d(var(--vl-3d-x), var(--vl-3d-y), var(--vl-3d-z))
-            rotateX(var(--vl-3d-rx))
-            rotateY(var(--vl-3d-ry))
-            rotateZ(var(--vl-3d-rz))
-            scale(var(--vl-3d-scale));
     }
 
     /* 3D scene: preserves child transforms in 3D space */
@@ -1534,113 +1604,41 @@
        ========================================================================= */
 
     /* Wave: children animate in a wave pattern (stagger + wave-char keyframe) */
-    [vl-children="wave"] > :not([vl-effect]):not([vl-enter]):not([vl-exit]) {
+    [vl-children="wave"] > :where(:not([vl-effect]):not([vl-enter]):not([vl-exit])) {
         animation: vl-wave-char 1.8s var(--vl-ease-in-out-smooth) infinite;
     }
 
-    [vl-children="wave"] > *:nth-child(1)  { animation-delay: calc(0  * var(--vl-stagger-step, 80ms)); }
-    [vl-children="wave"] > *:nth-child(2)  { animation-delay: calc(1  * var(--vl-stagger-step, 80ms)); }
-    [vl-children="wave"] > *:nth-child(3)  { animation-delay: calc(2  * var(--vl-stagger-step, 80ms)); }
-    [vl-children="wave"] > *:nth-child(4)  { animation-delay: calc(3  * var(--vl-stagger-step, 80ms)); }
-    [vl-children="wave"] > *:nth-child(5)  { animation-delay: calc(4  * var(--vl-stagger-step, 80ms)); }
-    [vl-children="wave"] > *:nth-child(6)  { animation-delay: calc(5  * var(--vl-stagger-step, 80ms)); }
-    [vl-children="wave"] > *:nth-child(7)  { animation-delay: calc(6  * var(--vl-stagger-step, 80ms)); }
-    [vl-children="wave"] > *:nth-child(8)  { animation-delay: calc(7  * var(--vl-stagger-step, 80ms)); }
 
     /* Blur cascade: children blur-in with stagger */
-    [vl-children="blur-cascade"] > :not([vl-effect]):not([vl-enter]):not([vl-exit]) {
+    [vl-children="blur-cascade"] > :where(:not([vl-effect]):not([vl-enter]):not([vl-exit])) {
         animation: vl-blur-cascade var(--vl-duration-slower) var(--vl-ease-out-soft) both;
     }
 
-    [vl-children="blur-cascade"] > *:nth-child(1)  { animation-delay: calc(0  * var(--vl-stagger-step, 80ms)); }
-    [vl-children="blur-cascade"] > *:nth-child(2)  { animation-delay: calc(1  * var(--vl-stagger-step, 80ms)); }
-    [vl-children="blur-cascade"] > *:nth-child(3)  { animation-delay: calc(2  * var(--vl-stagger-step, 80ms)); }
-    [vl-children="blur-cascade"] > *:nth-child(4)  { animation-delay: calc(3  * var(--vl-stagger-step, 80ms)); }
-    [vl-children="blur-cascade"] > *:nth-child(5)  { animation-delay: calc(4  * var(--vl-stagger-step, 80ms)); }
-    [vl-children="blur-cascade"] > *:nth-child(6)  { animation-delay: calc(5  * var(--vl-stagger-step, 80ms)); }
-    [vl-children="blur-cascade"] > *:nth-child(7)  { animation-delay: calc(6  * var(--vl-stagger-step, 80ms)); }
-    [vl-children="blur-cascade"] > *:nth-child(8)  { animation-delay: calc(7  * var(--vl-stagger-step, 80ms)); }
 
     /* Zoom stagger: children zoom-scale-in with stagger */
-    [vl-children="zoom-stagger"] > :not([vl-effect]):not([vl-enter]):not([vl-exit]) {
+    [vl-children="zoom-stagger"] > :where(:not([vl-effect]):not([vl-enter]):not([vl-exit])) {
         animation: vl-zoom-stagger var(--vl-duration-slow) var(--vl-ease-spring) both;
     }
 
-    [vl-children="zoom-stagger"] > *:nth-child(1)  { animation-delay: calc(0  * var(--vl-stagger-step, 70ms)); }
-    [vl-children="zoom-stagger"] > *:nth-child(2)  { animation-delay: calc(1  * var(--vl-stagger-step, 70ms)); }
-    [vl-children="zoom-stagger"] > *:nth-child(3)  { animation-delay: calc(2  * var(--vl-stagger-step, 70ms)); }
-    [vl-children="zoom-stagger"] > *:nth-child(4)  { animation-delay: calc(3  * var(--vl-stagger-step, 70ms)); }
-    [vl-children="zoom-stagger"] > *:nth-child(5)  { animation-delay: calc(4  * var(--vl-stagger-step, 70ms)); }
-    [vl-children="zoom-stagger"] > *:nth-child(6)  { animation-delay: calc(5  * var(--vl-stagger-step, 70ms)); }
-    [vl-children="zoom-stagger"] > *:nth-child(7)  { animation-delay: calc(6  * var(--vl-stagger-step, 70ms)); }
-    [vl-children="zoom-stagger"] > *:nth-child(8)  { animation-delay: calc(7  * var(--vl-stagger-step, 70ms)); }
 
-    [vl-children="cinema-stagger"] > :not([vl-effect]):not([vl-enter]):not([vl-exit]) {
+    [vl-children="cinema-stagger"] > :where(:not([vl-effect]):not([vl-enter]):not([vl-exit])) {
         animation: vl-glide-in var(--vl-duration-slow) var(--vl-ease-expo-out) both;
     }
 
-    [vl-children="cinema-stagger"] > :not([vl-effect]):not([vl-enter]):not([vl-exit]):nth-child(odd) {
+    [vl-children="cinema-stagger"] > :where(:not([vl-effect]):not([vl-enter]):not([vl-exit])):nth-child(odd) {
         animation-name: vl-spring-up;
     }
 
-    [vl-children="cinema-stagger"] > *:nth-child(1)  { animation-delay: calc(0  * var(--vl-stagger-step, 90ms)); }
-    [vl-children="cinema-stagger"] > *:nth-child(2)  { animation-delay: calc(1  * var(--vl-stagger-step, 90ms)); }
-    [vl-children="cinema-stagger"] > *:nth-child(3)  { animation-delay: calc(2  * var(--vl-stagger-step, 90ms)); }
-    [vl-children="cinema-stagger"] > *:nth-child(4)  { animation-delay: calc(3  * var(--vl-stagger-step, 90ms)); }
-    [vl-children="cinema-stagger"] > *:nth-child(5)  { animation-delay: calc(4  * var(--vl-stagger-step, 90ms)); }
-    [vl-children="cinema-stagger"] > *:nth-child(6)  { animation-delay: calc(5  * var(--vl-stagger-step, 90ms)); }
-    [vl-children="cinema-stagger"] > *:nth-child(7)  { animation-delay: calc(6  * var(--vl-stagger-step, 90ms)); }
-    [vl-children="cinema-stagger"] > *:nth-child(8)  { animation-delay: calc(7  * var(--vl-stagger-step, 90ms)); }
 
-    [vl-children="grid-wave"] > :not([vl-effect]):not([vl-enter]):not([vl-exit]) {
+    [vl-children="grid-wave"] > :where(:not([vl-effect]):not([vl-enter]):not([vl-exit])) {
         animation: vl-grid-wave 1.6s var(--vl-ease-in-out-smooth) infinite;
     }
 
-    [vl-children="grid-wave"] > *:nth-child(1)  { animation-delay: 0ms; }
-    [vl-children="grid-wave"] > *:nth-child(2)  { animation-delay: 80ms; }
-    [vl-children="grid-wave"] > *:nth-child(3)  { animation-delay: 160ms; }
-    [vl-children="grid-wave"] > *:nth-child(4)  { animation-delay: 240ms; }
-    [vl-children="grid-wave"] > *:nth-child(5)  { animation-delay: 320ms; }
-    [vl-children="grid-wave"] > *:nth-child(6)  { animation-delay: 400ms; }
-    [vl-children="grid-wave"] > *:nth-child(7)  { animation-delay: 480ms; }
-    [vl-children="grid-wave"] > *:nth-child(8)  { animation-delay: 560ms; }
 
-    [vl-children="spiral-stagger"] > :not([vl-effect]):not([vl-enter]):not([vl-exit]) {
+    [vl-children="spiral-stagger"] > :where(:not([vl-effect]):not([vl-enter]):not([vl-exit])) {
         animation: vl-spiral-stagger var(--vl-duration-slow) var(--vl-ease-back-out) both;
     }
 
-    [vl-children="spiral-stagger"] > *:nth-child(1)  { animation-delay: calc(0  * var(--vl-stagger-step, 90ms)); }
-    [vl-children="spiral-stagger"] > *:nth-child(2)  { animation-delay: calc(1  * var(--vl-stagger-step, 90ms)); }
-    [vl-children="spiral-stagger"] > *:nth-child(3)  { animation-delay: calc(2  * var(--vl-stagger-step, 90ms)); }
-    [vl-children="spiral-stagger"] > *:nth-child(4)  { animation-delay: calc(3  * var(--vl-stagger-step, 90ms)); }
-    [vl-children="spiral-stagger"] > *:nth-child(5)  { animation-delay: calc(4  * var(--vl-stagger-step, 90ms)); }
-    [vl-children="spiral-stagger"] > *:nth-child(6)  { animation-delay: calc(5  * var(--vl-stagger-step, 90ms)); }
-    [vl-children="spiral-stagger"] > *:nth-child(7)  { animation-delay: calc(6  * var(--vl-stagger-step, 90ms)); }
-    [vl-children="spiral-stagger"] > *:nth-child(8)  { animation-delay: calc(7  * var(--vl-stagger-step, 90ms)); }
-
-    @supports (animation-delay: calc(sibling-index() * 1ms)) {
-        :is(
-            [vl-children="wave"],
-            [vl-children="blur-cascade"],
-            [vl-children="zoom-stagger"],
-            [vl-children="cinema-stagger"],
-            [vl-children="spiral-stagger"]
-        ) > * {
-            animation-delay: calc((sibling-index() - 1) * var(--vl-stagger-step, 80ms));
-        }
-
-        [vl-children="grid-wave"] > * {
-            animation-delay: calc((sibling-index() - 1) * 80ms);
-        }
-
-        .vl-text-wave > span {
-            animation-delay: calc((sibling-index() - 1) * 80ms);
-        }
-
-        .vl-text-split > span {
-            animation-delay: calc((sibling-index() - 1) * 90ms);
-        }
-    }
 
     /* Extra stagger values */
     [vl-stagger="20ms"]  { --vl-stagger-step: 20ms; }
@@ -1809,13 +1807,13 @@
     }
 
     /* --- List enter (scroll-driven stagger) ----------------------------------- */
-    [vl-children="list-enter"] > :not([vl-effect]):not([vl-enter]):not([vl-exit]) {
+    [vl-children="list-enter"] > :where(:not([vl-effect]):not([vl-enter]):not([vl-exit])) {
         animation: vl-list-enter var(--vl-duration-slow) var(--vl-ease-expo-out) both;
         animation-timeline: view(block);
         animation-range: entry 0% entry 60%;
     }
 
-    [vl-children="list-enter-right"] > :not([vl-effect]):not([vl-enter]):not([vl-exit]) {
+    [vl-children="list-enter-right"] > :where(:not([vl-effect]):not([vl-enter]):not([vl-exit])) {
         --vl-list-enter-x: 1.5rem;
         animation: vl-list-enter var(--vl-duration-slow) var(--vl-ease-expo-out) both;
         animation-timeline: view(block);
@@ -1867,6 +1865,7 @@
     [vl-effect="drop-in"],
     [vl-effect="skew-slide"],
     [vl-effect="hinge-down"],
+    [vl-effect="cube-triad-stage"],
     [vl-effect="rotate-scroll"],
     [vl-effect="wipe-reveal"],
     [vl-effect="depth-push"],
@@ -1908,6 +1907,7 @@
         }
 
         [vl-effect="parallax"],
+        [vl-scroll~="parallax"],
         [vl-effect="counter-scroll"],
         [vl-effect="header-shrink"],
         .vl-stack-card,
@@ -1943,6 +1943,10 @@
             animation: none;
         }
 
+        :is([vl-effect="halo-breathe"], [vl-loop~="halo-breathe"], [vl-loop-effect~="halo-breathe"])::after {
+            animation: none;
+        }
+
         [vl-effect="text-ring-orbit"] .vl-text-ring-stage {
             transform: rotateX(20deg);
         }
@@ -1969,16 +1973,15 @@
 
         [vl-effect="rotate-scroll"],
         [vl-effect="wipe-reveal"],
-        [vl-effect="depth-push"] {
+        [vl-effect="depth-push"],
+        [vl-scroll~="depth-push"] {
             animation: none;
         }
 
         [vl-children="wave"] > *,
         [vl-children="blur-cascade"] > *,
         [vl-children="zoom-stagger"] > *,
-        [vl-children="cinema-stagger"] > *,
-        [vl-children="grid-wave"] > *,
-        [vl-children="spiral-stagger"] > * {
+        [vl-children="cinema-stagger"] > * {
             animation: vl-fade-in var(--vl-duration-fast) linear both;
         }
 
@@ -2214,5 +2217,66 @@
     .vl-type-cinematic-hero[vl-timeline="view"] {
         animation-timeline: view();
         animation-range: entry 10% entry 60%;
+    }
+
+    /* Fallback without sibling-index(): a fixed ladder for the first children. */
+    @supports not (width: calc(sibling-index() * 1px)) {
+        [vl-children="wave"] > *:nth-child(1)  { animation-delay: calc(0  * var(--vl-stagger-step, 80ms)); }
+        [vl-children="wave"] > *:nth-child(2)  { animation-delay: calc(1  * var(--vl-stagger-step, 80ms)); }
+        [vl-children="wave"] > *:nth-child(3)  { animation-delay: calc(2  * var(--vl-stagger-step, 80ms)); }
+        [vl-children="wave"] > *:nth-child(4)  { animation-delay: calc(3  * var(--vl-stagger-step, 80ms)); }
+        [vl-children="wave"] > *:nth-child(5)  { animation-delay: calc(4  * var(--vl-stagger-step, 80ms)); }
+        [vl-children="wave"] > *:nth-child(6)  { animation-delay: calc(5  * var(--vl-stagger-step, 80ms)); }
+        [vl-children="wave"] > *:nth-child(7)  { animation-delay: calc(6  * var(--vl-stagger-step, 80ms)); }
+        [vl-children="wave"] > *:nth-child(8)  { animation-delay: calc(7  * var(--vl-stagger-step, 80ms)); }
+        [vl-children="blur-cascade"] > *:nth-child(1)  { animation-delay: calc(0  * var(--vl-stagger-step, 80ms)); }
+        [vl-children="blur-cascade"] > *:nth-child(2)  { animation-delay: calc(1  * var(--vl-stagger-step, 80ms)); }
+        [vl-children="blur-cascade"] > *:nth-child(3)  { animation-delay: calc(2  * var(--vl-stagger-step, 80ms)); }
+        [vl-children="blur-cascade"] > *:nth-child(4)  { animation-delay: calc(3  * var(--vl-stagger-step, 80ms)); }
+        [vl-children="blur-cascade"] > *:nth-child(5)  { animation-delay: calc(4  * var(--vl-stagger-step, 80ms)); }
+        [vl-children="blur-cascade"] > *:nth-child(6)  { animation-delay: calc(5  * var(--vl-stagger-step, 80ms)); }
+        [vl-children="blur-cascade"] > *:nth-child(7)  { animation-delay: calc(6  * var(--vl-stagger-step, 80ms)); }
+        [vl-children="blur-cascade"] > *:nth-child(8)  { animation-delay: calc(7  * var(--vl-stagger-step, 80ms)); }
+        [vl-children="zoom-stagger"] > *:nth-child(1)  { animation-delay: calc(0  * var(--vl-stagger-step, 70ms)); }
+        [vl-children="zoom-stagger"] > *:nth-child(2)  { animation-delay: calc(1  * var(--vl-stagger-step, 70ms)); }
+        [vl-children="zoom-stagger"] > *:nth-child(3)  { animation-delay: calc(2  * var(--vl-stagger-step, 70ms)); }
+        [vl-children="zoom-stagger"] > *:nth-child(4)  { animation-delay: calc(3  * var(--vl-stagger-step, 70ms)); }
+        [vl-children="zoom-stagger"] > *:nth-child(5)  { animation-delay: calc(4  * var(--vl-stagger-step, 70ms)); }
+        [vl-children="zoom-stagger"] > *:nth-child(6)  { animation-delay: calc(5  * var(--vl-stagger-step, 70ms)); }
+        [vl-children="zoom-stagger"] > *:nth-child(7)  { animation-delay: calc(6  * var(--vl-stagger-step, 70ms)); }
+        [vl-children="zoom-stagger"] > *:nth-child(8)  { animation-delay: calc(7  * var(--vl-stagger-step, 70ms)); }
+        [vl-children="cinema-stagger"] > *:nth-child(1)  { animation-delay: calc(0  * var(--vl-stagger-step, 90ms)); }
+        [vl-children="cinema-stagger"] > *:nth-child(2)  { animation-delay: calc(1  * var(--vl-stagger-step, 90ms)); }
+        [vl-children="cinema-stagger"] > *:nth-child(3)  { animation-delay: calc(2  * var(--vl-stagger-step, 90ms)); }
+        [vl-children="cinema-stagger"] > *:nth-child(4)  { animation-delay: calc(3  * var(--vl-stagger-step, 90ms)); }
+        [vl-children="cinema-stagger"] > *:nth-child(5)  { animation-delay: calc(4  * var(--vl-stagger-step, 90ms)); }
+        [vl-children="cinema-stagger"] > *:nth-child(6)  { animation-delay: calc(5  * var(--vl-stagger-step, 90ms)); }
+        [vl-children="cinema-stagger"] > *:nth-child(7)  { animation-delay: calc(6  * var(--vl-stagger-step, 90ms)); }
+        [vl-children="cinema-stagger"] > *:nth-child(8)  { animation-delay: calc(7  * var(--vl-stagger-step, 90ms)); }
+        [vl-children="grid-wave"] > *:nth-child(1)  { animation-delay: 0ms; }
+        [vl-children="grid-wave"] > *:nth-child(2)  { animation-delay: 80ms; }
+        [vl-children="grid-wave"] > *:nth-child(3)  { animation-delay: 160ms; }
+        [vl-children="grid-wave"] > *:nth-child(4)  { animation-delay: 240ms; }
+        [vl-children="grid-wave"] > *:nth-child(5)  { animation-delay: 320ms; }
+        [vl-children="grid-wave"] > *:nth-child(6)  { animation-delay: 400ms; }
+        [vl-children="grid-wave"] > *:nth-child(7)  { animation-delay: 480ms; }
+        [vl-children="grid-wave"] > *:nth-child(8)  { animation-delay: 560ms; }
+        [vl-children="spiral-stagger"] > *:nth-child(1)  { animation-delay: calc(0  * var(--vl-stagger-step, 90ms)); }
+        [vl-children="spiral-stagger"] > *:nth-child(2)  { animation-delay: calc(1  * var(--vl-stagger-step, 90ms)); }
+        [vl-children="spiral-stagger"] > *:nth-child(3)  { animation-delay: calc(2  * var(--vl-stagger-step, 90ms)); }
+        [vl-children="spiral-stagger"] > *:nth-child(4)  { animation-delay: calc(3  * var(--vl-stagger-step, 90ms)); }
+        [vl-children="spiral-stagger"] > *:nth-child(5)  { animation-delay: calc(4  * var(--vl-stagger-step, 90ms)); }
+        [vl-children="spiral-stagger"] > *:nth-child(6)  { animation-delay: calc(5  * var(--vl-stagger-step, 90ms)); }
+        [vl-children="spiral-stagger"] > *:nth-child(7)  { animation-delay: calc(6  * var(--vl-stagger-step, 90ms)); }
+        [vl-children="spiral-stagger"] > *:nth-child(8)  { animation-delay: calc(7  * var(--vl-stagger-step, 90ms)); }
+    }
+
+    /* The families above declare an `animation` shorthand, which resets delay. Re-apply the shared stagger
+       delay (defined once in 03-motion.css) after them. */
+    @supports (width: calc(sibling-index() * 1px)) {
+        :is([vl-children="wave"], [vl-children="blur-cascade"], [vl-children="zoom-stagger"], [vl-children="cinema-stagger"],
+            [vl-children="spiral-stagger"], [vl-children="grid-wave"]) > * {
+            animation-delay: var(--_stagger-delay);
+        }
     }
 }
