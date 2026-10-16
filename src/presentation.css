@@ -1,4 +1,6 @@
 @import "../vendor/velora-css/velora.css";
+@import "./skins/01d-skin-velora.css";
+@import "./skins/01e-skin-select.css";
 
 /* Typography: self-hosted, same faces as the vNext site (SIL OFL 1.1). */
 @font-face { font-family: "Outfit"; font-style: normal; font-weight: 100 900; font-display: swap; src: url("/fonts/outfit-latin-wght-normal.woff2") format("woff2"); }
@@ -1535,6 +1537,7 @@
   }
 
   /* Referência visual fixa de cada Skin (não segue o tema ativo) */
+  .skin-velora { background: linear-gradient(135deg, #0c0c0b 50%, #a9b08b 50%); }
   .skin-noir { background: linear-gradient(135deg, #0d0f0c, #bbcbb1); }
   .skin-earth { background: linear-gradient(135deg, #fbf9f4, #182317); }
   .skin-aethel { background: linear-gradient(135deg, #000, #9b6e49); }
@@ -2755,3 +2758,43 @@
 .talk-slide--final .talk-final-footer {
   padding-right: 5rem;
 }
+
+
+/* ── Evidence slide: three measured columns (mirrors .talk-three) ── */
+.talk-evidence {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 1px;
+  border: 1px solid var(--talk-border);
+  background: var(--talk-border);
+}
+.talk-evidence article {
+  min-height: 15rem;
+  padding: clamp(1.3rem, 2vw, 2rem);
+  background: var(--talk-surface);
+}
+.talk-evidence b {
+  display: block;
+  margin-bottom: 1rem;
+  font-family: var(--talk-mono);
+  font-size: 0.72rem;
+  letter-spacing: 0.14em;
+  color: var(--talk-accent, currentColor);
+}
+.talk-evidence h3 {
+  margin: 0 0 0.8rem;
+  font-family: var(--talk-display);
+  font-size: clamp(1.9rem, 3.2vw, 3rem);
+  line-height: 1;
+}
+.talk-evidence p { margin: 0; color: var(--talk-muted); font-size: clamp(0.9rem, 1.1vw, 1.05rem); line-height: 1.5; }
+@media (max-width: 760px) {
+  .talk-evidence { grid-template-columns: 1fr; }
+  .talk-evidence article { min-height: 0; }
+}
+
+/* Desktop: reserve room for the fixed chapter rail so it never overlaps content */
+@media (min-width: 761px) {
+  .talk-stage { padding-inline-end: 4.25rem; box-sizing: border-box; }
+}
+.talk-evidence { margin-top: clamp(1.5rem, 3vh, 2.5rem); }

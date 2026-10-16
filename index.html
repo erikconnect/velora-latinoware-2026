@@ -1,9 +1,9 @@
 <!doctype html>
 <html
   lang="pt-BR"
-  data-editorial-theme="noir"
+  data-editorial-theme="velora"
   data-theme="dark"
-  data-theme-pack="velora-noir"
+  data-theme-pack="velora-velora"
   vl-page-transition="cinema"
 >
   <head>
@@ -13,7 +13,7 @@
       name="description"
       content="Velora CSS: Motion Nativo — apresentação de Erik Cardoso para o 23º Latinoware, 14–16 de outubro de 2026, em Foz do Iguaçu."
     />
-    <meta name="theme-color" content="#0d0f0c" />
+    <meta name="theme-color" content="#0c0c0b" />
     <title>Velora CSS: Motion Nativo — Latinoware 2026</title>
     <link rel="icon" type="image/svg+xml" href="/media/velora-logo.svg" />
     <script src="/js/talk-skin-state.js"></script>
@@ -31,6 +31,7 @@
         title="Editorial design theme"
         aria-label="Editorial design theme"
       >
+        <option value="velora">Velora</option>
         <option value="noir">Noir</option>
         <option value="earth">Earth tech</option>
         <option value="aethel">Aethel</option>
@@ -46,7 +47,7 @@
       <a href="#slide-06" aria-label="O engine"><span>02</span> Engine</a>
       <a href="#slide-12" aria-label="Arquitetura"><span>03</span> Arquitetura</a>
       <a href="#slide-16" aria-label="Open source"><span>04</span> Open source</a>
-      <a href="#slide-19" aria-label="Encerramento"><span>05</span> Fork it</a>
+      <a href="#slide-20" aria-label="Encerramento"><span>05</span> Fork it</a>
     </nav>
 
     <main class="talk-deck" id="content">
@@ -88,7 +89,7 @@
             <div class="talk-meta" vl-enter="fade-up" vl-delay="300ms">
               <span>Erik Cardoso</span>
               <span>Foz do Iguaçu</span>
-              <span>14–16 OUT · 2026</span>
+              <span>veloracss.io</span>
             </div>
           </div>
 
@@ -163,7 +164,7 @@
           </div>
         </div>
 
-        <p class="talk-slide__number" aria-hidden="true">01 / 19</p>
+        <p class="talk-slide__number" aria-hidden="true">01 / 20</p>
       </section>
 
       <!-- 02 -->
@@ -205,7 +206,7 @@
           </div>
         </div>
 
-        <p class="talk-slide__number" aria-hidden="true">02 / 19</p>
+        <p class="talk-slide__number" aria-hidden="true">02 / 20</p>
       </section>
 
       <!-- 03 -->
@@ -268,7 +269,7 @@
           </p>
         </div>
 
-        <p class="talk-slide__number" aria-hidden="true">03 / 19</p>
+        <p class="talk-slide__number" aria-hidden="true">03 / 20</p>
       </section>
 
       <!-- 04 -->
@@ -304,11 +305,11 @@
           </div>
 
           <p class="talk-question" vl-enter="reveal-cinematic" vl-delay="340ms">
-            E se motion fosse parte da <strong>semântica do HTML</strong> e da <strong>capacidade nativa do CSS?</strong>
+            E se a <strong>intenção de motion</strong> fosse declarada no HTML e executada pela <strong>capacidade nativa do CSS?</strong>
           </p>
         </div>
 
-        <p class="talk-slide__number" aria-hidden="true">04 / 19</p>
+        <p class="talk-slide__number" aria-hidden="true">04 / 20</p>
       </section>
 
       <!-- 05 -->
@@ -348,7 +349,7 @@
           </p>
         </div>
 
-        <p class="talk-slide__number" aria-hidden="true">05 / 19</p>
+        <p class="talk-slide__number" aria-hidden="true">05 / 20</p>
       </section>
 
       <!-- 06 -->
@@ -401,7 +402,7 @@
           </div>
         </div>
 
-        <p class="talk-slide__number" aria-hidden="true">06 / 19</p>
+        <p class="talk-slide__number" aria-hidden="true">06 / 20</p>
       </section>
 
       <!-- 07 -->
@@ -432,7 +433,7 @@
           </div>
         </div>
 
-        <p class="talk-slide__number" aria-hidden="true">07 / 19</p>
+        <p class="talk-slide__number" aria-hidden="true">07 / 20</p>
       </section>
 
       <!-- 08 -->
@@ -483,7 +484,7 @@
           </div>
         </div>
 
-        <p class="talk-slide__number" aria-hidden="true">08 / 19</p>
+        <p class="talk-slide__number" aria-hidden="true">08 / 20</p>
       </section>
 
       <!-- 09 -->
@@ -520,7 +521,7 @@
           </div>
         </div>
 
-        <p class="talk-slide__number" aria-hidden="true">09 / 19</p>
+        <p class="talk-slide__number" aria-hidden="true">09 / 20</p>
       </section>
 
       <!-- 10 -->
@@ -545,7 +546,7 @@
             </div>
 
             <p class="talk-callout" vl-enter="fade-up" vl-delay="320ms">
-              <strong>CSS if()</strong> é enhancement. O baseline precisa continuar correto sem ele.
+              <strong>CSS if()</strong> é enhancement <em>(Experimental)</em>. O baseline precisa continuar correto sem ele.
             </p>
           </div>
 
@@ -573,7 +574,7 @@
           </div>
         </div>
 
-        <p class="talk-slide__number" aria-hidden="true">10 / 19</p>
+        <p class="talk-slide__number" aria-hidden="true">10 / 20</p>
       </section>
 
       <!-- 11 -->
@@ -604,7 +605,7 @@
           </div>
         </div>
 
-        <p class="talk-slide__number" aria-hidden="true">11 / 19</p>
+        <p class="talk-slide__number" aria-hidden="true">11 / 20</p>
       </section>
 
       <!-- 12 -->
@@ -635,6 +636,7 @@
               <h3>Design-system models</h3>
               <ul><li>tipografia</li><li>grid e densidade</li><li>geometria</li><li>materiais e mídia</li><li>motion voice</li></ul>
               <div class="talk-skin-swatches" role="group" aria-label="Skins disponíveis — clique para trocar">
+                <button type="button" class="skin-velora" data-talk-skin="velora" title="Velora" aria-label="Skin Velora"></button>
                 <button type="button" class="skin-noir" data-talk-skin="noir" title="Noir" aria-label="Skin Noir"></button>
                 <button type="button" class="skin-earth" data-talk-skin="earth" title="Earth tech" aria-label="Skin Earth tech"></button>
                 <button type="button" class="skin-aethel" data-talk-skin="aethel" title="Aethel" aria-label="Skin Aethel"></button>
@@ -644,7 +646,7 @@
           </div>
         </div>
 
-        <p class="talk-slide__number" aria-hidden="true">12 / 19</p>
+        <p class="talk-slide__number" aria-hidden="true">12 / 20</p>
       </section>
 
       <!-- 13 -->
@@ -675,7 +677,7 @@
           <p class="talk-scale" aria-hidden="true"><span>baixa prioridade</span><i></i><span>alta prioridade</span></p>
         </div>
 
-        <p class="talk-slide__number" aria-hidden="true">13 / 19</p>
+        <p class="talk-slide__number" aria-hidden="true">13 / 20</p>
       </section>
 
       <!-- 14 -->
@@ -710,7 +712,7 @@
           </div>
         </div>
 
-        <p class="talk-slide__number" aria-hidden="true">14 / 19</p>
+        <p class="talk-slide__number" aria-hidden="true">14 / 20</p>
       </section>
 
       <!-- 15 -->
@@ -737,7 +739,7 @@
           </p>
         </div>
 
-        <p class="talk-slide__number" aria-hidden="true">15 / 19</p>
+        <p class="talk-slide__number" aria-hidden="true">15 / 20</p>
       </section>
 
       <!-- 16 -->
@@ -755,7 +757,7 @@
 
           <div class="talk-oss-grid" vl-enter="fade-up" vl-delay="220ms">
             <article><strong>@velora/css</strong><span>framework canônico</span></article>
-            <article><strong>showcase</strong><span>provas + catálogo vivo</span></article>
+            <article><strong>showcase</strong><span>catálogo vivo + Proof</span></article>
             <article><strong>docs</strong><span>guias + contratos</span></article>
             <article><strong>compiler</strong><span>validação / migração</span></article>
             <article><strong>CI</strong><span>build + audits</span></article>
@@ -771,20 +773,59 @@
           </p>
         </div>
 
-        <p class="talk-slide__number" aria-hidden="true">16 / 19</p>
+        <p class="talk-slide__number" aria-hidden="true">16 / 20</p>
       </section>
 
       <!-- 17 -->
-      <section vl-in-view class="talk-slide talk-slide--demo" id="slide-17" aria-labelledby="slide-17-title">
+      <section vl-in-view class="talk-slide talk-slide--evidence" id="slide-17" aria-labelledby="slide-17-title">
         <div class="talk-slide__chrome" aria-hidden="true">
-          <span>14 / DEMO AO VIVO</span>
+          <span>14 / EVIDÊNCIA</span>
+          <span>MEASURED, NOT CLAIMED</span>
+        </div>
+
+        <div class="talk-stage">
+          <p class="talk-kicker" vl-enter="fade-up">Medido, não alegado.</p>
+          <h2 id="slide-17-title" class="talk-display" vl-enter="clip-rise" vl-delay="100ms">
+            Números com <em>limites declarados.</em>
+          </h2>
+
+          <div class="talk-evidence" vl-enter="fade-up" vl-delay="220ms">
+            <article>
+              <b>PESO · MEDIDO</b>
+              <h3>18,6 kB</h3>
+              <p>motion-core em CSS, minificado + gzip. Sem script para interpretar e sem runtime para iniciar. GSAP + ScrollTrigger (44,6 kB) aparece só como escala.</p>
+            </article>
+            <article>
+              <b>EXECUÇÃO · MEDIDO</b>
+              <h3>0 ms de script</h3>
+              <p>para iniciar o movimento. Com CPU 4× mais lenta: +16% de trabalho da thread principal vs. +102% na versão guiada por script, no mesmo teste.</p>
+            </article>
+            <article>
+              <b>ACESSIBILIDADE · VALIDADO</b>
+              <h3>AA em texto</h3>
+              <p>Contraste calculado nos tokens do site, claro e escuro. Teclado percorrido em 11 páginas. Movimento reduzido e <code>vl-motion="still"</code> respeitados.</p>
+            </article>
+          </div>
+
+          <p class="talk-lead talk-lead--wide" vl-enter="fade-up" vl-delay="340ms">
+            <strong>Limites:</strong> um cenário, uma máquina, Chromium 141, via localhost. Leitor de tela, modo de contraste forçado e celulares reais ainda <strong>não foram testados.</strong>
+          </p>
+        </div>
+
+        <p class="talk-slide__number" aria-hidden="true">17 / 20</p>
+      </section>
+
+      <!-- 18 -->
+      <section vl-in-view class="talk-slide talk-slide--demo" id="slide-18" aria-labelledby="slide-18-title">
+        <div class="talk-slide__chrome" aria-hidden="true">
+          <span>15 / DEMO AO VIVO</span>
           <span>THREE MINUTES</span>
         </div>
 
         <div class="talk-stage talk-stage--demo">
           <div>
             <p class="talk-kicker" vl-enter="fade-up">Três minutos para provar a tese.</p>
-            <h2 id="slide-17-title" class="talk-display" vl-enter="clip-rise" vl-delay="100ms">
+            <h2 id="slide-18-title" class="talk-display" vl-enter="clip-rise" vl-delay="100ms">
               Abra. Rode.<br /><em>Troque os atributos.</em>
             </h2>
 
@@ -807,25 +848,25 @@
           </aside>
         </div>
 
-        <p class="talk-slide__number" aria-hidden="true">17 / 19</p>
+        <p class="talk-slide__number" aria-hidden="true">18 / 20</p>
       </section>
 
-      <!-- 18 -->
-      <section vl-in-view class="talk-slide talk-slide--roadmap" id="slide-18" aria-labelledby="slide-18-title">
+      <!-- 19 -->
+      <section vl-in-view class="talk-slide talk-slide--roadmap" id="slide-19" aria-labelledby="slide-19-title">
         <div class="talk-slide__chrome" aria-hidden="true">
-          <span>15 / ROADMAP ABERTO</span>
+          <span>16 / ROADMAP ABERTO</span>
           <span>LAUNCH ≠ FINISH</span>
         </div>
 
         <div class="talk-stage">
           <p class="talk-kicker" vl-enter="fade-up">O lançamento não encerra o projeto.</p>
-          <h2 id="slide-18-title" class="talk-display" vl-enter="clip-rise" vl-delay="100ms">
+          <h2 id="slide-19-title" class="talk-display" vl-enter="clip-rise" vl-delay="100ms">
             Ele muda <em>quem pode influenciá-lo.</em>
           </h2>
 
           <div class="talk-roadmap" vl-enter="fade-up" vl-delay="220ms">
-            <article><b>AGORA</b><strong>Estabilizar grammar + docs</strong><span>contrato, catálogo, exemplos e DX</span></article>
-            <article><b>PRÓXIMO</b><strong>Distribuição do pacote</strong><span>instalação simples e releases públicos</span></article>
+            <article><b>AGORA</b><strong>Lançamento vNext + Proof</strong><span>site, catálogo, EN | PT-BR e medições com limites</span></article>
+            <article><b>PRÓXIMO</b><strong>Publicar @velora/css no npm</strong><span>ainda não está no npm: hoje se importa do monorepo</span></article>
             <article><b>COMUNIDADE</b><strong>Casos reais + novos presets</strong><span>issues orientadas por necessidade</span></article>
             <article><b>INTEROP</b><strong>Hosts, CMSs e stacks diversos</strong><span>WordPress, Tailwind, Vanilla e além</span></article>
             <article><b>PLATFORM</b><strong>Adotar APIs quando virarem baseline</strong><span>browser first, fallback always</span></article>
@@ -836,11 +877,11 @@
           </p>
         </div>
 
-        <p class="talk-slide__number" aria-hidden="true">18 / 19</p>
+        <p class="talk-slide__number" aria-hidden="true">19 / 20</p>
       </section>
 
-      <!-- 19 -->
-      <section vl-in-view class="talk-slide talk-slide--final" id="slide-19" aria-labelledby="slide-19-title">
+      <!-- 20 -->
+      <section vl-in-view class="talk-slide talk-slide--final" id="slide-20" aria-labelledby="slide-20-title">
         <div class="talk-slide__chrome" aria-hidden="true">
           <span class="talk-logo vl-logo-lockup" aria-hidden="true">
             <svg class="vl-logo-mark" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 218.79 54.05" fill="currentColor" aria-hidden="true" focusable="false">
@@ -866,7 +907,7 @@
         <div class="talk-stage talk-stage--final" vl-motion="cinematic">
           <div>
             <p class="talk-kicker" vl-enter="fade-up">A partir daqui, o projeto também é da comunidade.</p>
-            <h2 id="slide-19-title" class="talk-display talk-display--final" vl-enter="clip-rise" vl-delay="100ms">
+            <h2 id="slide-20-title" class="talk-display talk-display--final" vl-enter="clip-rise" vl-delay="100ms">
               Fork it.<br />Break it.<br /><em>Improve it.</em>
             </h2>
             <p class="talk-lead talk-lead--wide" vl-enter="fade-up" vl-delay="220ms">
@@ -888,7 +929,7 @@
           <span>Erik Cardoso · Foz do Iguaçu · 2026</span>
         </footer>
 
-        <p class="talk-slide__number" aria-hidden="true">19 / 19</p>
+        <p class="talk-slide__number" aria-hidden="true">20 / 20</p>
       </section>
     </main>
     <script src="/js/talk-skin-controls.js"></script>

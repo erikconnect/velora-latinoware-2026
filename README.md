@@ -53,7 +53,7 @@ O CSS de impressão define páginas 16:9 (`13.333in × 7.5in`).
 
 ## Estrutura
 
-- `index.html` — 19 slides e semântica da palestra.
+- `index.html` — 20 slides e semântica da palestra.
 - `src/presentation.css` — layout do deck sobre o design system Velora.
 - `vendor/velora-css/` — cópia estática do `@velora/css` (framework CSS consumido pelo deck).
 - `public/media/erik-cardoso.jpg` — foto do palestrante.
