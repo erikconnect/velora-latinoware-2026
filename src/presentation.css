@@ -1,5 +1,23 @@
 @import "../vendor/velora-css/velora.css";
 
+/* Typography: self-hosted, same faces as the vNext site (SIL OFL 1.1). */
+@font-face { font-family: "Outfit"; font-style: normal; font-weight: 100 900; font-display: swap; src: url("/fonts/outfit-latin-wght-normal.woff2") format("woff2"); }
+@font-face { font-family: "Manrope"; font-style: normal; font-weight: 200 800; font-display: swap; src: url("/fonts/manrope-latin-wght-normal.woff2") format("woff2"); }
+@font-face { font-family: "JetBrains Mono"; font-style: normal; font-weight: 100 800; font-display: swap; src: url("/fonts/jetbrains-mono-latin-wght-normal.woff2") format("woff2"); }
+
+/* Skins set the font tokens on <html>; redefine them on the deck root so the
+   deck keeps the vNext typography under every skin. */
+.talk {
+  --vl-font-family-display: "Outfit", ui-sans-serif, system-ui, sans-serif;
+  --vl-font-family: "Manrope", ui-sans-serif, system-ui, sans-serif;
+  --vl-font-family-mono: "JetBrains Mono", ui-monospace, monospace;
+  --talk-display: var(--vl-font-family-display);
+  --talk-body: var(--vl-font-family);
+  --talk-mono: var(--vl-font-family-mono);
+}
+
+
+
 @layer latinoware {
   :root {
     --talk-canvas: var(--vl-bg-main);
@@ -2731,4 +2749,9 @@
   .talk [vl-in-view] {
     animation-range: entry 0% exit 100%;
   }
+}
+
+/* Final slide: keep the footer clear of the slide counter. */
+.talk-slide--final .talk-final-footer {
+  padding-right: 5rem;
 }
