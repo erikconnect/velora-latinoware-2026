@@ -8,17 +8,16 @@
 
   const EDITORIAL_KEY = "vl-editorial-theme";
   const THEME_KEY = "vl-theme";
-  const ALLOWED_EDITORIAL = ["noir", "earth", "aethel", "meridian"];
+  const ALLOWED_EDITORIAL = ["velora", "noir", "earth"];
 
   const EDITORIAL_META = {
+    velora: { pack: "velora-velora", theme: "dark", themeColor: "#0c0c0b" },
     noir: { pack: "velora-noir", theme: "dark", themeColor: "#0d0f0c" },
     earth: { pack: "velora-earth", theme: "light", themeColor: "#fbf9f4" },
-    aethel: { pack: "velora-aethel", theme: "dark", themeColor: "#000000" },
-    meridian: { pack: "velora-meridian", theme: "dark", themeColor: "#0d100a" },
   };
 
   function applyEditorial(value) {
-    const skin = ALLOWED_EDITORIAL.includes(value) ? value : "noir";
+    const skin = ALLOWED_EDITORIAL.includes(value) ? value : "velora";
     const meta = EDITORIAL_META[skin];
 
     root.setAttribute("data-editorial-theme", skin);
@@ -44,7 +43,7 @@
     });
   }
 
-  const current = root.getAttribute("data-editorial-theme") || "noir";
+  const current = root.getAttribute("data-editorial-theme") || "velora";
   applyEditorial(current);
 
   document.querySelectorAll(".talk-skin-panel__select").forEach((sel) => {
@@ -55,7 +54,7 @@
 
   document.querySelectorAll("[data-talk-skin]").forEach((btn) => {
     btn.addEventListener("click", () => {
-      applyEditorial(btn.dataset.talkSkin || "noir");
+      applyEditorial(btn.dataset.talkSkin || "velora");
     });
   });
 })();

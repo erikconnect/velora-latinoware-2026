@@ -2810,3 +2810,20 @@
 .talk-oss-grid--four { grid-template-columns: repeat(4, minmax(0, 1fr)); }
 @media (max-width: 1100px) { .talk-oss-grid--four { grid-template-columns: repeat(2, minmax(0, 1fr)); } }
 .talk-lead--tight { margin-block: 1rem 1.25rem; }
+
+@layer latinoware {
+@media print {
+  .talk [vl-children] > * {
+    animation: none !important;
+    opacity: 1 !important;
+    visibility: visible !important;
+    transform: none !important;
+    filter: none !important;
+  }
+  .talk-channels.talk-channels--six { grid-template-columns: repeat(6, minmax(0, 1fr)) !important; }
+  .talk-channels.talk-channels--six li { min-height: 0; padding: 0.12in 0.1in; }
+  .talk-oss-grid.talk-oss-grid--four { grid-template-columns: repeat(4, minmax(0, 1fr)) !important; }
+  .talk-evidence { grid-template-columns: repeat(3, minmax(0, 1fr)); }
+  .talk-evidence article { min-height: 0; }
+}
+}

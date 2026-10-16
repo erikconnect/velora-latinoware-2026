@@ -28,9 +28,9 @@ Cada Skin retokeniza tipografia, cores, grid, densidade, geometria, materiais e 
 
 **Trocar ao vivo:**
 
-- Painel fixo no canto inferior esquerdo (Noir · Earth · Aethel · Meridian)
+- Painel fixo no canto inferior esquerdo (Velora · Noir · Earth)
 - Swatches clicáveis no slide 11 (Core ≠ Skin)
-- URL com query: `?skin=meridian` (útil para ensaios)
+- URL com query: `?skin=noir` (útil para ensaios)
 
 A preferência persiste em `localStorage` (mesma chave do Velora Showcase).
 
@@ -58,7 +58,7 @@ O CSS de impressão define páginas 16:9 (`13.333in × 7.5in`).
 - `vendor/velora-css/` — cópia estática do `@velora/css` (framework CSS consumido pelo deck).
 - `public/media/erik-cardoso.jpg` — foto do palestrante.
 - `public/media/velora-logo.svg` — marca oficial.
-- `public/media/velora-github-qr.svg` — QR do repositório.
+- `public/media/velora-site-qr.svg` — QR para veloracss.io.
 
 ## Filosofia
 

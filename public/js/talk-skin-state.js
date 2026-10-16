@@ -7,13 +7,12 @@
   const root = document.documentElement;
   const ls = localStorage;
 
-  const ALLOWED_EDITORIAL = ["noir", "earth", "aethel", "meridian"];
+  const ALLOWED_EDITORIAL = ["velora", "noir", "earth"];
 
   const EDITORIAL_META = {
+    velora: { pack: "velora-velora", theme: "dark", themeColor: "#0c0c0b" },
     noir: { pack: "velora-noir", theme: "dark", themeColor: "#0d0f0c" },
     earth: { pack: "velora-earth", theme: "light", themeColor: "#fbf9f4" },
-    aethel: { pack: "velora-aethel", theme: "dark", themeColor: "#000000" },
-    meridian: { pack: "velora-meridian", theme: "dark", themeColor: "#0d100a" },
   };
 
   function sanitize(value, allowed, fallback) {
@@ -21,7 +20,7 @@
   }
 
   function applyEditorial(value) {
-    const skin = sanitize(value, ALLOWED_EDITORIAL, "noir");
+    const skin = sanitize(value, ALLOWED_EDITORIAL, "velora");
     const meta = EDITORIAL_META[skin];
 
     root.setAttribute("data-editorial-theme", skin);
