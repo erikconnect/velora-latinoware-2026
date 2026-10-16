@@ -200,6 +200,18 @@ a { color: var(--vl-color-accent); }
 .logos li img { display: block; height: clamp(1.4rem, 3vw, 2.4rem); width: auto; max-width: 11rem; object-fit: contain; }
 @media (max-width: 40rem) { .about { grid-template-columns: 7.5rem minmax(0, 1fr); align-items: start; } .about-body ul.plain li { font-size: 1.05rem; } }
 
+/* Slide 5: hovering the demo card lights up its four channels, one after the other */
+.chan { position: relative; transition: background-color 0.5s ease; }
+.chan::before { content: ""; position: absolute; inset-block: 0; inset-inline-start: 0; width: 3px; background: var(--vl-color-accent); transform: scaleY(0); transform-origin: 50% 0; transition: transform 0.5s ease; }
+.chan code { transition: color 0.5s ease; }
+.wrap:has(.demo:is(:hover, :focus-visible)) .chan { background: color-mix(in srgb, var(--vl-color-accent) 12%, transparent); }
+.wrap:has(.demo:is(:hover, :focus-visible)) .chan::before { transform: scaleY(1); }
+.wrap:has(.demo:is(:hover, :focus-visible)) .chan code { color: var(--vl-text-primary); }
+.wrap:has(.demo:is(:hover, :focus-visible)) .chan:nth-child(2), .wrap:has(.demo:is(:hover, :focus-visible)) .chan:nth-child(2)::before { transition-delay: 0.6s; }
+.wrap:has(.demo:is(:hover, :focus-visible)) .chan:nth-child(3), .wrap:has(.demo:is(:hover, :focus-visible)) .chan:nth-child(3)::before { transition-delay: 1.2s; }
+.wrap:has(.demo:is(:hover, :focus-visible)) .chan:nth-child(4), .wrap:has(.demo:is(:hover, :focus-visible)) .chan:nth-child(4)::before { transition-delay: 1.8s; }
+@media (prefers-reduced-motion: reduce) { .chan, .chan::before, .chan code { transition: none !important; } }
+
 /* ---- Slide 9: play ------------------------------------------------------- */
 .play { display: inline-flex; align-items: center; gap: 1.1rem; margin-top: 0.5rem; padding: 0.7rem 1.9rem 0.7rem 0.7rem; background: var(--vl-color-accent); color: #0c0c0b; text-decoration: none; font: 600 clamp(1.1rem, 2.2vw, 1.9rem)/1 var(--deck-display); letter-spacing: -0.01em; clip-path: polygon(0 0, 100% 0, 100% calc(100% - 0.6rem), calc(100% - 1.8rem) 100%, 0 100%); }
 .play-ico { display: grid; place-items: center; width: clamp(3.2rem, 6vw, 5rem); aspect-ratio: 1; border-radius: 50%; background: #0c0c0b; color: var(--vl-color-accent); }
