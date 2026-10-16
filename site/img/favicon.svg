@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg id="Camada_2" data-name="Camada 2" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 429.23 455.73">
+  <style>
+    #logo-v-wrapper polygon {
+      fill: #111111;
+    }
+
+    @media (prefers-color-scheme: dark) {
+      #logo-v-wrapper polygon {
+        fill: #ffffff;
+      }
+    }
+  </style>
+  <g id="favicon">
+    <g id="logo-v-wrapper">
+      <polygon points="358.26 .36 370.52 .11 249.36 370.73 256.25 392.45 387.89 .3 399.65 .22 261.79 413.82 268.24 434.44 417.44 .45 429.23 .34 274.14 455.62 136.82 455.73 0 .04 139.74 0 216.1 258.17 297.92 .21 310.09 .24 222.23 279.23 230.6 306.52 328.75 .17 340.9 .21 236.6 327.81 243.12 348.41 358.26 .36"/>
+    </g>
+  </g>
+</svg>

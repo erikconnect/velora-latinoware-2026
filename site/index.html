@@ -1,0 +1,238 @@
+<!doctype html>
+<html lang="pt-BR" data-editorial-theme="velora" vl-page-transition="velora">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<title>O navegador já conhece movimento · Velora CSS · Latinoware 2026</title>
+<meta name="description" content="Palestra do Velora CSS na Latinoware 2026, feita com o próprio Velora: HTML com atributos vl-*, CSS e o navegador executando o movimento.">
+<meta property="og:title" content="O navegador já conhece movimento">
+<meta property="og:description" content="Velora CSS · Latinoware 2026 · Erik Cardoso">
+<meta property="og:type" content="website">
+<meta name="theme-color" content="#e3e3cd">
+<link rel="icon" type="image/svg+xml" href="img/favicon.svg">
+<link rel="preload" href="fonts/outfit-latin-wght-normal.woff2" as="font" type="font/woff2" crossorigin>
+<link rel="preload" href="fonts/manrope-latin-wght-normal.woff2" as="font" type="font/woff2" crossorigin>
+<link rel="stylesheet" href="css/fonts.css">
+<link rel="stylesheet" href="css/velora.min.css">
+<link rel="stylesheet" href="css/deck.css">
+</head>
+<body>
+
+<header class="bar">
+  <a class="brand" href="#s1"><b>Velora</b> CSS<span class="evt"> · Latinoware 2026</span></a>
+  <div class="tools">
+    <fieldset class="theme" style="border:0;padding:0;margin:0" aria-label="Tema">
+      <label><input type="radio" name="vl-theme" value="auto" checked>auto</label>
+      <label><input type="radio" name="vl-theme" value="light">claro</label>
+      <label><input type="radio" name="vl-theme" value="dark">escuro</label>
+    </fieldset>
+    <span class="count" aria-live="polite"><span id="cur">1</span> / <span id="tot">10</span></span>
+  </div>
+</header>
+<div class="progress" aria-hidden="true"><i></i></div>
+
+<main class="deck" id="deck" tabindex="-1">
+
+<!-- 1 · Título -->
+<section class="slide cover" id="s1" data-n="01" aria-label="Título" vl-in-view vl-motion="cinematic">
+  <div class="wrap">
+    <span class="wordmark" role="img" aria-label="Velora" vl-enter="fade-up"></span>
+    <p class="eyebrow" vl-enter="fade-up" vl-delay="80ms">Latinoware 2026 · Foz do Iguaçu</p>
+    <h1 vl-enter="clip-rise">O navegador já conhece movimento.</h1>
+    <p class="lead" vl-enter="fade-up" vl-delay="260ms">Velora CSS. Atributos descrevem a intenção. O CSS e o navegador executam.</p>
+    <p class="small" vl-enter="fade-up" vl-delay="420ms">Erik Cardoso</p>
+  </div>
+  <p class="hint">→ espaço ou seta para avançar</p>
+</section>
+
+<!-- 2 · Quem sou -->
+<section class="slide alt" id="s2" data-n="02" aria-label="Quem sou" vl-in-view>
+  <div class="wrap">
+    <p class="eyebrow" vl-enter="fade-up">Quem sou</p>
+    <div class="about">
+      <figure class="portrait" vl-enter="fade-up" vl-delay="120ms">
+        <img src="media/erik-cardoso.jpg" width="640" height="800" alt="Erik Cardoso, sorrindo, de óculos e barba, camisa clara">
+      </figure>
+      <div class="about-body">
+        <h2 vl-enter="clip-rise">Erik Cardoso</h2>
+        <ul class="plain" vl-children="stagger">
+          <li vl-enter="fade-up"><span><span class="acc">1996</span> · infraestrutura</span></li>
+          <li vl-enter="fade-up">WordPress, PHP e JavaScript</li>
+          <li vl-enter="fade-up">Consultor web na Media Defence</li>
+          <li vl-enter="fade-up"><span>Criador do <span class="acc">Velora CSS</span></span></li>
+        </ul>
+        <p class="pull" vl-enter="fade-up" vl-delay="300ms">Em produção, toda dependência cobra juros.</p>
+        <p class="contact" vl-enter="fade-up" vl-delay="450ms"><a href="https://erikcardoso.com">erikcardoso.com</a><a href="https://connectsti.com.br">connectsti.com.br</a></p>
+      </div>
+    </div>
+    <div class="brands" vl-enter="fade-up" vl-delay="400ms">
+      <p class="small">Projetos e empresas</p>
+      <ul class="logos" vl-children="stagger">
+        <li vl-enter="fade-up" data-logo="johnson-johnson"><span>Johnson &amp; Johnson</span></li>
+        <li vl-enter="fade-up" data-logo="visa"><span>Visa</span></li>
+        <li vl-enter="fade-up" data-logo="embraer"><span>Embraer</span></li>
+        <li vl-enter="fade-up" data-logo="usiminas"><span>Usiminas</span></li>
+        <li vl-enter="fade-up" data-logo="rhodia-solvay"><span>Rhodia / Solvay</span></li>
+        <li vl-enter="fade-up" data-logo="media-defence"><span>Media Defence</span></li>
+        <li vl-enter="fade-up" data-logo="skif-brasil"><span>SKIF Brasil</span></li>
+        <li vl-enter="fade-up" data-logo="amplum-biogas"><span>Amplum Biogás</span></li>
+        <li vl-enter="fade-up" data-logo="everbrew"><span>Everbrew</span></li>
+      </ul>
+    </div>
+  </div>
+</section>
+
+<!-- 3 · Tese -->
+<section class="slide" id="s3" data-n="03" aria-label="A tese" vl-in-view>
+  <div class="wrap">
+    <p class="eyebrow" vl-enter="fade-up">A tese</p>
+    <h2 vl-enter="clip-rise">Atributos dizem o que você quer. O navegador executa.</h2>
+    <pre class="code" vl-enter="fade-up" vl-delay="200ms"><code>&lt;h2 <span class="a">vl-enter</span>="clip-rise"&gt;Olá&lt;/h2&gt;
+
+&lt;section <span class="a">vl-scene</span> <span class="a">vl-pin</span>="6" <span class="a">vl-scrub</span>&gt;</code></pre>
+    <ol class="steps" vl-children="stagger">
+      <li vl-enter="pop-in">Intenção</li>
+      <li vl-enter="pop-in">Primitiva</li>
+      <li vl-enter="pop-in">Canal</li>
+      <li vl-enter="pop-in">Parâmetro</li>
+      <li vl-enter="pop-in">Cena</li>
+      <li vl-enter="pop-in">Navegador</li>
+    </ol>
+    <p class="small">Zero animation runtime JavaScript.</p>
+  </div>
+</section>
+
+<!-- 4 · Peso -->
+<section class="slide alt" id="s4" data-n="04" aria-label="O peso" vl-in-view>
+  <div class="wrap">
+    <p class="eyebrow" vl-enter="fade-up">O peso</p>
+    <h2 vl-enter="clip-rise">Quanto pesa animar uma página.</h2>
+    <div class="weigh">
+      <div class="row velora">
+        <p class="num" vl-enter="fade-up">≈ 19 kB</p>
+        <div class="bar-fill" vl-enter="mask-sweep" vl-delay="200ms"></div>
+        <p class="name">Velora motion-core <span class="small">· CSS, minificado + gzip</span></p>
+      </div>
+      <div class="row gsap">
+        <p class="num" vl-enter="fade-up" vl-delay="150ms">45,7 kB</p>
+        <div class="bar-fill" vl-enter="mask-sweep" vl-delay="350ms"></div>
+        <p class="name">GSAP 3.15 + ScrollTrigger <span class="small">· JavaScript, minificado + gzip</span></p>
+      </div>
+    </div>
+    <p class="ratio" vl-enter="fade-up" vl-delay="500ms"><span class="acc">2,4×</span> menos bytes <span class="small">(45,7 ÷ 19,1 kB, mesma conta)</span></p>
+    <p class="small">Isto é peso, não velocidade. O número do Velora inclui todo o catálogo de atributos; o GSAP é um motor geral e excelente. Em Brotli: 15,7 kB contra 40,9 kB. Fonte: página Proof do vNext.</p>
+  </div>
+</section>
+
+<!-- 5 · Canais -->
+<section class="slide" id="s5" data-n="05" aria-label="Canais" vl-in-view>
+  <div class="wrap">
+    <p class="eyebrow" vl-enter="fade-up">Canais</p>
+    <h2 vl-enter="clip-rise">Cada canal controla uma propriedade.</h2>
+    <div class="grid2 wide">
+      <div>
+        <div class="chan" vl-enter="fade-up"><code>vl-enter="cut-reveal"</code><code>mask-image</code><span class="tag exp">Experimental</span></div>
+        <div class="chan" vl-enter="fade-up" vl-delay="80ms"><code>vl-loop-effect="float"</code><code>transform</code><span class="tag ok">Existing</span></div>
+        <div class="chan" vl-enter="fade-up" vl-delay="160ms"><code>vl-hover="hover-lift"</code><code>translate</code><span class="tag ok">Existing</span></div>
+        <div class="chan" vl-enter="fade-up" vl-delay="240ms"><code>vl-state="smooth"</code><code>background-color</code><span class="tag ok">Existing</span></div>
+      </div>
+      <article class="demo" vl-enter="cut-reveal" vl-loop-effect="float" vl-hover="hover-lift" vl-state="smooth" tabindex="0">
+        <h3>Quatro canais, um elemento.</h3>
+        <p class="lead">Passe o mouse. Nenhum canal disputa a mesma propriedade, então eles empilham como camadas.</p>
+      </article>
+    </div>
+  </div>
+</section>
+
+<!-- 6 · Relógio e cena -->
+<section class="slide alt" id="s6" data-n="06" aria-label="Relógio e cena" vl-in-view>
+  <div class="wrap">
+    <p class="eyebrow" vl-enter="fade-up">Cena e relógio</p>
+    <h2 vl-enter="clip-rise">O scroll vira relógio. A cena organiza o tempo.</h2>
+    <section vl-scene vl-timeline="auto" style="--vl-beat:380ms" aria-label="Três atos sobre oito tempos">
+      <div class="gantt" vl-stage>
+        <span class="act" vl-act="1" vl-span="3" vl-enter="mask-sweep" style="grid-column:1 / span 3;grid-row:1"><code>vl-act="1" vl-span="3"</code></span>
+        <span class="act" vl-act="3" vl-span="4" vl-enter="mask-sweep" style="grid-column:3 / span 4;grid-row:2"><code>vl-act="3" vl-span="4"</code></span>
+        <span class="act" vl-act="6" vl-span="3" vl-enter="mask-sweep" style="grid-column:6 / span 3;grid-row:3"><code>vl-act="6" vl-span="3"</code></span>
+        <span class="tick" style="grid-column:1;grid-row:4"><b>1</b></span><span class="tick" style="grid-column:2;grid-row:4"><b>2</b></span><span class="tick" style="grid-column:3;grid-row:4"><b>3</b></span><span class="tick" style="grid-column:4;grid-row:4"><b>4</b></span><span class="tick" style="grid-column:5;grid-row:4"><b>5</b></span><span class="tick" style="grid-column:6;grid-row:4"><b>6</b></span><span class="tick" style="grid-column:7;grid-row:4"><b>7</b></span><span class="tick" style="grid-column:8;grid-row:4"><b>8</b></span>
+      </div>
+    </section>
+    <pre class="code" vl-enter="fade-up" vl-delay="300ms"><code>&lt;section <span class="a">vl-scene</span> <span class="a">vl-timeline</span>="auto"&gt;
+  &lt;div <span class="a">vl-stage</span>&gt;&lt;span <span class="a">vl-act</span>="3" <span class="a">vl-enter</span>="pop-in"&gt;…</code></pre>
+    <p class="small">Os três blocos acima são elementos da própria cena: cada um aparece no tempo e pela duração que o atributo diz. <code>vl-act</code> diz em qual tempo começa, <code>vl-span</code> por quantos dura. Câmera (<code>vl-world</code>): <span class="tag exp">Experimental</span></p>
+  </div>
+</section>
+
+<!-- 7 · Mesma marcação, outra voz -->
+<section class="slide" id="s7" data-n="07" aria-label="Outra voz" vl-in-view>
+  <div class="wrap">
+    <p class="eyebrow" vl-enter="fade-up">Identidade</p>
+    <h2 vl-enter="clip-rise">A mesma marcação, outra voz.</h2>
+    <div class="grid2" vl-children="stagger" style="--vl-stagger-step:1200ms">
+      <article class="card" vl-enter="fade-up" vl-hover="hover-lift" tabindex="0" style="--vl-enter-duration:1400ms;--vl-state-duration:700ms">
+        <h3>Estilo do site</h3>
+        <p class="lead">Cor, tipografia e estrutura da skin Velora.</p>
+        <p class="small"><code>vl-enter="fade-up" vl-hover="hover-lift"</code></p>
+      </article>
+      <article class="card alien" vl-enter="fade-up" vl-hover="hover-lift" tabindex="0" style="--vl-enter-duration:1400ms;--vl-state-duration:700ms">
+        <h3>CSS alheio</h3>
+        <p class="lead" style="color:#5a3d1c">Arredondado, colorido, com serifa.</p>
+        <p class="small"><code>vl-enter="fade-up" vl-hover="hover-lift"</code></p>
+      </article>
+    </div>
+    <p class="small">Os dois cartões usam exatamente os mesmos atributos. O movimento não muda. Host Tailwind: 16 atributos, 0 problemas do compilador, 0,7 kB de Tailwind <span class="tag ok">Validated</span> · skin Velora <span class="tag exp">Experimental</span></p>
+  </div>
+</section>
+
+<!-- 8 · O que ainda não testamos -->
+<section class="slide alt" id="s8" data-n="08" aria-label="Validação e próximos passos" vl-in-view>
+  <div class="wrap">
+    <p class="eyebrow" vl-enter="fade-up">Validação</p>
+    <h2 vl-enter="clip-rise">O que já está em uso, e o que vem a seguir.</h2>
+    <ul class="plain" vl-children="stagger">
+      <li vl-enter="fade-up">Site oficial testado em Firefox, Safari e iPhone</li>
+      <li vl-enter="fade-up">Em produção no WordPress: skifbrasil.com.br</li>
+      <li vl-enter="fade-up">Destaques padrão, laranja e azul testados e aprovados</li>
+      <li vl-enter="fade-up">Contraste AA no claro e no escuro, teclado em 11 páginas, <code>prefers-reduced-motion</code> e <code>vl-motion="still"</code></li>
+    </ul>
+    <p class="small">Próximas validações: leitor de tela · cores forçadas e contraste aumentado · Bootstrap e UnoCSS · celulares reais e comparação com outras bibliotecas de scroll.</p>
+  </div>
+</section>
+
+<!-- 9 · Filme -->
+<section class="slide film" id="s9" data-n="09" aria-label="O Filme" vl-in-view vl-motion="cinematic">
+  <div class="wrap">
+    <p class="eyebrow" vl-enter="fade-up">Filme <span class="tag exp" style="margin-left:0.6rem">Experimental</span></p>
+    <h1 vl-enter="clip-rise">V — Fora da linha</h1>
+    <p class="lead" vl-enter="fade-up" vl-delay="300ms">Um filme interativo escrito em CSS.</p>
+    <p class="small mono" vl-enter="fade-up" vl-delay="450ms">5 atos · 2.39:1 · direção Erik Cardoso · trilha Web Audio</p>
+    <a class="play" href="film/?lang=pt" vl-enter="pop-in" vl-delay="650ms" vl-hover="hover-lift" aria-label="Assistir ao Filme V — Fora da linha (atalho: P)">
+      <span class="play-ico"><svg viewBox="0 0 24 24" width="28" height="28" aria-hidden="true"><path d="M8 5.5v13l11-6.5z" fill="currentColor"/></svg></span>
+      <span class="play-txt">Assistir ao Filme</span>
+    </a>
+    <p class="small" vl-enter="fade-up" vl-delay="800ms">Melhor com som · cerca de 5 min · tecla P</p>
+  </div>
+</section>
+
+<!-- 10 · Fork it -->
+<section class="slide accent" id="s10" data-n="10" aria-label="Fork it" vl-in-view>
+  <div class="wrap">
+    <p class="eyebrow" vl-enter="fade-up">Fecho</p>
+    <div class="fork">
+      <div style="display:grid;gap:1.25rem">
+        <h2 vl-enter="clip-rise">Fork it. Break it. Improve it.</h2>
+        <p class="lead" vl-enter="fade-up" vl-delay="200ms">Velora CSS é um experimento aberto sobre até onde interfaces modernas podem ir usando o navegador como engine de movimento. Construa com o navegador, não contra ele.</p>
+        <p class="url" vl-enter="fade-up" vl-delay="320ms">veloracss.io</p>
+        <p class="contact" vl-enter="fade-up" vl-delay="380ms"><a href="https://erikcardoso.com">erikcardoso.com</a><a href="https://connectsti.com.br">connectsti.com.br</a></p>
+        <p class="small" vl-enter="fade-up" vl-delay="420ms">Prévia de lançamento · Obrigado.</p>
+      </div>
+      <div vl-enter="pop-in" vl-delay="300ms"><svg xmlns="http://www.w3.org/2000/svg" class="qr" role="img" viewBox="0 0 29 29" aria-label="QR code para veloracss.io"><path fill="currentColor" d="M2 2h7v1h-7zM10 2h1v1h-1zM15 2h1v1h-1zM20 2h7v1h-7zM2 3h1v1h-1zM8 3h1v1h-1zM11 3h1v1h-1zM13 3h1v1h-1zM15 3h4v1h-4zM20 3h1v1h-1zM26 3h1v1h-1zM2 4h1v1h-1zM4 4h3v1h-3zM8 4h1v1h-1zM11 4h2v1h-2zM20 4h1v1h-1zM22 4h3v1h-3zM26 4h1v1h-1zM2 5h1v1h-1zM4 5h3v1h-3zM8 5h1v1h-1zM11 5h1v1h-1zM14 5h5v1h-5zM20 5h1v1h-1zM22 5h3v1h-3zM26 5h1v1h-1zM2 6h1v1h-1zM4 6h3v1h-3zM8 6h1v1h-1zM10 6h4v1h-4zM15 6h1v1h-1zM18 6h1v1h-1zM20 6h1v1h-1zM22 6h3v1h-3zM26 6h1v1h-1zM2 7h1v1h-1zM8 7h1v1h-1zM10 7h2v1h-2zM13 7h2v1h-2zM17 7h2v1h-2zM20 7h1v1h-1zM26 7h1v1h-1zM2 8h7v1h-7zM10 8h1v1h-1zM12 8h1v1h-1zM14 8h1v1h-1zM16 8h1v1h-1zM18 8h1v1h-1zM20 8h7v1h-7zM13 9h2v1h-2zM16 9h1v1h-1zM3 10h7v1h-7zM11 10h1v1h-1zM13 10h6v1h-6zM21 10h2v1h-2zM26 10h1v1h-1zM3 11h2v1h-2zM6 11h2v1h-2zM9 11h1v1h-1zM12 11h2v1h-2zM15 11h1v1h-1zM18 11h1v1h-1zM21 11h1v1h-1zM25 11h1v1h-1zM3 12h2v1h-2zM6 12h4v1h-4zM12 12h2v1h-2zM15 12h6v1h-6zM22 12h2v1h-2zM25 12h2v1h-2zM2 13h2v1h-2zM5 13h1v1h-1zM9 13h1v1h-1zM11 13h4v1h-4zM16 13h1v1h-1zM19 13h3v1h-3zM26 13h1v1h-1zM2 14h1v1h-1zM6 14h4v1h-4zM14 14h1v1h-1zM17 14h1v1h-1zM19 14h4v1h-4zM24 14h3v1h-3zM2 15h1v1h-1zM9 15h5v1h-5zM15 15h1v1h-1zM18 15h1v1h-1zM21 15h1v1h-1zM23 15h1v1h-1zM25 15h1v1h-1zM2 16h1v1h-1zM4 16h1v1h-1zM6 16h1v1h-1zM8 16h1v1h-1zM10 16h1v1h-1zM12 16h1v1h-1zM16 16h4v1h-4zM21 16h3v1h-3zM25 16h2v1h-2zM2 17h1v1h-1zM5 17h1v1h-1zM7 17h1v1h-1zM9 17h3v1h-3zM14 17h4v1h-4zM20 17h3v1h-3zM26 17h1v1h-1zM2 18h1v1h-1zM5 18h2v1h-2zM8 18h5v1h-5zM14 18h1v1h-1zM17 18h6v1h-6zM24 18h1v1h-1zM10 19h1v1h-1zM17 19h2v1h-2zM22 19h2v1h-2zM2 20h7v1h-7zM10 20h3v1h-3zM15 20h1v1h-1zM18 20h1v1h-1zM20 20h1v1h-1zM22 20h1v1h-1zM24 20h3v1h-3zM2 21h1v1h-1zM8 21h1v1h-1zM10 21h2v1h-2zM18 21h1v1h-1zM22 21h2v1h-2zM26 21h1v1h-1zM2 22h1v1h-1zM4 22h3v1h-3zM8 22h1v1h-1zM10 22h3v1h-3zM15 22h8v1h-8zM24 22h3v1h-3zM2 23h1v1h-1zM4 23h3v1h-3zM8 23h1v1h-1zM10 23h3v1h-3zM14 23h7v1h-7zM22 23h5v1h-5zM2 24h1v1h-1zM4 24h3v1h-3zM8 24h1v1h-1zM10 24h5v1h-5zM16 24h2v1h-2zM23 24h2v1h-2zM26 24h1v1h-1zM2 25h1v1h-1zM8 25h1v1h-1zM10 25h2v1h-2zM15 25h2v1h-2zM18 25h2v1h-2zM21 25h3v1h-3zM26 25h1v1h-1zM2 26h7v1h-7zM11 26h1v1h-1zM13 26h2v1h-2zM19 26h1v1h-1zM21 26h6v1h-6z"/></svg></div>
+    </div>
+  </div>
+</section>
+
+</main>
+
+<script src="js/deck.js" defer></script>
+</body>
+</html>

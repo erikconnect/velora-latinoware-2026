@@ -1,5 +1,15 @@
 # Velora CSS — Latinoware 2026
 
+## Site oficial da palestra (`site/`)
+
+A palestra publicada na Vercel é um site estático em `site/`, escrito em HTML/CSS com o próprio Velora (skin Velora, sem JavaScript de animação). A Vercel serve `site/` direto (ver `vercel.json`: sem build e sem instalação). O Filme "V — Fora da linha" está em `site/film/`.
+
+Rodar local: `python3 -m http.server -d site 8000` e abrir http://localhost:8000. Teclas: setas/espaço navegam, `F` tela cheia, `P` abre o Filme no slide 9.
+
+A versão Vite anterior (raiz do repositório: `index.html`, `src/`, `public/`, `vendor/`) continua no repositório e roda com `pnpm dev`, mas não é mais o que a Vercel publica.
+
+---
+
 Apresentação HTML do lançamento público do Velora CSS na Latinoware 2026.
 
 ## Rodar
