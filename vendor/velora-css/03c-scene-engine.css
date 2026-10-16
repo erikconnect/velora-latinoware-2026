@@ -181,7 +181,28 @@
         }
     }
 
+    /* Unsupported scroll clocks must not leave a long, pinned static stage
+     * or execute an exit on the document clock and hide usable content. */
+    @supports not (animation-timeline: view()) {
+        [vl-scene][vl-timeline="view"][vl-pin] { min-block-size: auto; }
+        [vl-scene][vl-timeline="view"] [vl-stage] {
+            position: relative;
+            min-block-size: auto;
+        }
+        [vl-scene][vl-timeline="view"] :is([vl-enter], [vl-exit], [vl-scroll], [vl-effect]) {
+            animation: none;
+            opacity: 1;
+            transform: none;
+            filter: none;
+        }
+    }
+
     @media (prefers-reduced-motion: reduce) {
+        [vl-scene][vl-timeline="view"][vl-pin] { min-block-size: auto; }
+        [vl-scene][vl-timeline="view"] [vl-stage] {
+            position: relative;
+            min-block-size: auto;
+        }
         [vl-scene] [vl-stage] > * {
             animation: none !important;
             animation-delay: 0s !important;

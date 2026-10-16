@@ -8,6 +8,7 @@
 @import "./00-reset.css";
 @import "./01-tokens.css";
 @import "./01b-editorial-themes.css";
+@import "./01c-skin-models.css";
 @import "./02-layout.css";
 @import "./03-motion.css";
 @import "./03b-motion-extended.css";
@@ -24,11 +25,6 @@
 @import "./06-utilities.css";
 @import "./07-overrides.css";
 
-/*
- * Cross-document (MPA) view transitions — keep this at-rule at top level (not inside @layer).
- * Some pipelines only enable navigation: auto when @view-transition is not nested in @layer.
- * Requires Chromium 124+ (same-origin navigations).
- */
 @view-transition {
     navigation: auto;
 }
