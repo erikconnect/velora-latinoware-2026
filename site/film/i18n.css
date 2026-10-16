@@ -1,0 +1,79 @@
+/*
+ * Velora vNext · bilingual content (EN | PT-BR)
+ *
+ * Every translated string is written twice, side by side, in the HTML:
+ *   <span class="vl-i18n" lang="en">Learn</span><span class="vl-i18n" lang="pt-BR">Aprender</span>
+ * The wrapper is display:contents, so it adds no box and the layout is unchanged.
+ * The inactive language is display:none, which also removes it from the accessibility tree.
+ *
+ * Which language is active:
+ *   1. <html data-lang="pt"> (set before first paint by js/vnext-lang.js), or
+ *   2. with no script: the checked radio  input[name="vl-lang"][value="pt"].
+ * English is the default. No animation depends on this file.
+ */
+/*
+ * The wrapper must be invisible to the site's own CSS. Rules such as ".x span { display:block; height:14px }"
+ * or ".x span { color:muted }" match any <span>, wrapper included, and inherited properties (colour, font,
+ * letter-spacing) would leak into the text. "all: unset" makes the wrapper inherit everything unchanged and
+ * display:contents gives it no box. !important is deliberate, and display:none always wins for the inactive language.
+ */
+.vl-i18n { all: unset !important; display: contents !important; }
+.vl-i18n[lang="pt-BR"] { display: none !important; }
+
+html[data-lang="pt"] .vl-i18n[lang="en"] { display: none !important; }
+html[data-lang="pt"] .vl-i18n[lang="pt-BR"] { display: contents !important; }
+
+/* No-script fallback: the header radio chooses the language */
+html:not([data-lang]):has(input[name="vl-lang"][value="pt"]:checked) .vl-i18n[lang="en"] { display: none !important; }
+html:not([data-lang]):has(input[name="vl-lang"][value="pt"]:checked) .vl-i18n[lang="pt-BR"] { display: contents !important; }
+
+/*
+ * Header fit. The language switch is deliberately small so the header keeps the row it had before it existed.
+ */
+.vl-header__actions .vl-lang { --vl-segmented-pad-x: 6px; }
+.vl-header__actions .vl-lang label { font-size: .72rem; }
+.vl-header__actions .vl-cta--cut { white-space: nowrap; }
+
+/* PT labels are longer (Primitivas, Componentes, Movimento): between 961px and 1239px use the same compact
+   link size the site already applies from 1240px, so the nav still sits beside the logo. */
+@media (min-width: 961px) and (max-width: 1239px) {
+  html[data-lang="pt"] .vl-header--cut .vl-nav__link { padding-inline: 9px; font-size: .88rem; white-space: nowrap; }
+}
+
+/* Narrow desktop band (1240px to 1299px): the header is a single non-wrapping row, so squeeze a little more */
+@media (min-width: 1240px) and (max-width: 1299px) {
+  .vl-header__actions .vl-lang { --vl-segmented-pad-x: 3px; }
+  .vl-header__actions .vl-lang label { font-size: .66rem; letter-spacing: 0; }
+  html[data-lang="pt"] .vl-header--cut .vl-nav__link { padding-inline: 6px; }
+}
+
+/* Language row in the mobile menu: same highlight as the theme row */
+@media (max-width: 960px) {
+  :root:has(#lg-en:checked) .vl-header__settings label[for="lg-en"],
+  :root:has(#lg-pt:checked) .vl-header__settings label[for="lg-pt"] {
+    background: var(--fg); color: var(--bg); border-color: var(--fg);
+  }
+}
+
+/*
+ * Word-split text (stagger, ink-scrub) needs its <span> words to stay direct children of one parent,
+ * so a wrapper would break sibling-index() and "> span" rules. Those few blocks are instead written
+ * as two copies of the parent element: data-i="en" and data-i="pt". Only the inactive copy is hidden,
+ * so the active one keeps whatever display (flex, grid, block) the author gave it.
+ */
+html[data-lang="pt"] [data-i="en"] { display: none !important; }
+html:not([data-lang]):has(input[name="vl-lang"][value="pt"]:checked) [data-i="en"] { display: none !important; }
+html:not([data-lang="pt"]):not(:has(input[name="vl-lang"][value="pt"]:checked)) [data-i="pt"] { display: none !important; }
+
+/*
+ * Strings that live in CSS (content / attr()), where a <span> cannot reach.
+ * Each has a PT-BR twin that applies only while <html data-lang="pt"> is set.
+ */
+:root[data-lang="pt"] { --vl-sbtn-prev: "Anterior"; --vl-sbtn-next: "Próximo"; }
+html[data-lang="pt"] .bd[data-pt-w]::after { content: attr(data-pt-w); }
+html[data-lang="pt"] .vt-t td[data-pt-label]::before { content: attr(data-pt-label); }
+html[data-lang="pt"] .skp-read::before { content: 'Voz de movimento · '; }
+html[data-lang="pt"] #core-flow .vl-cover-flow::scroll-button(left) { content: '‹' / 'Capa anterior'; }
+html[data-lang="pt"] #core-flow .vl-cover-flow::scroll-button(right) { content: '›' / 'Próxima capa'; }
+html[data-lang="pt"] .mk::scroll-button(inline-start) { content: "←" / "Slide anterior"; }
+html[data-lang="pt"] .mk::scroll-button(inline-end) { content: "→" / "Próximo slide"; }

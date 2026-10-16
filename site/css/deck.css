@@ -1,0 +1,215 @@
+/*
+ * Deck layer for "O navegador já conhece movimento" (Latinoware 2026).
+ * Motion comes from Velora attributes (vl-*) in the markup.
+ * This file only lays slides out: snap scrolling, grid, type scale, print.
+ * It reads the Velora skin tokens (--vl-bg-main, --vl-text-*, --vl-color-accent, --vl-cut-angle).
+ */
+
+:root {
+  --deck-pad: clamp(1.25rem, 5vw, 5rem);
+  --deck-bar: 3.5rem;
+  --deck-cut: 1.6rem;
+  --deck-cut-run: 4.8rem; /* run = rise / tan(18.4deg) */
+  --deck-display: var(--vl-font-family-display, "Outfit", system-ui, sans-serif);
+  --deck-mono: var(--vl-font-family-mono, "JetBrains Mono", ui-monospace, monospace);
+}
+
+html, body { margin: 0; height: 100%; background: var(--vl-bg-main); color: var(--vl-text-primary); }
+body { font-family: var(--vl-font-family-body); line-height: 1.5; timeline-scope: --deck; }
+
+/* ---- Top bar ---------------------------------------------------------- */
+.bar {
+  position: fixed; inset: 0 0 auto 0; z-index: 10; height: var(--deck-bar);
+  display: flex; align-items: center; justify-content: space-between; gap: 1rem;
+  padding: 0 var(--deck-pad);
+  font: 500 0.8rem/1 var(--deck-mono); letter-spacing: 0.04em; text-transform: uppercase;
+  background: color-mix(in oklab, var(--vl-bg-main) 88%, transparent);
+  border-bottom: 1px solid var(--vl-border-subtle);
+}
+.bar a { color: inherit; text-decoration: none; }
+.bar .brand b { color: var(--vl-color-accent); font-weight: 500; }
+.bar .tools { display: flex; align-items: center; gap: 1.25rem; }
+.bar .count { font-variant-numeric: tabular-nums; color: var(--vl-text-muted); }
+.theme { display: inline-flex; gap: 0; border: 1px solid var(--vl-border-subtle); }
+.theme label { padding: 0.45rem 0.6rem; cursor: pointer; color: var(--vl-text-muted); }
+.theme input { position: absolute; opacity: 0; pointer-events: none; }
+.theme label:has(input:checked) { background: var(--vl-text-primary); color: var(--vl-bg-main); }
+.theme label:has(input:focus-visible) { outline: 2px solid var(--vl-color-accent); outline-offset: 2px; }
+
+.progress { position: fixed; inset: var(--deck-bar) 0 auto 0; z-index: 10; height: 3px; background: transparent; }
+.progress i { display: block; height: 100%; width: 100%; background: var(--vl-color-accent); transform-origin: 0 50%; transform: scaleX(0); }
+@supports (animation-timeline: scroll()) {
+  .progress i { animation: deck-progress linear both; animation-timeline: --deck; }
+}
+@keyframes deck-progress { to { transform: scaleX(1); } }
+
+/* ---- Snap container ---------------------------------------------------- */
+.deck {
+  height: 100dvh; overflow-y: auto; overflow-x: hidden;
+  scroll-snap-type: y mandatory; scroll-timeline: --deck block;
+  scrollbar-width: thin;
+}
+.slide {
+  min-height: 100dvh; box-sizing: border-box;
+  scroll-snap-align: start; scroll-snap-stop: always;
+  display: grid; align-content: center;
+  padding: calc(var(--deck-bar) + 2rem) var(--deck-pad) 3.5rem;
+  position: relative; overflow: hidden;
+}
+.wrap { width: 100%; max-width: var(--vl-skin-content-max, 84rem); margin-inline: auto; display: grid; gap: clamp(1rem, 3vh, 2rem); }
+.slide.alt { background: var(--vl-bg-surface); }
+
+/* ---- Type ------------------------------------------------------------- */
+.eyebrow { font: 500 clamp(0.85rem, 1.2vw, 1.1rem)/1.2 var(--deck-mono); letter-spacing: 0.12em; text-transform: uppercase; color: var(--vl-color-accent); margin: 0; }
+h1, h2, h3 { font-family: var(--deck-display); font-weight: 600; line-height: 1.04; letter-spacing: -0.02em; margin: 0; text-wrap: balance; }
+h1 { font-size: clamp(2.6rem, 8.2vw, 7.2rem); }
+h2 { font-size: clamp(2rem, 5.2vw, 4.4rem); }
+h3 { font-size: clamp(1.4rem, 2.8vw, 2.4rem); letter-spacing: -0.01em; }
+p { margin: 0; }
+.lead { font-size: clamp(1.2rem, 2.5vw, 2.3rem); line-height: 1.4; color: var(--vl-text-secondary); max-width: 60rem; text-wrap: pretty; }
+.small { font-size: clamp(1rem, 1.55vw, 1.45rem); color: var(--vl-text-muted); }
+.mono, code { font-family: var(--deck-mono); font-weight: 500; }
+code { font-size: 0.92em; }
+.acc { color: var(--vl-color-accent); }
+
+.hint { position: absolute; left: var(--deck-pad); bottom: 1.25rem; font: 500 0.78rem/1 var(--deck-mono); letter-spacing: 0.08em; text-transform: uppercase; color: var(--vl-text-muted); }
+
+/* ---- Cut geometry: the 18.4deg corner ---------------------------------- */
+.card {
+  background: var(--vl-bg-surface); border-top: 2px solid var(--vl-color-accent);
+  padding: clamp(1.1rem, 2.4vw, 2rem); display: grid; gap: 0.75rem; align-content: start;
+  clip-path: polygon(0 0, 100% 0, 100% calc(100% - var(--deck-cut)), calc(100% - var(--deck-cut-run)) 100%, 0 100%);
+}
+.slide.alt .card { background: var(--vl-bg-main); }
+.grid2 { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: clamp(1rem, 2.5vw, 2rem); }
+@media (max-width: 52rem) { .grid2 { grid-template-columns: 1fr; } }
+
+.tag { display: inline-block; justify-self: start; font: 500 clamp(0.75rem, 1.1vw, 1rem)/1 var(--deck-mono); letter-spacing: 0.08em; text-transform: uppercase; padding: 0.45rem 0.65rem; border: 1px solid var(--vl-border-strong); }
+.tag.exp { border-style: dashed; }
+.tag.ok { background: var(--vl-text-primary); color: var(--vl-bg-main); border-color: var(--vl-text-primary); }
+
+pre.code { margin: 0; padding: clamp(1rem, 2vw, 1.6rem); background: var(--vl-bg-surface); border-left: 3px solid var(--vl-color-accent); font: 500 clamp(0.95rem, 2vw, 1.7rem)/1.7 var(--deck-mono); overflow-x: auto; white-space: pre; }
+pre.code .a { color: var(--vl-color-accent); }
+
+/* ---- Slide 3: six steps ------------------------------------------------ */
+.steps { display: flex; flex-wrap: wrap; gap: 0.6rem; margin: 0; padding: 0; list-style: none; }
+.steps li { font: 600 clamp(1rem, 2vw, 1.7rem)/1 var(--deck-display); padding: 0.8rem 1.3rem; border: 1px solid var(--vl-border-strong); }
+.steps li:last-child { background: var(--vl-color-accent); color: var(--vl-bg-main); border-color: var(--vl-color-accent); }
+
+/* ---- Slide 4: weight --------------------------------------------------- */
+.weigh { display: grid; gap: 1.1rem; }
+.weigh .row { display: grid; gap: 0.45rem; }
+.weigh .num { font: 600 clamp(2.6rem, 8vw, 7.5rem)/1 var(--deck-display); letter-spacing: -0.03em; }
+.weigh .bar-fill { height: 1.1rem; background: var(--vl-text-primary); transform-origin: 0 50%; }
+.weigh .row.velora .bar-fill { background: var(--vl-color-accent); width: 41.6%; } /* 19 / 45.7 */
+.weigh .row.gsap .bar-fill { width: 100%; opacity: 0.85; }
+.weigh .name { font-weight: 600; font-size: clamp(1.1rem, 2vw, 1.8rem); }
+
+/* ---- Slide 5: channels ------------------------------------------------- */
+.chan { display: grid; grid-template-columns: minmax(0, 1.1fr) minmax(0, 1fr) auto; gap: 0.5rem 1.25rem; align-items: center; padding: 0.8rem 0; border-bottom: 1px solid var(--vl-border-subtle); font-size: clamp(1rem, 1.9vw, 1.65rem); }
+.grid2.wide { grid-template-columns: minmax(0, 1.45fr) minmax(0, 1fr); }
+.chan code { font-size: 0.8em; white-space: nowrap; }
+.demo { padding: clamp(1.2rem, 3vw, 2.4rem); background: var(--vl-bg-main); border: 1px solid var(--vl-border-strong); display: grid; gap: 0.6rem; }
+.slide.alt .demo { background: var(--vl-bg-main); }
+
+/* ---- Slide 6: clock ---------------------------------------------------- */
+.clock { display: grid; grid-template-columns: repeat(8, minmax(0, 1fr)); gap: 0.5rem; }
+.clock .beat { border: 1px solid var(--vl-border-strong); padding: 0.8rem 0.5rem; display: grid; gap: 0.3rem; text-align: center; font: 600 clamp(0.8rem, 1.7vw, 1.5rem)/1.1 var(--deck-display); }
+.clock[vl-stage] { position: static; min-block-size: 0; block-size: auto; }
+.clock .beat b { font: 500 clamp(0.75rem, 1.1vw, 1rem)/1 var(--deck-mono); color: var(--vl-text-muted); }
+.clock .beat.on { background: var(--vl-color-accent); color: var(--vl-bg-main); border-color: var(--vl-color-accent); }
+.clock .beat.on b { color: inherit; }
+@media (max-width: 52rem) { .clock { grid-template-columns: repeat(4, minmax(0, 1fr)); } }
+
+/* ---- Slide 7: same markup, other voice --------------------------------- */
+.alien { background: #fff4e0; color: #3b2a14; font-family: Georgia, "Times New Roman", serif; border-radius: 1.2rem; border: 2px solid #e07a2f; clip-path: none; box-shadow: 0 8px 0 #e07a2f33; border-top-width: 2px; }
+.alien h3 { font-family: Georgia, serif; font-style: italic; letter-spacing: 0; }
+.alien .small { color: #6b4a22; }
+.alien .tag { border-color: #e07a2f; color: #7a3a07; }
+
+/* ---- Lists ------------------------------------------------------------- */
+ul.plain { margin: 0; padding: 0; list-style: none; display: grid; gap: 0.2rem; }
+ul.plain li { font: 500 clamp(1.15rem, 2.8vw, 2.4rem)/1.3 var(--deck-display); padding: 0.55rem 0; border-bottom: 1px solid var(--vl-border-subtle); display: flex; gap: 1rem; }
+ul.plain li::before { content: "—"; color: var(--vl-color-accent); }
+
+/* ---- Film slide: letterbox, always dark ------------------------------- */
+.slide.film {
+  --vl-bg-main: #0c0c0b; --vl-text-primary: #eaead9; --vl-text-secondary: #c9c9b6; --vl-text-muted: #9b9b88;
+  --vl-color-accent: #a9b08b; --vl-border-subtle: rgba(234, 234, 217, 0.22); --vl-border-strong: rgba(234, 234, 217, 0.45);
+  background: #0c0c0b; color: #eaead9; text-align: center;
+}
+.slide.film::before, .slide.film::after { content: ""; position: absolute; left: 0; right: 0; height: 12vh; background: #000; }
+.slide.film::before { top: var(--deck-bar); }
+.slide.film::after { bottom: 0; }
+.slide.film .wrap { justify-items: center; }
+
+/* ---- Fork slide -------------------------------------------------------- */
+.qr { width: clamp(9rem, 20vw, 15rem); height: auto; color: #0a0a09; background: #e3e3cd; padding: 0.6rem; display: block; }
+.fork { display: grid; grid-template-columns: minmax(0, 1fr) auto; gap: clamp(1.5rem, 4vw, 4rem); align-items: end; }
+@media (max-width: 52rem) { .fork { grid-template-columns: 1fr; } }
+.url { font: 500 clamp(1.4rem, 3.4vw, 2.6rem)/1 var(--deck-mono); }
+
+a { color: var(--vl-color-accent); }
+:focus-visible { outline: 2px solid var(--vl-color-accent); outline-offset: 3px; }
+
+/* ---- Refinement layer ---------------------------------------------------- */
+.eyebrow::before { content: ""; display: inline-block; width: 2.2rem; height: 2px; background: var(--vl-color-accent); transform: rotate(-18.4deg); margin-right: 0.8rem; vertical-align: middle; }
+.slide:not(.film)::before { content: attr(data-n); position: absolute; right: var(--deck-pad); bottom: -0.2em; font: 600 clamp(9rem, 26vw, 24rem)/1 var(--deck-display); letter-spacing: -0.04em; color: var(--vl-text-primary); opacity: 0.035; pointer-events: none; }
+.slide.accent::before { opacity: 0.1; color: var(--vl-bg-main); }
+.wrap { position: relative; z-index: 1; }
+
+.slide.cover::after { content: ""; position: absolute; top: 0; bottom: 0; right: -6vw; width: 34vw; background: var(--vl-color-accent); opacity: 0.14; transform: skewX(-18.4deg); pointer-events: none; }
+.slide.cover h1 { font-size: clamp(2.8rem, 9vw, 8.6rem); line-height: 1; }
+.wordmark { display: block; width: clamp(7rem, 14vw, 12rem); aspect-ratio: 218.79 / 54.05; background: var(--vl-text-primary); -webkit-mask: var(--vl-footer-mark) center / contain no-repeat; mask: var(--vl-footer-mark) center / contain no-repeat; }
+
+.ratio { font: 600 clamp(1.6rem, 4vw, 3.4rem)/1.1 var(--deck-display); letter-spacing: -0.02em; }
+.weigh .bar-fill { height: clamp(1rem, 2.4vw, 2rem); }
+
+/* Slide 6: real scene timeline */
+.gantt { display: grid; grid-template-columns: repeat(8, minmax(0, 1fr)); grid-auto-rows: auto; gap: 0.7rem 0.5rem; }
+.gantt .act { display: flex; align-items: center; background: var(--vl-color-accent); color: var(--vl-bg-main); padding: 0.9rem 1.1rem; font-size: clamp(0.8rem, 1.7vw, 1.5rem); clip-path: polygon(0 0, 100% 0, calc(100% - 0.9rem) 100%, 0 100%); }
+.gantt .tick { border-top: 2px solid var(--vl-border-strong); padding-top: 0.5rem; text-align: left; font: 500 clamp(0.8rem, 1.3vw, 1.15rem)/1 var(--deck-mono); color: var(--vl-text-muted); }
+.gantt .tick b { font-weight: 500; }
+.gantt[vl-stage] { position: static; min-block-size: 0; block-size: auto; }
+
+/* Slide 10: accent statement slide */
+.slide.accent { background: var(--vl-color-accent); color: var(--vl-bg-main); --vl-text-secondary: color-mix(in oklab, var(--vl-bg-main) 88%, transparent); --vl-text-muted: color-mix(in oklab, var(--vl-bg-main) 78%, transparent); }
+.slide.accent .eyebrow { color: var(--vl-bg-main); }
+.slide.accent .eyebrow::before { background: var(--vl-bg-main); }
+.slide.accent .lead, .slide.accent .small { color: inherit; }
+
+@media (max-width: 40rem) {
+  .bar .evt, .theme label:first-child { display: none; }
+  .hint { display: none; }
+  .grid2.wide { grid-template-columns: 1fr; }
+  .chan { grid-template-columns: 1fr auto; }
+  .chan code:nth-of-type(2) { grid-column: 1; }
+  .gantt .act code { font-size: 0.7rem; }
+}
+@media (hover: none) { .hint { display: none; } }
+
+/* ---- Slide 2: about + brands -------------------------------------------- */
+.about { display: grid; grid-template-columns: minmax(10rem, 19rem) minmax(0, 1fr); gap: clamp(1.25rem, 4vw, 4rem); align-items: center; }
+.portrait { margin: 0; border-top: 2px solid var(--vl-color-accent); clip-path: polygon(0 0, 100% 0, 100% calc(100% - var(--deck-cut)), calc(100% - var(--deck-cut-run)) 100%, 0 100%); }
+.portrait img { display: block; width: 100%; height: auto; aspect-ratio: 4 / 5; object-fit: cover; filter: var(--vl-skin-media-filter, none); }
+.about-body { display: grid; gap: clamp(0.6rem, 2vh, 1.2rem); min-width: 0; }
+.pull { font: 500 italic clamp(1.15rem, 2.4vw, 2rem)/1.25 var(--deck-display); color: var(--vl-text-secondary); border-left: 3px solid var(--vl-color-accent); padding-left: 1rem; }
+.brands { display: grid; gap: 0.7rem; border-top: 1px solid var(--vl-border-subtle); padding-top: 1rem; }
+.logos { display: flex; flex-wrap: wrap; gap: 0.7rem; margin: 0; padding: 0; list-style: none; }
+.logos li { background: #e3e3cd; color: #0a0a09; min-height: clamp(2.6rem, 5vw, 4rem); padding: 0 1.3rem; display: grid; place-items: center; font: 600 clamp(0.95rem, 1.7vw, 1.5rem)/1 var(--deck-display); letter-spacing: -0.01em; clip-path: polygon(0 0, 100% 0, 100% calc(100% - 0.5rem), calc(100% - 1.5rem) 100%, 0 100%); }
+.logos li img { display: block; height: clamp(1.4rem, 3vw, 2.4rem); width: auto; max-width: 11rem; object-fit: contain; }
+@media (max-width: 40rem) { .about { grid-template-columns: 7.5rem minmax(0, 1fr); align-items: start; } .about-body ul.plain li { font-size: 1.05rem; } }
+
+/* ---- Slide 9: play ------------------------------------------------------- */
+.play { display: inline-flex; align-items: center; gap: 1.1rem; margin-top: 0.5rem; padding: 0.7rem 1.9rem 0.7rem 0.7rem; background: var(--vl-color-accent); color: #0c0c0b; text-decoration: none; font: 600 clamp(1.1rem, 2.2vw, 1.9rem)/1 var(--deck-display); letter-spacing: -0.01em; clip-path: polygon(0 0, 100% 0, 100% calc(100% - 0.6rem), calc(100% - 1.8rem) 100%, 0 100%); }
+.play-ico { display: grid; place-items: center; width: clamp(3.2rem, 6vw, 5rem); aspect-ratio: 1; border-radius: 50%; background: #0c0c0b; color: var(--vl-color-accent); }
+.play-ico svg { margin-left: 0.2rem; width: 45%; height: auto; }
+.play:hover, .play:focus-visible { background: #eaead9; }
+
+/* ---- Print: one slide per page, motion off ----------------------------- */
+@media print {
+  .bar, .progress, .hint, .slide::before, .slide::after { display: none !important; }
+  .deck { height: auto; overflow: visible; }
+  .slide { min-height: 0; height: 100vh; break-after: page; padding-top: 2rem; }
+  * { animation: none !important; opacity: 1 !important; transform: none !important; }
+}
